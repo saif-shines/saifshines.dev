@@ -22,6 +22,7 @@ export const NAV_ITEMS = [
   { text: "thoughts", href: "/thoughts" },
   { text: "projects", href: "/projects" },
   { text: "work", href: "/work" },
+  { text: "resume", href: "/resume" },
 ];
 
 export const SOCIALS: Socials = [
