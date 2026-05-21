@@ -1,8 +1,7 @@
 ---
 title: Locksmith CLI
 description: A developer first CLI for incorporating auth infrastructure to your AI applications
-sidebar:
-  label: Locksmith CLI
+date: 2024-11-19
 ---
 
 A developer first CLI for incorporating auth infrastructure to your AI applications

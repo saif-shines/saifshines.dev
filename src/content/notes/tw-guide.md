@@ -1,8 +1,7 @@
 ---
 title: Technical Writing Guide - Best Practices for Developer Documentation
 description: Comprehensive guide to writing clear, effective technical documentation for developers
-sidebar:
-  label: Technical Writing Guide
+date: 2025-04-15
 ---
 
 # 📚 Technical Writing Guide

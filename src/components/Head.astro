@@ -1,0 +1,73 @@
+---
+import { ClientRouter } from "astro:transitions";
+import "@fontsource/inter/400.css";
+import "@fontsource/inter/600.css";
+import "@fontsource/lora/400.css";
+import "@fontsource/lora/600.css";
+import "@styles/global.css";
+
+interface Props {
+  title: string;
+  description: string;
+}
+
+const { title, description } = Astro.props;
+---
+
+<!-- View Transitions -->
+<ClientRouter />
+
+<!-- Global metadata -->
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+<meta name="generator" content={Astro.generator} />
+
+<!-- Primary meta -->
+<title>{title}</title>
+<meta name="title" content={title} />
+<meta name="description" content={description} />
+
+<!-- Open Graph -->
+<meta property="og:type" content="website" />
+<meta property="og:url" content={Astro.url} />
+<meta property="og:title" content={title} />
+<meta property="og:description" content={description} />
+
+<!-- RSS -->
+<link rel="alternate" type="application/rss+xml" title="Saif Shines" href="/rss.xml" />
+
+<!-- Theme script (inline, no flash) -->
+<script is:inline>
+  const theme = (() => {
+    if (typeof localStorage !== "undefined" && localStorage.getItem("theme")) {
+      return localStorage.getItem("theme");
+    }
+    return window.matchMedia("(prefers-color-scheme: dark)").matches
+      ? "dark"
+      : "light";
+  })();
+  document.documentElement.classList.toggle("dark", theme === "dark");
+</script>
+
+<!-- Scroll detection for back-to-top -->
+<script>
+  function onScroll() {
+    document.documentElement.classList.toggle(
+      "scrolled",
+      document.documentElement.scrollTop > 100
+    );
+  }
+  document.addEventListener("scroll", onScroll);
+</script>
+
+<!-- Staggered animate-in -->
+<script>
+  function animate() {
+    document.querySelectorAll(".animate").forEach((el, i) => {
+      setTimeout(() => el.classList.add("show"), i * 150);
+    });
+  }
+  document.addEventListener("DOMContentLoaded", animate);
+  document.addEventListener("astro:after-swap", animate);
+</script>

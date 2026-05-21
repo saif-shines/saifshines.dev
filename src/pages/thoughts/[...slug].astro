@@ -1,0 +1,39 @@
+---
+import Base from "@layouts/Base.astro";
+import Container from "@components/Container.astro";
+import BackToPrev from "@components/BackToPrev.astro";
+import { getCollection } from "astro:content";
+import { formatDate } from "@lib/utils";
+
+export async function getStaticPaths() {
+  const thoughts = await getCollection("thoughts");
+  return thoughts.map((thought) => ({
+    params: { slug: thought.id },
+    props: { thought },
+  }));
+}
+
+const { thought } = Astro.props;
+---
+
+<Base title={thought.data.title} description={thought.data.title}>
+  <Container>
+    <div class="animate py-5">
+      <BackToPrev href="/thoughts">Back to thoughts</BackToPrev>
+    </div>
+    <article>
+      <div class="animate space-y-1 py-2">
+        <div class="text-sm text-stone-500 dark:text-stone-400">
+          {formatDate(thought.data.date)}
+        </div>
+        <h1 class="text-2xl font-semibold text-black dark:text-white">
+          {thought.data.title}
+        </h1>
+      </div>
+      <div class="animate prose prose-stone dark:prose-invert max-w-none py-6" set:html={thought.data.content} />
+      <div class="animate border-t border-black/10 dark:border-white/10 pt-4 mt-8 text-sm text-stone-500 dark:text-stone-400">
+        Originally published on <a href={thought.data.url} target="_blank" rel="noopener noreferrer" class="underline underline-offset-2">HEY World</a>
+      </div>
+    </article>
+  </Container>
+</Base>

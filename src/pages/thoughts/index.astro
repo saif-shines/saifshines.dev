@@ -1,0 +1,33 @@
+---
+import Base from "@layouts/Base.astro";
+import Container from "@components/Container.astro";
+import ArrowCard from "@components/ArrowCard.astro";
+import { getCollection } from "astro:content";
+
+const thoughts = (await getCollection("thoughts")).sort(
+  (a, b) => new Date(b.data.date).valueOf() - new Date(a.data.date).valueOf()
+);
+---
+
+<Base title="Thoughts" description="Reflections on tech, career, and life — synced from HEY World.">
+  <Container>
+    <aside class="animate py-10">
+      <h1 class="font-semibold text-black dark:text-white text-lg">Thoughts</h1>
+      <p class="text-stone-600 dark:text-stone-400">
+        Reflections on tech, career, and life — synced from
+        <a href="https://world.hey.com/saif.shines" class="underline underline-offset-2" target="_blank" rel="noopener noreferrer">HEY World</a>.
+      </p>
+    </aside>
+    <ul class="animate not-prose flex flex-col gap-3">
+      {thoughts.map((thought) => (
+        <li>
+          <ArrowCard
+            title={thought.data.title}
+            date={thought.data.date}
+            href={`/thoughts/${thought.id}`}
+          />
+        </li>
+      ))}
+    </ul>
+  </Container>
+</Base>

@@ -1,0 +1,103 @@
+---
+import Base from "@layouts/Base.astro";
+import Container from "@components/Container.astro";
+import ArrowCard from "@components/ArrowCard.astro";
+import Link from "@components/Link.astro";
+import { getCollection } from "astro:content";
+import { HOME, SITE, SOCIALS } from "@consts";
+
+const notes = (await getCollection("notes"))
+  .filter((n) => !n.data.draft)
+  .sort((a, b) => {
+    const da = a.data.date ? new Date(a.data.date).valueOf() : 0;
+    const db = b.data.date ? new Date(b.data.date).valueOf() : 0;
+    return db - da;
+  })
+  .slice(0, SITE.NUM_POSTS_ON_HOMEPAGE);
+
+const thoughts = (await getCollection("thoughts"))
+  .sort((a, b) => new Date(b.data.date).valueOf() - new Date(a.data.date).valueOf())
+  .slice(0, 3);
+
+const projects = (await getCollection("projects"))
+  .sort((a, b) => b.data.stars - a.data.stars)
+  .slice(0, 3);
+---
+
+<Base title={HOME.TITLE} description={HOME.DESCRIPTION}>
+  <Container>
+    <aside class="animate space-y-4 py-10">
+      <h1 class="text-black dark:text-white font-semibold text-lg">
+        Hey, I'm Saif
+      </h1>
+      <p class="max-w-md leading-relaxed text-stone-600 dark:text-stone-400">
+        Developer Advocate, Technical Evangelist & Platform Experience Specialist.
+        I bring strong opinions backed by data and a curious mind that's always learning.
+      </p>
+      <div class="flex gap-3">
+        {SOCIALS.map((s) => (
+          <a href={s.HREF} target="_blank" rel="noopener noreferrer" class="text-sm text-stone-500 hover:text-black dark:text-stone-400 dark:hover:text-white transition-colors underline underline-offset-2">{s.NAME}</a>
+        ))}
+        <a href="https://world.hey.com/saif.shines" target="_blank" rel="noopener noreferrer" class="text-sm text-stone-500 hover:text-black dark:text-stone-400 dark:hover:text-white transition-colors underline underline-offset-2">hey world</a>
+      </div>
+    </aside>
+
+    <!-- Recent Notes -->
+    <section class="animate space-y-4 pb-8">
+      <div class="flex items-center justify-between">
+        <h2 class="font-semibold text-black dark:text-white">Recent notes</h2>
+        <Link href="/notes">See all</Link>
+      </div>
+      <ul class="not-prose flex flex-col gap-3">
+        {notes.map((note) => (
+          <li>
+            <ArrowCard
+              title={note.data.title}
+              description={note.data.description}
+              date={note.data.date}
+              href={`/notes/${note.id}`}
+            />
+          </li>
+        ))}
+      </ul>
+    </section>
+
+    <!-- Recent Thoughts -->
+    <section class="animate space-y-4 pb-8">
+      <div class="flex items-center justify-between">
+        <h2 class="font-semibold text-black dark:text-white">Recent thoughts</h2>
+        <Link href="/thoughts">See all</Link>
+      </div>
+      <ul class="not-prose flex flex-col gap-3">
+        {thoughts.map((thought) => (
+          <li>
+            <ArrowCard
+              title={thought.data.title}
+              date={thought.data.date}
+              href={`/thoughts/${thought.id}`}
+            />
+          </li>
+        ))}
+      </ul>
+    </section>
+
+    <!-- Projects -->
+    <section class="animate space-y-4 pb-8">
+      <div class="flex items-center justify-between">
+        <h2 class="font-semibold text-black dark:text-white">Projects</h2>
+        <Link href="/projects">See all</Link>
+      </div>
+      <ul class="not-prose flex flex-col gap-3">
+        {projects.map((project) => (
+          <li>
+            <ArrowCard
+              title={project.data.name}
+              description={project.data.description}
+              href={project.data.url}
+            />
+          </li>
+        ))}
+      </ul>
+    </section>
+  </Container>
+</Base>

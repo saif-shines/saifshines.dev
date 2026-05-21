@@ -1,0 +1,31 @@
+---
+import { cn } from "@lib/utils";
+import type { HTMLAttributes } from "astro/types";
+
+interface Props extends HTMLAttributes<"a"> {
+  href: string;
+  external?: boolean;
+}
+
+const { href, external, class: className, ...rest } = Astro.props;
+
+const isActive =
+  href === Astro.url.pathname ||
+  href === Astro.url.pathname.replace(/\/$/, "");
+---
+
+<a
+  href={href}
+  class={cn(
+    "transition-colors duration-300 ease-in-out",
+    isActive
+      ? "text-black dark:text-white font-semibold"
+      : "text-stone-600 dark:text-stone-400 hover:text-black dark:hover:text-white",
+    className
+  )}
+  target={external ? "_blank" : undefined}
+  rel={external ? "noopener noreferrer" : undefined}
+  {...rest}
+>
+  <slot />
+</a>

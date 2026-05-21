@@ -1,0 +1,23 @@
+---
+import Container from "@components/Container.astro";
+import Link from "@components/Link.astro";
+import { SITE, NAV_ITEMS } from "@consts";
+---
+
+<header>
+  <Container>
+    <div class="animate flex flex-wrap items-center justify-between gap-y-2 py-6">
+      <a
+        href="/"
+        class="text-current hover:text-black dark:hover:text-white font-semibold transition-colors duration-300 no-underline"
+      >
+        {SITE.NAME}
+      </a>
+      <nav class="flex items-center gap-4 text-sm">
+        {NAV_ITEMS.map((item) => (
+          <Link href={item.href}>{item.text}</Link>
+        ))}
+      </nav>
+    </div>
+  </Container>
+</header>

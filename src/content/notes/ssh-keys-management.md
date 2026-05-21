@@ -1,8 +1,7 @@
 ---
 title: Managing Multiple SSH Keys for Git and GitHub
 description: A comprehensive guide to streamline your workflow when working with multiple GitHub accounts and SSH keys.
-sidebar:
-  label: SSH Keys Management
+date: 2024-07-31
 ---
 
 **You use multiple GitHub accounts.** You have personal projects and work projects. When you commit code, you want the correct account to show as the author on GitHub.
