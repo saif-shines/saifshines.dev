@@ -9,16 +9,10 @@ export const SITE: Site = {
 export const HOME: Metadata = {
   TITLE: "Home",
   DESCRIPTION:
-    "Developer Advocate, Technical Evangelist & Platform Experience Specialist.",
-};
-
-export const NOTES: Metadata = {
-  TITLE: "Notes",
-  DESCRIPTION: "A collection of notes on topics I care about.",
+    "Founding Developer Advocate — API design, SDK ergonomics, docs, CLIs, and developer tooling.",
 };
 
 export const NAV_ITEMS = [
-  { text: "notes", href: "/notes" },
   { text: "thoughts", href: "/thoughts" },
   { text: "projects", href: "/projects" },
   { text: "work", href: "/work" },

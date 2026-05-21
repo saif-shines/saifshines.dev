@@ -1,17 +1,7 @@
 import { defineCollection, z } from "astro:content";
 import { glob } from "astro/loaders";
 import { heyWorldLoader } from "./lib/hey-world-loader";
-import { githubLoader } from "./lib/github-loader";
 
-const notes = defineCollection({
-  loader: glob({ pattern: "**/*.{md,mdx}", base: "./src/content/notes" }),
-  schema: z.object({
-    title: z.string(),
-    description: z.string(),
-    date: z.coerce.date().optional(),
-    draft: z.boolean().optional(),
-  }),
-});
 
 const thoughts = defineCollection({
   loader: heyWorldLoader({
@@ -26,15 +16,23 @@ const thoughts = defineCollection({
 });
 
 const projects = defineCollection({
-  loader: githubLoader({ username: "Saif-Shines" }),
+  loader: glob({ pattern: "**/*.md", base: "./src/content/projects" }),
   schema: z.object({
     name: z.string(),
     description: z.string(),
     url: z.string(),
-    stars: z.number(),
-    language: z.string().nullable(),
-    updatedAt: z.coerce.date(),
-    topics: z.array(z.string()),
+    language: z.string().optional(),
+    order: z.number().default(99),
+  }),
+});
+
+const contributions = defineCollection({
+  loader: glob({ pattern: "**/*.md", base: "./src/content/contributions" }),
+  schema: z.object({
+    repo: z.string(),
+    description: z.string(),
+    url: z.string(),
+    prs: z.number().optional(),
   }),
 });
 
@@ -50,4 +48,4 @@ const work = defineCollection({
   }),
 });
 
-export const collections = { notes, thoughts, projects, work };
+export const collections = { thoughts, projects, contributions, work };

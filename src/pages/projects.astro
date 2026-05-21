@@ -4,55 +4,99 @@ import Container from "@components/Container.astro";
 import { getCollection } from "astro:content";
 
 const projects = (await getCollection("projects")).sort(
-  (a, b) => b.data.stars - a.data.stars || new Date(b.data.updatedAt).valueOf() - new Date(a.data.updatedAt).valueOf()
+  (a, b) => a.data.order - b.data.order
+);
+
+const contributions = (await getCollection("contributions")).sort(
+  (a, b) => (b.data.prs ?? 0) - (a.data.prs ?? 0)
 );
 ---
 
-<Base title="Projects" description="Open source projects and experiments on GitHub.">
+<Base title="Projects" description="Open source projects and contributions.">
   <Container>
     <aside class="animate py-10">
       <h1 class="font-semibold text-black dark:text-white text-lg">Projects</h1>
       <p class="text-stone-600 dark:text-stone-400">
-        Open source work on <a href="https://github.com/Saif-Shines" class="underline underline-offset-2" target="_blank" rel="noopener noreferrer">GitHub</a>.
+        Things I've built and open source work I contribute to.
       </p>
     </aside>
-    <ul class="animate not-prose flex flex-col gap-3">
-      {projects.map((project) => (
-        <li>
-          <a
-            href={project.data.url}
-            target="_blank"
-            rel="noopener noreferrer"
-            class="group flex items-center gap-3 rounded-lg border border-black/15 p-4 transition-colors duration-300 ease-in-out hover:bg-black/5 dark:border-white/20 dark:hover:bg-white/5"
-          >
-            <div class="flex-1">
-              <div class="flex items-center gap-2">
-                <span class="font-semibold text-black dark:text-white">{project.data.name}</span>
-                {project.data.language && (
-                  <span class="text-xs rounded-full bg-black/5 dark:bg-white/10 px-2 py-0.5">
-                    {project.data.language}
-                  </span>
-                )}
-              </div>
-              <p class="text-sm text-stone-500 dark:text-stone-400 line-clamp-2 mt-1">
-                {project.data.description}
-              </p>
-              {project.data.topics.length > 0 && (
-                <div class="flex flex-wrap gap-1 mt-2">
-                  {project.data.topics.slice(0, 4).map((topic) => (
-                    <span class="text-xs text-stone-400 dark:text-stone-500">#{topic}</span>
-                  ))}
+
+    <!-- Own projects -->
+    <section class="animate space-y-3 pb-10">
+      <ul class="not-prose flex flex-col gap-3">
+        {projects.map((project) => (
+          <li>
+            <a
+              href={project.data.url}
+              target="_blank"
+              rel="noopener noreferrer"
+              class="group flex items-center gap-3 rounded-lg border border-black/15 p-4 transition-colors duration-300 ease-in-out hover:bg-black/5 dark:border-white/20 dark:hover:bg-white/5"
+            >
+              <div class="flex-1">
+                <div class="flex items-center gap-2">
+                  <span class="font-semibold text-black dark:text-white">{project.data.name}</span>
+                  {project.data.language && (
+                    <span class="text-xs rounded-full bg-black/5 dark:bg-white/10 px-2 py-0.5">
+                      {project.data.language}
+                    </span>
+                  )}
                 </div>
+                <p class="text-sm text-stone-500 dark:text-stone-400 line-clamp-2 mt-1">
+                  {project.data.description}
+                </p>
+              </div>
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="20"
+                height="20"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                class="text-stone-400 transition-transform duration-300 ease-in-out group-hover:translate-x-1 dark:text-stone-500 shrink-0"
+              >
+                <line x1="5" y1="12" x2="19" y2="12"></line>
+                <polyline points="12 5 19 12 12 19"></polyline>
+              </svg>
+            </a>
+          </li>
+        ))}
+      </ul>
+    </section>
+
+    <hr class="border-stone-200 dark:border-stone-800" />
+
+    <!-- Open source contributions -->
+    <section class="animate space-y-4 py-10">
+      <h2 class="font-semibold text-black dark:text-white">Open source contributions</h2>
+      <ul class="not-prose divide-y divide-stone-100 dark:divide-stone-800">
+        {contributions.map((c) => (
+          <li>
+            <a
+              href={c.data.url}
+              target="_blank"
+              rel="noopener noreferrer"
+              class="group flex items-start gap-3 py-3"
+            >
+              <div class="min-w-0 flex-1">
+                <div class="font-medium text-black dark:text-white group-hover:underline underline-offset-2">
+                  {c.data.repo}
+                </div>
+                <div class="text-xs text-stone-500 dark:text-stone-400 mt-0.5">
+                  {c.data.description}
+                </div>
+              </div>
+              {c.data.prs && (
+                <span class="shrink-0 text-xs text-stone-400 dark:text-stone-500 tabular-nums mt-0.5">
+                  {c.data.prs} {c.data.prs === 1 ? "PR" : "PRs"}
+                </span>
               )}
-            </div>
-            {project.data.stars > 0 && (
-              <span class="text-sm text-stone-400 dark:text-stone-500 shrink-0">
-                {project.data.stars}
-              </span>
-            )}
-          </a>
-        </li>
-      ))}
-    </ul>
+            </a>
+          </li>
+        ))}
+      </ul>
+    </section>
   </Container>
 </Base>

@@ -8,83 +8,159 @@ const allWork = (await getCollection("work")).sort(
   (a, b) => new Date(b.data.date).valueOf() - new Date(a.data.date).valueOf()
 );
 
-const types = ["talk", "article", "workshop", "community", "video"] as const;
-const typeLabels: Record<string, string> = {
-  talk: "Talks",
-  article: "Articles",
-  workshop: "Workshops",
-  community: "Community",
-  video: "Videos",
+const typeColors: Record<string, string> = {
+  talk: "bg-blue-100 text-blue-700 dark:bg-blue-900/30 dark:text-blue-300",
+  article: "bg-amber-100 text-amber-700 dark:bg-amber-900/30 dark:text-amber-300",
+  workshop: "bg-green-100 text-green-700 dark:bg-green-900/30 dark:text-green-300",
+  community: "bg-purple-100 text-purple-700 dark:bg-purple-900/30 dark:text-purple-300",
+  video: "bg-rose-100 text-rose-700 dark:bg-rose-900/30 dark:text-rose-300",
 };
 
-const grouped = types
-  .map((type) => ({
-    type,
-    label: typeLabels[type],
-    items: allWork.filter((w) => w.data.type === type),
-  }))
-  .filter((g) => g.items.length > 0);
+interface ProofItem {
+  text: string;
+  url: string;
+}
+
+interface ProofCategory {
+  title: string;
+  items: ProofItem[];
+}
+
+const proofOfWork: ProofCategory[] = [
+  {
+    title: "I write content & code that brings clarity for developers to find success",
+    items: [
+      { text: "Get started in building apps on the Freshworks developer platform", url: "https://community.freshworks.dev/t/introductory-guide-to-freshworks-app-development/3589" },
+      { text: "Discover the process of building GitHub integrations by following a tutorial", url: "https://drive.google.com/file/d/1N-78EFqTjAOslbap0JNVGO2XOxt6UVJV/view" },
+
+      { text: "Organise and maintain code samples to be most helpful and discoverable", url: "https://community.freshworks.dev/t/freshworks-sample-apps/3604" },
+      { text: "Designed and implemented certification programs", url: "https://medium.com/freshworks-developer-blog/get-certified-freshworks-developer-certification-program-ebda6a65d485" },
+    ],
+  },
+  {
+    title: "My advocacy is for a top-notch developer experience in product development",
+    items: [
+      { text: "Engage with the community to identify upcoming features developers seek", url: "https://drive.google.com/file/d/1OJPgsDtXQIUvzrpWgtrYrYQe8yE0R9Gk/view" },
+      { text: "Challenge the status quo by analyzing patterns and making improvements", url: "https://drive.google.com/file/d/1OR1l75YveBttKuZ1Pb4Mhb8WAqUVa6Si/view" },
+      { text: "Research the market to offer optimal SDK and CLI interfaces", url: "https://drive.google.com/file/d/1P6nUFix6lDUUDn4-oVISX-PJJiL2CGXc/view" },
+      { text: "Create mock diagrams for ideal developer user experience", url: "https://drive.google.com/file/d/1P-NiJ7tY41BwNFxJQ76UJxNQh6CdyRH2/view" },
+    ],
+  },
+  {
+    title: "I foster the community by encouraging collaboration towards scaling it",
+    items: [
+      { text: "A daily habit to engage with the community and collaborate on problem-solving", url: "https://community.freshworks.dev/u/Saif/summary" },
+      { text: "Provide support and education simultaneously", url: "https://community.freshworks.dev/t/confusing-asynchronous-operations-for-client-db-get/2964/21" },
+      { text: "Organise hackathons as a means of engaging developers", url: "https://freshworks-app-challenge.devpost.com/" },
+      { text: "Hacktoberfest at Freshworks", url: "https://medium.com/freshworks-developer-blog/celebrate-this-hacktoberfest-with-freshworks-1c8497bfb961" },
+      { text: "Collect feedback from the community before investing in a new feature", url: "https://drive.google.com/file/d/1Ph5ZNFnbuBU-HCSxvUWgUhXyCtdZfWxH/view" },
+    ],
+  },
+  {
+    title: "I find ways to standardize solutions and take them 0 to 1",
+    items: [
+      { text: "Measure appropriate metrics for team size and growth pace", url: "https://drive.google.com/file/d/1PWvf31Jk7FkmbEuoB1lb4VMNCIGB2sX1/view" },
+      { text: "Research community support gaps, distill for internal stakeholders", url: "https://drive.google.com/file/d/1PBNTeILKzwPENzqh0TvTnPLd1pvGGaL1/view" },
+      { text: "Reduce app development time — First Hello World App", url: "https://drive.google.com/file/d/1PcaaWe6l2_BE79buWxRdMzWwRcYFk2c1/view" },
+      { text: "Reduce app development time — Production Ready App", url: "https://drive.google.com/file/d/1OnzhsyZK0kTxRqAjb3liavIlSvfuRJ3l/view" },
+      { text: "Brand developers in ways they feel proud holding a logo", url: "https://drive.google.com/file/d/1OYEXg9NXi9vOlWICQ1Jjam8I9gWWw4Hr/view" },
+    ],
+  },
+  {
+    title: "I have a thing for identifying and proposing fixes for process gaps",
+    items: [
+      { text: "Optimise team time usage for efficient utilization", url: "https://drive.google.com/file/d/1PV2cQtiFQ5CeLeR-6EHuWptbpj5yQvOP/view" },
+      { text: "Established an advocacy program with product and developer relations teams", url: "https://drive.google.com/file/d/1PAnAabjn6KM2zD9sXdfnZF-yPinQLPGq/view" },
+    ],
+  },
+  {
+    title: "I often reflect to learn",
+    items: [
+      { text: "Looking five years back after leading a developer student club", url: "https://world.hey.com/saif.shines/looking-five-years-back-after-leading-a-developer-student-club-93fc214f" },
+      { text: "Learning from my first Manager", url: "https://world.hey.com/saif.shines/work-with-joy-discovering-the-satwik-hebbar-way-a3e1a10b" },
+      { text: "Three years of Freshworks", url: "https://world.hey.com/saif.shines/three-years-of-freshworks-c903fe53" },
+      { text: "Story of my first Startup", url: "https://world.hey.com/saif.shines/my-failed-attempt-to-bring-technology-to-schools-3a21d897" },
+    ],
+  },
+];
 ---
 
-<Base title="Work" description="Talks, articles, and developer relations work.">
+<Base title="Work" description="Talks, articles, proof of work, and developer relations.">
   <Container>
-    <aside class="animate py-10">
+
+    <!-- Hero -->
+    <aside class="animate py-10 space-y-2">
       <h1 class="font-semibold text-black dark:text-white text-lg">Work</h1>
-      <p class="text-stone-600 dark:text-stone-400">
-        Talks, articles, and developer relations work.
+      <p class="text-stone-600 dark:text-stone-400 max-w-lg leading-relaxed">
+        I have product sense for developer experience. <strong class="text-black dark:text-white">I use writing as a means to think.</strong>
       </p>
     </aside>
 
-    {grouped.map((group) => (
-      <section class="animate mb-10">
-        <h2 class="font-semibold text-black dark:text-white mb-4">{group.label}</h2>
-        <ul class="not-prose flex flex-col gap-3">
-          {group.items.map((item) => (
-            <li>
-              <a
-                href={item.data.url ?? "#"}
-                target={item.data.url ? "_blank" : undefined}
-                rel={item.data.url ? "noopener noreferrer" : undefined}
-                class="group flex items-center gap-3 rounded-lg border border-black/15 p-4 transition-colors duration-300 ease-in-out hover:bg-black/5 dark:border-white/20 dark:hover:bg-white/5"
-              >
-                <div class="flex-1">
-                  <div class="font-semibold text-black dark:text-white">
-                    {item.data.title}
-                  </div>
-                  <p class="text-sm text-stone-500 dark:text-stone-400 mt-1">
-                    {item.data.description}
-                  </p>
-                  <div class="flex items-center gap-2 mt-2 text-xs text-stone-400 dark:text-stone-500">
-                    <span>{formatDate(item.data.date)}</span>
-                    {item.data.event && (
-                      <>
-                        <span>·</span>
-                        <span>{item.data.event}</span>
-                      </>
-                    )}
-                  </div>
-                </div>
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  width="16"
-                  height="16"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  stroke="currentColor"
-                  stroke-width="2"
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                  class="text-stone-400 shrink-0"
+    <!-- ═══ Proof of Work ═══ -->
+    <section class="animate space-y-8 pb-10">
+      {proofOfWork.map((category) => (
+        <div class="space-y-3">
+          <h3 class="font-semibold text-black dark:text-white text-sm">
+            {category.title}
+          </h3>
+          <ul class="not-prose list-none space-y-1.5">
+            {category.items.map((item) => (
+              <li>
+                <a
+                  href={item.url}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  class="group inline-flex items-baseline gap-1.5 text-sm text-stone-600 dark:text-stone-400 hover:text-black dark:hover:text-white transition-colors"
                 >
-                  <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6" />
-                  <polyline points="15 3 21 3 21 9" />
-                  <line x1="10" y1="14" x2="21" y2="3" />
-                </svg>
-              </a>
-            </li>
-          ))}
-        </ul>
-      </section>
-    ))}
+                  <svg class="w-3 h-3 shrink-0 text-stone-300 dark:text-stone-600 group-hover:text-stone-500 dark:group-hover:text-stone-400 transition-colors translate-y-px" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/>
+                    <polyline points="15 3 21 3 21 9"/>
+                    <line x1="10" y1="14" x2="21" y2="3"/>
+                  </svg>
+                  <span class="underline underline-offset-2 decoration-stone-300 dark:decoration-stone-700 group-hover:decoration-stone-500 dark:group-hover:decoration-stone-400 transition-colors">
+                    {item.text}
+                  </span>
+                </a>
+              </li>
+            ))}
+          </ul>
+        </div>
+      ))}
+    </section>
+
+    <hr class="animate border-stone-200 dark:border-stone-800" />
+
+    <!-- ═══ Timeline ═══ -->
+    <section class="animate space-y-4 py-10">
+      <h2 class="text-sm font-semibold uppercase tracking-wider text-stone-400 dark:text-stone-500">Timeline</h2>
+      <ul class="not-prose divide-y divide-stone-100 dark:divide-stone-800">
+        {allWork.map((item) => (
+          <li>
+            <a
+              href={item.data.url ?? "#"}
+              target={item.data.url ? "_blank" : undefined}
+              rel={item.data.url ? "noopener noreferrer" : undefined}
+              class="group flex items-start gap-3 py-3 transition-colors"
+            >
+              <span class={`mt-0.5 shrink-0 rounded px-1.5 py-0.5 text-[10px] font-medium uppercase tracking-wider ${typeColors[item.data.type] ?? "bg-stone-100 text-stone-600 dark:bg-stone-800 dark:text-stone-300"}`}>
+                {item.data.type}
+              </span>
+              <div class="min-w-0 flex-1">
+                <div class="font-medium text-black dark:text-white group-hover:underline underline-offset-2 truncate">
+                  {item.data.title}
+                </div>
+                <div class="text-xs text-stone-500 dark:text-stone-400 mt-0.5 line-clamp-1">
+                  {item.data.description}
+                </div>
+              </div>
+              <span class="shrink-0 text-xs text-stone-400 dark:text-stone-500 tabular-nums mt-0.5">
+                {formatDate(item.data.date)}
+              </span>
+            </a>
+          </li>
+        ))}
+      </ul>
+    </section>
+
   </Container>
 </Base>
