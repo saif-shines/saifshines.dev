@@ -1,5 +1,5 @@
 ---
-title: "Freshworks Developer Community — 3500+ Developers"
+title: "Freshworks Developer Community: 3500+ Developers"
 type: community
 date: 2019-01-15
 url: https://community.freshworks.dev

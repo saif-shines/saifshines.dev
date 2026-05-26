@@ -9,7 +9,7 @@ export const SITE: Site = {
 export const HOME: Metadata = {
   TITLE: "Home",
   DESCRIPTION:
-    "Founding Developer Advocate — API design, SDK ergonomics, docs, CLIs, and developer tooling.",
+    "Founding Developer Advocate. API design, SDK ergonomics, docs, CLIs, and developer tooling.",
 };
 
 export const NAV_ITEMS = [

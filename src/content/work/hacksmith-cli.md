@@ -1,5 +1,5 @@
 ---
-title: "Hacksmith CLI — From Browsing to Building"
+title: "Hacksmith CLI: From Browsing to Building"
 type: community
 date: 2025-09-01
 url: https://github.com/Saif-Shines/hacksmith

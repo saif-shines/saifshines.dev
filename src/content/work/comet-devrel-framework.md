@@ -1,5 +1,5 @@
 ---
-title: "COMET — A Team Practice for Generalist DevRel Teams"
+title: "COMET: A Team Practice for Generalist DevRel Teams"
 type: article
 date: 2022-06-01
 url: https://world.hey.com/saif.shines/optimizing-devrel-for-generalists-a-new-team-practice-part-1-f0b875e7

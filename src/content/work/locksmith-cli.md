@@ -1,5 +1,5 @@
 ---
-title: "Locksmith CLI — Auth Infrastructure for AI Applications"
+title: "Locksmith CLI: Auth Infrastructure for AI Applications"
 type: article
 date: 2024-11-19
 url: https://github.com/Saif-Shines/locksmith
