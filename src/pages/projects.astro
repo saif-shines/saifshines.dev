@@ -1,7 +1,9 @@
 ---
 import Base from "@layouts/Base.astro";
 import Container from "@components/Container.astro";
+import EcosystemList from "@components/EcosystemList.astro";
 import { getCollection } from "astro:content";
+import { ECOSYSTEM_LISTINGS } from "@consts";
 
 const projects = (await getCollection("projects")).sort(
   (a, b) => a.data.order - b.data.order
@@ -38,6 +40,11 @@ const contributions = (await getCollection("contributions")).sort(
                   {project.data.language && (
                     <span class="text-xs rounded-full bg-black/5 dark:bg-white/10 px-2 py-0.5">
                       {project.data.language}
+                    </span>
+                  )}
+                  {project.data.status && (
+                    <span class="text-xs rounded-full bg-emerald-100 text-emerald-700 dark:bg-emerald-900/30 dark:text-emerald-300 px-2 py-0.5">
+                      {project.data.status}
                     </span>
                   )}
                 </div>
@@ -97,6 +104,14 @@ const contributions = (await getCollection("contributions")).sort(
           </li>
         ))}
       </ul>
+    </section>
+
+    <hr class="border-stone-200 dark:border-stone-800" />
+
+    <!-- Ecosystem listings -->
+    <section class="animate space-y-4 py-10">
+      <h2 class="font-semibold text-black dark:text-white">Ecosystem listings</h2>
+      <EcosystemList items={ECOSYSTEM_LISTINGS} />
     </section>
   </Container>
 </Base>

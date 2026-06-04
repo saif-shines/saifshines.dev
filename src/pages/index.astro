@@ -74,22 +74,22 @@ const typeColors: Record<string, string> = {
 
     <!-- ═══ Highlights ═══ -->
     <section class="animate pb-12">
-      <div class="grid grid-cols-2 sm:grid-cols-4 gap-4">
+      <div class="grid grid-cols-2 gap-4">
         <div class="space-y-0.5">
-          <div class="text-2xl font-semibold text-black dark:text-white">Docs</div>
-          <div class="text-xs text-stone-500 dark:text-stone-400 leading-snug">owned end-to-end at Scalekit: architecture, content, analytics</div>
+          <div class="text-2xl font-semibold text-black dark:text-white">I own docs</div>
+          <div class="text-xs text-stone-500 dark:text-stone-400 leading-snug">end-to-end at Scalekit: architecture, content, analytics & onboarding flows</div>
         </div>
         <div class="space-y-0.5">
-          <div class="text-2xl font-semibold text-black dark:text-white tabular-nums">80+</div>
-          <div class="text-xs text-stone-500 dark:text-stone-400 leading-snug">user stories proposed to product & engineering teams</div>
+          <div class="text-2xl font-semibold text-black dark:text-white">I teach agents</div>
+          <div class="text-xs text-stone-500 dark:text-stone-400 leading-snug">35+ skills that let AI coding tools integrate enterprise auth</div>
         </div>
         <div class="space-y-0.5">
-          <div class="text-2xl font-semibold text-black dark:text-white">SDK v8</div>
-          <div class="text-xs text-stone-500 dark:text-stone-400 leading-snug">shipped Freshworks CLI with 90%+ test coverage</div>
+          <div class="text-2xl font-semibold text-black dark:text-white">I grow ecosystems</div>
+          <div class="text-xs text-stone-500 dark:text-stone-400 leading-snug">by getting Scalekit listed in other platforms' official docs & integrations</div>
         </div>
         <div class="space-y-0.5">
-          <div class="text-2xl font-semibold text-black dark:text-white tabular-nums">35</div>
-          <div class="text-xs text-stone-500 dark:text-stone-400 leading-snug">AI agent skills & plugins shipped at Scalekit</div>
+          <div class="text-2xl font-semibold text-black dark:text-white">I remove friction</div>
+          <div class="text-xs text-stone-500 dark:text-stone-400 leading-snug">with CLIs and frameworks that take developers from zero to production</div>
         </div>
       </div>
     </section>
@@ -111,7 +111,7 @@ const typeColors: Record<string, string> = {
               rel={item.data.url ? "noopener noreferrer" : undefined}
               class="group flex items-start gap-3 py-3 transition-colors"
             >
-              <span class={`mt-0.5 shrink-0 rounded px-1.5 py-0.5 text-[10px] font-medium uppercase tracking-wider ${typeColors[item.data.type] ?? "bg-stone-100 text-stone-600 dark:bg-stone-800 dark:text-stone-300"}`}>
+              <span class={`mt-0.5 shrink-0 rounded px-1.5 py-0.5 text-[10px] font-medium uppercase tracking-wider w-20 text-center ${typeColors[item.data.type] ?? "bg-stone-100 text-stone-600 dark:bg-stone-800 dark:text-stone-300"}`}>
                 {item.data.type}
               </span>
               <div class="min-w-0 flex-1">
@@ -178,6 +178,11 @@ const typeColors: Record<string, string> = {
               {project.data.language && (
                 <span class="text-[10px] font-medium text-stone-400 dark:text-stone-500 uppercase tracking-wider shrink-0">
                   {project.data.language}
+                </span>
+              )}
+              {project.data.status && (
+                <span class="text-[10px] font-medium bg-emerald-100 text-emerald-700 dark:bg-emerald-900/30 dark:text-emerald-300 uppercase tracking-wider shrink-0 px-1.5 py-0.5 rounded">
+                  {project.data.status}
                 </span>
               )}
             </div>

@@ -3,6 +3,7 @@ import Base from "@layouts/Base.astro";
 import Container from "@components/Container.astro";
 import { getCollection } from "astro:content";
 import { formatDate } from "@lib/utils";
+import { ECOSYSTEM_LISTINGS } from "@consts";
 
 const allWork = (await getCollection("work")).sort(
   (a, b) => new Date(b.data.date).valueOf() - new Date(a.data.date).valueOf()
@@ -27,6 +28,10 @@ interface ProofCategory {
 }
 
 const proofOfWork: ProofCategory[] = [
+  {
+    title: "I expand ecosystem reach by finding complementary products and integrating them together",
+    items: ECOSYSTEM_LISTINGS.map((l) => ({ text: l.title, url: l.url })),
+  },
   {
     title: "I write content & code that brings clarity for developers to find success",
     items: [
@@ -117,7 +122,7 @@ const proofOfWork: ProofCategory[] = [
                     <polyline points="15 3 21 3 21 9"/>
                     <line x1="10" y1="14" x2="21" y2="3"/>
                   </svg>
-                  <span class="underline underline-offset-2 decoration-stone-300 dark:decoration-stone-700 group-hover:decoration-stone-500 dark:group-hover:decoration-stone-400 transition-colors">
+                  <span class="underline underline-offset-2 decoration-stone-300 dark:decoration-stone-700 group-hover:decoration-stone-500 dark:group-hover:decoration-stone-400 transition-colors line-clamp-1">
                     {item.text}
                   </span>
                 </a>
@@ -142,7 +147,7 @@ const proofOfWork: ProofCategory[] = [
               rel={item.data.url ? "noopener noreferrer" : undefined}
               class="group flex items-start gap-3 py-3 transition-colors"
             >
-              <span class={`mt-0.5 shrink-0 rounded px-1.5 py-0.5 text-[10px] font-medium uppercase tracking-wider ${typeColors[item.data.type] ?? "bg-stone-100 text-stone-600 dark:bg-stone-800 dark:text-stone-300"}`}>
+              <span class={`mt-0.5 shrink-0 rounded px-1.5 py-0.5 text-[10px] font-medium uppercase tracking-wider w-20 text-center ${typeColors[item.data.type] ?? "bg-stone-100 text-stone-600 dark:bg-stone-800 dark:text-stone-300"}`}>
                 {item.data.type}
               </span>
               <div class="min-w-0 flex-1">
