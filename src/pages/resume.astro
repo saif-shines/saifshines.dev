@@ -1,14 +1,15 @@
 ---
 import Base from "@layouts/Base.astro";
 import Container from "@components/Container.astro";
+import FreeCodeCampIcon from "@components/FreeCodeCampIcon.astro";
 import {
   ROLE,
   ROLE_FOCUS,
+  DOCS_URL,
   ROLE_WRITING,
   ROLE_WRITING_ORG,
   ROLE_WRITING_URL,
   ROLE_WRITING_NOTE,
-  ROLE_WRITING_LOGO,
 } from "@consts";
 ---
 
@@ -21,34 +22,28 @@ import {
         <h1 class="font-display text-2xl font-semibold tracking-tight text-ink">Saif Ali Shaik</h1>
         <p class="text-sm font-medium text-ink-2">{ROLE}</p>
         <p class="text-sm text-muted">{ROLE_FOCUS}</p>
-        <p class="flex flex-wrap items-center gap-2 text-sm text-ink-2">
-          <img
-            src={ROLE_WRITING_LOGO}
-            alt=""
-            width="18"
-            height="18"
-            class="size-[18px] shrink-0 dark:invert"
-          />
+        <a
+          href={ROLE_WRITING_URL}
+          target="_blank"
+          rel="noopener noreferrer"
+          class="pressable inline-flex flex-wrap items-center gap-2 text-sm text-ink-2 hover-ink"
+        >
+          <FreeCodeCampIcon class="size-[18px] shrink-0 text-ink" />
           <span>
             <span class="font-medium text-ink">{ROLE_WRITING}</span>
             {" "}for{" "}
-            <a
-              href={ROLE_WRITING_URL}
-              target="_blank"
-              rel="noopener noreferrer"
-              class="font-medium text-ink underline decoration-rule underline-offset-2 hover:decoration-accent"
-            >{ROLE_WRITING_ORG}.org</a>
+            <span class="font-medium text-ink underline decoration-rule underline-offset-2">{ROLE_WRITING_ORG}.org</span>
             <span class="text-muted"> · {ROLE_WRITING_NOTE}</span>
           </span>
-        </p>
+        </a>
         <p class="text-ink-2 leading-relaxed max-w-lg">
           Two-time founding developer advocate and developer tools builder with 7+ years of experience
           shipping CLIs, plugins, API workflows, documentation systems, and automation for developers.
         </p>
         <div class="flex flex-wrap gap-x-4 gap-y-1 text-sm text-muted">
-          <a href="mailto:saif.shines@hey.com" class="hover:text-ink transition-colors">saif.shines@hey.com</a>
-          <a href="https://linkedin.com/in/saif-shines" target="_blank" rel="noopener noreferrer" class="hover:text-ink transition-colors">linkedin.com/in/saif-shines</a>
-          <a href="https://world.hey.com/saif.shines" target="_blank" rel="noopener noreferrer" class="hover:text-ink transition-colors">world.hey.com/saif.shines</a>
+          <a href="mailto:saif.shines@hey.com" class="pressable hover-ink">saif.shines@hey.com</a>
+          <a href="https://linkedin.com/in/saif-shines" target="_blank" rel="noopener noreferrer" class="pressable hover-ink">linkedin.com/in/saif-shines</a>
+          <a href="https://world.hey.com/saif.shines" target="_blank" rel="noopener noreferrer" class="pressable hover-ink">world.hey.com/saif.shines</a>
         </div>
       </header>
 
@@ -59,17 +54,16 @@ import {
         <div class="space-y-2">
           <div class="flex flex-wrap items-baseline justify-between gap-x-4">
             <h3 class="font-semibold text-ink">Founding Developer Advocate</h3>
-            <span class="text-sm text-muted">Jul 2024 – Present</span>
+            <span class="text-sm text-muted">Jul 2024 - Present</span>
           </div>
           <div class="text-sm text-muted">Scalekit · Bengaluru</div>
           <ul class="list-disc pl-5 text-sm text-ink-2 space-y-1.5 mt-2">
-            <li><strong class="text-ink">Primary owner of <a href="https://docs.scalekit.com" target="_blank" rel="noopener noreferrer" class="underline underline-offset-2 decoration-rule">docs.scalekit.com</a></strong> end-to-end (Astro Starlight + Netlify), including continuous polish on <strong class="text-ink">quickstarts, UX copy, and onboarding journeys</strong>.</li>
-            <li><strong class="text-ink">Context engineering for a DX flywheel:</strong> Claude routines mine customer support (docs-signal) and product repos (product-signal), then open developer-docs issues and PRs—e.g. <a href="https://github.com/scalekit-inc/developer-docs/pull/755" target="_blank" rel="noopener noreferrer" class="underline underline-offset-2 decoration-rule">support-driven PR #755</a> and <a href="https://github.com/scalekit-inc/developer-docs/pull/902" target="_blank" rel="noopener noreferrer" class="underline underline-offset-2 decoration-rule">product-signal PR #902</a>.</li>
-            <li>Maintain an <strong class="text-ink">internal skillkit marketplace</strong> for shared engineers (Claude plugin format + DX harness), alongside public agent skills for Claude Code, Cursor, and Copilot (<a href="https://github.com/Saif-Shines/skills" target="_blank" rel="noopener noreferrer" class="underline underline-offset-2 decoration-rule">github.com/Saif-Shines/skills</a>).</li>
-            <li>Stay in sync with product managers so docs track shipping features. <strong class="text-ink">Observe, measure, and act through PostHog analytics.</strong></li>
-            <li>Act as a <strong class="text-ink">consultant to engineering</strong> on taxonomy, terminology, and API interfaces including request/response structure design.</li>
-            <li>Build and maintain developer tools: <strong class="text-ink"><a href="https://github.com/scalekit-inc/cli" target="_blank" rel="noopener noreferrer" class="underline underline-offset-2 decoration-rule">Scalekit CLI</a></strong>, MCP server tooling, and AI agent plugins—focused on the developer journey, not only OpenAPI wrappers.</li>
-            <li>Build ecosystem presence with 3rd-party integrations and listings across <strong class="text-ink">Astro</strong>, <strong class="text-ink">xmcp</strong>, <strong class="text-ink">LiteLLM</strong>, <strong class="text-ink">FastMCP</strong>, <strong class="text-ink">FastRouter</strong>, <strong class="text-ink">Apify</strong>, <strong class="text-ink">Chargebee</strong>, Cursor Directory, and voice agents (LiveKit, Vapi). <a href="/projects" class="underline underline-offset-2 decoration-rule">See full list</a>.</li>
+            <li>Own <a href={DOCS_URL} target="_blank" rel="noopener noreferrer" class="underline underline-offset-2 decoration-rule hover:decoration-accent"><strong class="text-ink">docs.scalekit.com</strong></a> end-to-end (Astro Starlight + Netlify): architecture, content, quickstarts, UX copy, onboarding, and analytics via PostHog.</li>
+            <li>Run a DX flywheel with context engineering: support signal and product-repo drift keep docs and tooling current without waiting on one-off fire drills.</li>
+            <li>Ship developer tools: <strong class="text-ink"><a href="https://github.com/scalekit-inc/cli" target="_blank" rel="noopener noreferrer" class="underline underline-offset-2 decoration-rule">Scalekit CLI</a></strong>, MCP server tooling, and AI agent plugins for Claude Code, Cursor, and Copilot.</li>
+            <li>Maintain public agent skills and an internal skillkit so engineers and coding agents integrate Scalekit consistently (<a href="https://github.com/Saif-Shines/skills" target="_blank" rel="noopener noreferrer" class="underline underline-offset-2 decoration-rule">skills</a>).</li>
+            <li>Consult engineering on taxonomy, terminology, and API interfaces so the product stays teachable.</li>
+            <li>Build ecosystem presence (Astro, xmcp, LiteLLM, FastMCP, FastRouter, Apify, Chargebee, Cursor Directory, LiveKit, Vapi). <a href="/projects" class="underline underline-offset-2 decoration-rule">See full list</a>.</li>
           </ul>
         </div>
 
@@ -77,13 +71,7 @@ import {
         <div class="space-y-2">
           <div class="flex flex-wrap items-baseline justify-between gap-x-4">
             <h3 class="flex items-center gap-2 font-semibold text-ink">
-              <img
-                src={ROLE_WRITING_LOGO}
-                alt=""
-                width="20"
-                height="20"
-                class="size-5 shrink-0 dark:invert"
-              />
+              <FreeCodeCampIcon class="size-5 shrink-0 text-ink" />
               {ROLE_WRITING}
             </h3>
             <span class="text-sm text-muted">Present · free time</span>
@@ -99,7 +87,7 @@ import {
           </div>
           <ul class="list-disc pl-5 text-sm text-ink-2 space-y-1.5 mt-2">
             <li>
-              Recently joined as an <strong class="text-ink">author for freeCodeCamp.org</strong>, writing technical tutorials and developer education in free time—separate from full-time DevRel work.
+              Recently joined as an <strong class="text-ink">author for freeCodeCamp.org</strong>, writing technical tutorials and developer education in free time, separate from full-time DevRel work.
             </li>
             <li>
               First freeCodeCamp pieces are in progress; the public author page will replace the publication home link once articles ship. Other public writing includes JavaScript in Plain English.
@@ -109,8 +97,29 @@ import {
 
         <div class="space-y-2">
           <div class="flex flex-wrap items-baseline justify-between gap-x-4">
+            <h3 class="font-semibold text-ink">Developer Relations (Freelance)</h3>
+            <span class="text-sm text-muted">Jan 2024 - May 2024</span>
+          </div>
+          <div class="text-sm text-muted">Portkey · Bengaluru · Hybrid</div>
+          <ul class="list-disc pl-5 text-sm text-ink-2 space-y-1.5 mt-2">
+            <li>
+              First developer advocate in a consulting capacity. Focused on the discovery problem with education-first content on AI gateways and small sample apps.
+            </li>
+            <li>
+              Authored and organized material in the
+              <a href="https://github.com/Portkey-AI/portkey-cookbook" target="_blank" rel="noopener noreferrer" class="underline underline-offset-2 decoration-rule hover:decoration-accent"><strong class="text-ink">Portkey cookbook</strong></a>
+              and related technical writing for AI Gateway adoption.
+            </li>
+            <li>
+              Portkey has since been acquired by Palo Alto Networks.
+            </li>
+          </ul>
+        </div>
+
+        <div class="space-y-2">
+          <div class="flex flex-wrap items-baseline justify-between gap-x-4">
             <h3 class="font-semibold text-ink">Senior Developer Advocate</h3>
-            <span class="text-sm text-muted">Apr 2023 – Jul 2024</span>
+            <span class="text-sm text-muted">Apr 2023 - Jul 2024</span>
           </div>
           <div class="text-sm text-muted">Freshworks · Bengaluru</div>
           <ul class="list-disc pl-5 text-sm text-ink-2 space-y-1.5 mt-2">
@@ -124,7 +133,7 @@ import {
         <div class="space-y-2">
           <div class="flex flex-wrap items-baseline justify-between gap-x-4">
             <h3 class="font-semibold text-ink">Senior Developer Advocate</h3>
-            <span class="text-sm text-muted">Apr 2021 – Apr 2023</span>
+            <span class="text-sm text-muted">Apr 2021 - Apr 2023</span>
           </div>
           <div class="text-sm text-muted">Freshworks · Bengaluru</div>
           <ul class="list-disc pl-5 text-sm text-ink-2 space-y-1.5 mt-2">
@@ -139,7 +148,7 @@ import {
         <div class="space-y-2">
           <div class="flex flex-wrap items-baseline justify-between gap-x-4">
             <h3 class="font-semibold text-ink">Founding Developer Advocate</h3>
-            <span class="text-sm text-muted">Jan 2019 – Apr 2021</span>
+            <span class="text-sm text-muted">Jan 2019 - Apr 2021</span>
           </div>
           <div class="text-sm text-muted">Freshworks · Chennai</div>
           <ul class="list-disc pl-5 text-sm text-ink-2 space-y-1.5 mt-2">
@@ -154,7 +163,7 @@ import {
         <div class="space-y-2">
           <div class="flex flex-wrap items-baseline justify-between gap-x-4">
             <h3 class="font-semibold text-ink">Student Experience Intern</h3>
-            <span class="text-sm text-muted">Sep 2018 – Dec 2018</span>
+            <span class="text-sm text-muted">Sep 2018 - Dec 2018</span>
           </div>
           <div class="text-sm text-muted">Udacity · New Delhi</div>
           <ul class="list-disc pl-5 text-sm text-ink-2 space-y-1.5 mt-2">
@@ -171,7 +180,7 @@ import {
         <div class="space-y-2">
           <div class="flex flex-wrap items-baseline justify-between gap-x-4">
             <h3 class="font-semibold text-ink">Creator of Hacksmith CLI</h3>
-            <span class="text-sm text-muted">Sep 2025 – Nov 2025</span>
+            <span class="text-sm text-muted">Sep 2025 - Nov 2025</span>
           </div>
           <div class="text-sm text-muted">Scalekit</div>
           <ul class="list-disc pl-5 text-sm text-ink-2 space-y-1.5 mt-2">
@@ -184,7 +193,7 @@ import {
         <div class="space-y-2">
           <div class="flex flex-wrap items-baseline justify-between gap-x-4">
             <h3 class="font-semibold text-ink">Lead, Google Developer Student Clubs</h3>
-            <span class="text-sm text-muted">Aug 2017 – Dec 2018</span>
+            <span class="text-sm text-muted">Aug 2017 - Dec 2018</span>
           </div>
           <div class="text-sm text-muted">Sathyabama University · Chennai</div>
           <ul class="list-disc pl-5 text-sm text-ink-2 space-y-1.5 mt-2">
@@ -196,7 +205,7 @@ import {
         <div class="space-y-2">
           <div class="flex flex-wrap items-baseline justify-between gap-x-4">
             <h3 class="font-semibold text-ink">Student Partner</h3>
-            <span class="text-sm text-muted">Aug 2017 – Dec 2018</span>
+            <span class="text-sm text-muted">Aug 2017 - Dec 2018</span>
           </div>
           <div class="text-sm text-muted">Microsoft</div>
           <ul class="list-disc pl-5 text-sm text-ink-2 space-y-1.5 mt-2">
@@ -207,7 +216,7 @@ import {
         <div class="space-y-2">
           <div class="flex flex-wrap items-baseline justify-between gap-x-4">
             <h3 class="font-semibold text-ink">Dell Campassador</h3>
-            <span class="text-sm text-muted">Oct 2017 – Jun 2018</span>
+            <span class="text-sm text-muted">Oct 2017 - Jun 2018</span>
           </div>
           <div class="text-sm text-muted">Dell</div>
           <ul class="list-disc pl-5 text-sm text-ink-2 space-y-1.5 mt-2">
@@ -221,7 +230,7 @@ import {
         <h2 class="font-display text-lg font-semibold text-ink">Education</h2>
         <div>
           <h3 class="font-semibold text-ink">Bachelor of Engineering: Computer Science</h3>
-          <div class="text-sm text-muted">Sathyabama Institute of Science & Technology, Chennai · 2015 – 2019 · Grade: 85%</div>
+          <div class="text-sm text-muted">Sathyabama Institute of Science & Technology, Chennai · 2015 - 2019 · Grade: 85%</div>
         </div>
       </section>
 
@@ -231,7 +240,7 @@ import {
         <ul class="list-disc pl-5 text-sm text-ink-2 space-y-1.5">
           <li><strong class="text-ink">Distinguished Alumni Awardee</strong> (2023), Sathyabama University</li>
           <li><strong class="text-ink">Certificate of Achievement</strong> for Outstanding Team Collaboration & Agility through accountability with ownership, Freshworks</li>
-          <li><strong class="text-ink">Star of Excellence Awardee</strong> (2015–2019), Sathyabama University</li>
+          <li><strong class="text-ink">Star of Excellence Awardee</strong> (2015-2019), Sathyabama University</li>
           <li>Dell Campus Ambassador Program, <strong class="text-ink">All India Rank #4</strong></li>
         </ul>
       </section>

@@ -13,10 +13,10 @@ const { title, description, date, href } = Astro.props;
 
 <a
   href={href}
-  class="group flex items-baseline justify-between gap-4 border-b border-rule py-3 transition-colors duration-short ease-hall last:border-b-0"
+  class="list-row group flex items-baseline justify-between gap-4 border-b border-rule py-3 last:border-b-0"
 >
   <div class="min-w-0 flex-1">
-    <div class="font-medium text-ink group-hover:underline group-hover:decoration-accent group-hover:underline-offset-2">
+    <div class="list-row-title font-medium text-ink">
       {title}
     </div>
     {description && (

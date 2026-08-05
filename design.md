@@ -1,7 +1,7 @@
-# Design — saifshines.dev
+# Design , saifshines.dev
 
 A locked design system for this personal site. Every page redesign reads this
-file before emitting code. Do not regenerate per page — extend or amend this
+file before emitting code. Do not regenerate per page , extend or amend this
 file when the system needs to grow.
 
 ## Genre
@@ -10,9 +10,9 @@ editorial
 
 ## Macrostructure family
 
-- **Home (marketing/personal):** Letter — first-person, narrow measure, no fold CTAs
+- **Home (marketing/personal):** Letter , first-person, narrow measure, no fold CTAs
 - **List / index pages** (thoughts, projects, work): Index-first within the same type/colour system
-- **Long-form** (thought detail, resume): Long Document — prose measure, hairline rules
+- **Long-form** (thought detail, resume): Long Document , prose measure, hairline rules
 
 ## Theme
 
@@ -30,9 +30,9 @@ Dark mode retints paper/ink; accent stays warm.
 
 ## Typography
 
-- **Display:** Lora, weight 600, style normal (roman — never italic headers)
+- **Display:** Lora, weight 600, style normal (roman , never italic headers)
 - **Body:** Inter, weight 400
-- **UI / labels:** Inter, weight 500–600, small size
+- **UI / labels:** Inter, weight 500-600, small size
 - Display tracking: -0.02em on large titles
 - Type scale: display name ~clamp(1.75rem, 4vw, 2.5rem); body 1rem / 1.65; measure ~52ch
 
@@ -49,7 +49,7 @@ Dark mode retints paper/ink; accent stays warm.
 ## Microinteractions stance
 
 - Silent success (no celebratory toasts)
-- Hover: colour shift or underline thicken — one signal per control
+- Hover: colour shift or underline thicken , one signal per control
 - Focus: instant `:focus-visible` ring, never animated
 - No stagger-on-every-section
 

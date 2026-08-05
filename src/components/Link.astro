@@ -16,10 +16,11 @@ const isActive =
 
 <a
   href={href}
-  class={cn("underline-offset-2 transition-colors duration-short ease-hall",
+  class={cn(
+    "pressable underline-offset-2",
     isActive
       ? "font-medium text-ink underline decoration-accent"
-      : "text-ink-2 no-underline hover:text-ink hover:underline hover:decoration-rule",
+      : "text-ink-2 no-underline hover-ink hover-underline",
     className
   )}
   target={external ? "_blank" : undefined}

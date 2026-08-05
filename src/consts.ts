@@ -6,16 +6,24 @@ export const SITE: Site = {
   NUM_POSTS_ON_HOMEPAGE: 5,
 };
 
-/** Recognizable seat — use as the title everywhere. */
+/** Recognizable seat , use as the title everywhere. */
 export const ROLE = "Founding Developer Advocate";
 
-/** DX mandate under the title — outcome language, not a second job title. */
+/** Primary public docs surface (linked where relevant; not every line of copy). */
+export const DOCS_URL = "https://docs.scalekit.com";
+
+/** Craft line under the title , balanced, not a single-product slogan. */
 export const ROLE_FOCUS =
-  "API design · SDK ergonomics · docs · CLIs · onboarding · context engineering";
+  "docs · DX · CLIs · agent skills · ecosystem";
+
+export const HOME: Metadata = {
+  TITLE: "Home",
+  DESCRIPTION: `${ROLE} at Scalekit. Developer experience, docs, tooling, and ecosystem work.`,
+};
 
 /**
  * Free-time writing role (current).
- * Recently joined as a freeCodeCamp author — no public author slug yet.
+ * Recently joined as a freeCodeCamp author , no public author slug yet.
  * ROLE_WRITING_URL points at the publication until the first article ships
  * and an author page exists; then swap to that slug.
  */
@@ -23,12 +31,6 @@ export const ROLE_WRITING = "Author";
 export const ROLE_WRITING_ORG = "freeCodeCamp";
 export const ROLE_WRITING_URL = "https://www.freecodecamp.org/news";
 export const ROLE_WRITING_NOTE = "free-time · newly joined";
-export const ROLE_WRITING_LOGO = "/assets/logos/freecodecamp-icon.svg";
-
-export const HOME: Metadata = {
-  TITLE: "Home",
-  DESCRIPTION: `${ROLE}. ${ROLE_FOCUS.replace(/ · /g, ", ")}.`,
-};
 
 export const NAV_ITEMS = [
   { text: "thoughts", href: "/thoughts" },
@@ -41,7 +43,7 @@ export const SOCIALS: Socials = [
   { NAME: "github", HREF: "https://github.com/Saif-Shines" },
 ];
 
-// Ecosystem listings — direct links to production pages where Scalekit
+// Ecosystem listings , direct links to production pages where Scalekit
 // (or prior work) is featured as an integration, guide, or listing.
 // One source of truth. Rendered on /projects and /work.
 // Seeded from Scalekit DX distribution work (Linear SK-1380).

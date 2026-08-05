@@ -1,6 +1,7 @@
 /* Hallmark · genre: editorial · macrostructure: Letter · theme: newsprint-warm
  * design-system: design.md · designed-as-app · nav: N9 · footer: Ft6 · enrichment: none
  * tone: intimate-editorial · anchor hue: warm rust ~35°
+ * polish: Emil design-eng , press feedback, hover:fine, refined reduced-motion
  */
 @import "../../tokens.css";
 
@@ -43,19 +44,29 @@
     color: var(--color-ink);
   }
 
+  /* Instant focus , never animate the ring in */
   :focus-visible {
     outline: 2px solid var(--color-focus);
     outline-offset: 3px;
   }
 
+  /*
+   * Reduced motion: drop spatial motion, keep short opacity/color if needed.
+   * Avoid blanket zeroing every transition (Emil: reduced ≠ none).
+   */
   @media (prefers-reduced-motion: reduce) {
     *,
     *::before,
     *::after {
       animation-duration: 0.01ms !important;
       animation-iteration-count: 1 !important;
-      transition-duration: 0.01ms !important;
       scroll-behavior: auto !important;
+    }
+
+    .pressable:active,
+    .list-row:active,
+    .btn-press:active {
+      transform: none !important;
     }
   }
 }
@@ -102,6 +113,111 @@
     color: var(--color-accent);
   }
 
+  /* Pressable chrome , scale 0.97, ~160ms ease-out (Emil) */
+  .pressable {
+    transition:
+      color var(--dur-short) var(--ease-out),
+      background-color var(--dur-short) var(--ease-out),
+      text-decoration-color var(--dur-short) var(--ease-out),
+      transform 160ms var(--ease-out),
+      opacity 160ms var(--ease-out);
+  }
+
+  .pressable:active {
+    transform: scale(0.97);
+  }
+
+  /* List / row links , light press, no layout thrash */
+  .list-row {
+    transition:
+      color var(--dur-short) var(--ease-out),
+      opacity 160ms var(--ease-out),
+      transform 160ms var(--ease-out);
+  }
+
+  .list-row:active {
+    opacity: 0.85;
+    transform: scale(0.995);
+  }
+
+  /*
+   * Hover affordances only on real pointers.
+   * Touch devices false-trigger :hover (Emil checklist).
+   */
+  @media (hover: hover) and (pointer: fine) {
+    .hover-ink:hover {
+      color: var(--color-ink);
+    }
+
+    .hover-underline:hover {
+      text-decoration-line: underline;
+      text-decoration-color: var(--color-rule);
+    }
+
+    .hover-underline-accent:hover {
+      text-decoration-line: underline;
+      text-decoration-color: var(--color-accent);
+    }
+
+    .hover-decoration-accent:hover {
+      text-decoration-color: var(--color-accent);
+    }
+
+    .list-row:hover .list-row-title {
+      text-decoration-line: underline;
+      text-decoration-color: var(--color-accent);
+      text-underline-offset: 2px;
+    }
+  }
+
+  /* Primary CTA , one loud affordance in the fold */
+  .cta-primary {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35rem;
+    font-weight: 600;
+    color: var(--color-ink);
+    text-decoration: underline;
+    text-decoration-thickness: 2px;
+    text-underline-offset: 3px;
+    text-decoration-color: var(--color-accent);
+    transition:
+      color var(--dur-short) var(--ease-out),
+      text-decoration-color var(--dur-short) var(--ease-out),
+      transform 160ms var(--ease-out);
+  }
+
+  .cta-primary:active {
+    transform: scale(0.97);
+  }
+
+  @media (hover: hover) and (pointer: fine) {
+    .cta-primary:hover {
+      text-decoration-color: var(--color-ink);
+    }
+  }
+
+  /* Quiet inline links (body / footer) */
+  .link-quiet {
+    color: inherit;
+    text-decoration: underline;
+    text-underline-offset: 2px;
+    text-decoration-color: var(--color-rule);
+    transition:
+      text-decoration-color var(--dur-short) var(--ease-out),
+      transform 160ms var(--ease-out);
+  }
+
+  .link-quiet:active {
+    transform: scale(0.97);
+  }
+
+  @media (hover: hover) and (pointer: fine) {
+    .link-quiet:hover {
+      text-decoration-color: var(--color-accent);
+    }
+  }
+
   #back-to-top {
     @apply fixed bottom-8 right-8 z-50 opacity-0 pointer-events-none;
     transition: opacity var(--dur-mid) var(--ease-out);
@@ -109,6 +225,16 @@
 
   html.scrolled #back-to-top {
     @apply opacity-100 pointer-events-auto;
+  }
+
+  .back-arrow {
+    transition: transform 160ms var(--ease-out);
+  }
+
+  @media (hover: hover) and (pointer: fine) {
+    .group:hover .back-arrow {
+      transform: translateX(-0.25rem);
+    }
   }
 }
 
@@ -121,7 +247,9 @@
     transition: text-decoration-color var(--dur-short) var(--ease-out);
   }
 
-  article a:hover {
-    text-decoration-color: var(--color-accent);
+  @media (hover: hover) and (pointer: fine) {
+    article a:hover {
+      text-decoration-color: var(--color-accent);
+    }
   }
 }

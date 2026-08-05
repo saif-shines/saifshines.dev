@@ -8,7 +8,7 @@ const { href } = Astro.props;
 
 <a
   href={href}
-  class="group flex w-fit items-center gap-1.5 text-sm text-muted transition-colors duration-short ease-hall hover:text-ink"
+  class="pressable group inline-flex w-fit items-center gap-1.5 text-sm text-muted hover-ink"
 >
   <svg
     xmlns="http://www.w3.org/2000/svg"
@@ -20,7 +20,7 @@ const { href } = Astro.props;
     stroke-width="2.5"
     stroke-linecap="round"
     stroke-linejoin="round"
-    class="transition-transform duration-short ease-hall group-hover:-translate-x-1"
+    class="back-arrow"
     aria-hidden="true"
   >
     <line x1="19" y1="12" x2="5" y2="12"></line>

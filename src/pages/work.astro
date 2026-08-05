@@ -24,38 +24,15 @@ const proofOfWork: ProofCategory[] = [
     title: "I put DX on fly mode with context engineering",
     items: [
       {
-        // SK-718 — support review → shipped docs PR
-        text: "Support signal → docs PR: outbound IPs, user-verification troubleshooting, FastMCP credential locations",
-        url: "https://github.com/scalekit-inc/developer-docs/pull/755",
-      },
-      {
-        text: "Live docs: outbound IP allowlist for AgentKit proxy / tool calls",
-        url: "https://docs.scalekit.com/agentkit/advanced/proxy-api-calls/",
-      },
-      {
-        text: "Live docs: user verification troubleshooting on the identity flow page",
-        url: "https://docs.scalekit.com/agentkit/user-verification/",
-      },
-      {
-        text: "Quickstart polish: Environment URL and Resource ID discoverability in the FastMCP guide",
-        url: "https://docs.scalekit.com/authenticate/mcp/fastmcp-quickstart/",
-      },
-      {
-        // SK-1334 / product-signal roundups — public surface drift → docs
-        text: "Product-signal: watch repos for public-surface drift and land docs PRs (e.g. OpenAPI NO_AUTH enum sync)",
-        url: "https://github.com/scalekit-inc/developer-docs/pull/902",
-      },
-      {
-        // SK-718 follow-ups — public issues as backlog
-        text: "Raise public developer-docs issues from support and SDK gaps so the backlog is trackable",
-        url: "https://github.com/scalekit-inc/developer-docs/issues/752",
+        text: "docs.scalekit.com: product docs I own end-to-end at Scalekit",
+        url: "https://docs.scalekit.com",
       },
       {
         text: "External agent skills that teach coding tools to integrate enterprise auth",
         url: "https://github.com/Saif-Shines/skills",
       },
       {
-        // SK-494 / skillkit — private marketplace; no public repo URL
+        // SK-494 / skillkit: private marketplace; no public repo URL
         text: "Internal skills marketplace (skillkit) so shared engineers reuse Claude skills and DX harness workflows",
       },
     ],
@@ -136,7 +113,8 @@ const proofOfWork: ProofCategory[] = [
     <aside class="max-w-measure space-y-2 py-10">
       <h1 class="font-display text-2xl font-semibold tracking-tight text-ink">Work</h1>
       <p class="leading-relaxed text-ink-2">
-        I have product sense for developer experience. <strong class="text-ink">I use writing as a means to think.</strong>
+        DevRel and developer experience work: docs, tooling, ecosystem, writing.
+        I use writing as a means to think.
       </p>
     </aside>
 
@@ -155,14 +133,14 @@ const proofOfWork: ProofCategory[] = [
                     href={item.url}
                     target="_blank"
                     rel="noopener noreferrer"
-                    class="group inline-flex items-baseline gap-1.5 text-sm text-ink-2 transition-colors hover:text-ink"
+                    class="pressable inline-flex items-baseline gap-1.5 text-sm text-ink-2 hover-ink"
                   >
-                    <svg class="h-3 w-3 shrink-0 translate-y-px text-rule transition-colors group-hover:text-muted" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                    <svg class="h-3 w-3 shrink-0 translate-y-px text-rule" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
                       <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/>
                       <polyline points="15 3 21 3 21 9"/>
                       <line x1="10" y1="14" x2="21" y2="3"/>
                     </svg>
-                    <span class="line-clamp-2 underline underline-offset-2 decoration-rule transition-colors group-hover:decoration-accent">
+                    <span class="link-quiet line-clamp-2">
                       {item.text}
                     </span>
                   </a>
@@ -191,13 +169,13 @@ const proofOfWork: ProofCategory[] = [
               href={item.data.url ?? "#"}
               target={item.data.url ? "_blank" : undefined}
               rel={item.data.url ? "noopener noreferrer" : undefined}
-              class="group flex items-start gap-3 py-3"
+              class="list-row flex items-start gap-3 py-3"
             >
               <span class="type-chip mt-0.5 shrink-0">
                 {item.data.type}
               </span>
               <div class="min-w-0 flex-1">
-                <div class="truncate font-medium text-ink group-hover:underline group-hover:decoration-accent group-hover:underline-offset-2">
+                <div class="list-row-title truncate font-medium text-ink">
                   {item.data.title}
                 </div>
                 <div class="mt-0.5 line-clamp-1 text-xs text-muted">

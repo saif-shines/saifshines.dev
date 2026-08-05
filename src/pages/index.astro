@@ -2,15 +2,16 @@
 import Base from "@layouts/Base.astro";
 import Container from "@components/Container.astro";
 import Link from "@components/Link.astro";
+import FreeCodeCampIcon from "@components/FreeCodeCampIcon.astro";
 import { getCollection } from "astro:content";
 import {
   HOME,
   ROLE,
   ROLE_FOCUS,
+  DOCS_URL,
   ROLE_WRITING,
   ROLE_WRITING_ORG,
   ROLE_WRITING_URL,
-  ROLE_WRITING_LOGO,
 } from "@consts";
 import { formatDate } from "@lib/utils";
 
@@ -28,20 +29,20 @@ const work = (await getCollection("work"))
 
 const claims = [
   {
-    lead: "I put DX on fly mode",
-    body: "context engineering so repos and support signal become docs issues, shared eng skills, and continuous polish on quickstarts, UX copy, and onboarding",
+    lead: "I ship the docs product",
+    body: "architecture, content, and onboarding on docs.scalekit.com, one of the main things I own at Scalekit",
   },
   {
-    lead: "I teach agents",
-    body: "external skills for AI coding tools plus an internal skills repo shared across engineering",
+    lead: "I run DX systems",
+    body: "context engineering so support and product signal keep docs and tooling current",
   },
   {
-    lead: "I grow ecosystems",
-    body: "by getting Scalekit listed in other platforms' official docs and integrations",
+    lead: "I teach agents and engineers",
+    body: "public agent skills plus an internal skillkit so Scalekit is easy to integrate the right way",
   },
   {
-    lead: "I remove friction",
-    body: "with CLIs, docs architecture, and journeys that take developers from zero to production",
+    lead: "I grow the ecosystem",
+    body: "listings and guides so developers meet Scalekit in other platforms' docs and tools",
   },
 ];
 ---
@@ -60,60 +61,48 @@ const claims = [
         {ROLE_FOCUS}
       </p>
       <p class="leading-relaxed text-ink-2">
-        I care about the end-to-end developer experience: the systems, docs, and
-        tooling that make adoption feel effortless. I engineer context so DX
-        runs as a flywheel, ship CLIs, write friction logs, and polish the
-        journeys developers actually take. Currently at
-        <a
-          href="https://scalekit.com"
-          target="_blank"
-          rel="noopener noreferrer"
-          class="text-ink underline decoration-rule underline-offset-2 transition-[text-decoration-color] duration-short ease-hall hover:decoration-accent"
-        >Scalekit</a>,
-        previously at Freshworks. Both as the founding DevRel hire.
-        In free time I recently joined as an{" "}
-        <a
-          href={ROLE_WRITING_URL}
-          target="_blank"
-          rel="noopener noreferrer"
-          class="text-ink underline decoration-rule underline-offset-2 transition-[text-decoration-color] duration-short ease-hall hover:decoration-accent"
-        >{ROLE_WRITING.toLowerCase()} for {ROLE_WRITING_ORG}</a>.
+        Founding Developer Advocate at
+        <a href="https://scalekit.com" target="_blank" rel="noopener noreferrer" class="link-quiet text-ink">Scalekit</a>
+        (previously Freshworks). I care about end-to-end developer experience: docs and
+        onboarding, CLIs, agent skills, and ecosystem distribution. I ship the systems
+        that make adoption feel effortless.
       </p>
-      <p class="flex flex-wrap items-center gap-2 text-sm text-muted">
-        <img
-          src={ROLE_WRITING_LOGO}
-          alt=""
-          width="16"
-          height="16"
-          class="size-4 shrink-0 dark:invert"
-        />
+
+      <!-- One primary CTA in the fold (Emil: one loud affordance) -->
+      <p>
+        <a href={DOCS_URL} target="_blank" rel="noopener noreferrer" class="cta-primary">
+          docs.scalekit.com
+          <span aria-hidden="true" class="font-normal text-muted">→</span>
+        </a>
+      </p>
+
+      <!-- freeCodeCamp once: chip only (not also in bio + nav) -->
+      <a
+        href={ROLE_WRITING_URL}
+        target="_blank"
+        rel="noopener noreferrer"
+        class="pressable inline-flex items-center gap-2 text-sm text-muted hover-ink"
+      >
+        <FreeCodeCampIcon class="size-4 shrink-0 text-ink" />
         <span>
-          {ROLE_WRITING} ·{" "}
-          <a
-            href={ROLE_WRITING_URL}
-            target="_blank"
-            rel="noopener noreferrer"
-            class="text-ink-2 underline decoration-rule underline-offset-2 hover:decoration-accent"
-          >{ROLE_WRITING_ORG}.org</a>
-          {" "}· free time · newly joined
+          {ROLE_WRITING} · {ROLE_WRITING_ORG}.org
+          <span class="text-muted"> · free time · newly joined</span>
         </span>
-      </p>
+      </a>
+
+      <!-- Primary socials only (Emil: short high-frequency chrome) -->
       <nav class="flex flex-wrap items-center gap-x-4 gap-y-2 text-sm" aria-label="Social links">
-        <a href="https://github.com/Saif-Shines" target="_blank" rel="noopener noreferrer" class="text-muted transition-colors duration-short ease-hall hover:text-ink">GitHub</a>
+        <a href="https://github.com/Saif-Shines" target="_blank" rel="noopener noreferrer" class="pressable text-muted hover-ink">GitHub</a>
         <span class="text-rule" aria-hidden="true">·</span>
-        <a href="https://linkedin.com/in/saif-shines" target="_blank" rel="noopener noreferrer" class="text-muted transition-colors duration-short ease-hall hover:text-ink">LinkedIn</a>
+        <a href="https://linkedin.com/in/saif-shines" target="_blank" rel="noopener noreferrer" class="pressable text-muted hover-ink">LinkedIn</a>
         <span class="text-rule" aria-hidden="true">·</span>
-        <a href="https://world.hey.com/saif.shines" target="_blank" rel="noopener noreferrer" class="text-muted transition-colors duration-short ease-hall hover:text-ink">HEY World</a>
+        <a href="https://world.hey.com/saif.shines" target="_blank" rel="noopener noreferrer" class="pressable text-muted hover-ink">HEY World</a>
         <span class="text-rule" aria-hidden="true">·</span>
-        <a href="https://sublime.app/saif_shines" target="_blank" rel="noopener noreferrer" class="text-muted transition-colors duration-short ease-hall hover:text-ink">Sublime</a>
-        <span class="text-rule" aria-hidden="true">·</span>
-        <a href={ROLE_WRITING_URL} target="_blank" rel="noopener noreferrer" class="text-muted transition-colors duration-short ease-hall hover:text-ink">freeCodeCamp</a>
-        <span class="text-rule" aria-hidden="true">·</span>
-        <a href="/resume" class="text-muted transition-colors duration-short ease-hall hover:text-ink">Resume</a>
+        <a href="/resume" class="pressable text-muted hover-ink">Resume</a>
       </nav>
     </section>
 
-    <!-- Claims: lead + three, not equal 2×2 -->
+    <!-- Claims: lead + three -->
     <section class="pb-12" aria-label="Focus areas">
       <div class="grid gap-8 sm:grid-cols-12">
         <div class="sm:col-span-5 space-y-1">
@@ -137,7 +126,7 @@ const claims = [
 
     <hr class="page-rule" aria-hidden="true" />
 
-    <!-- Work — densest list -->
+    <!-- Work -->
     <section class="space-y-4 py-10">
       <div class="flex items-baseline justify-between gap-4">
         <h2 class="font-display text-lg font-semibold text-ink">Work</h2>
@@ -150,13 +139,13 @@ const claims = [
               href={item.data.url ?? "/work"}
               target={item.data.url ? "_blank" : undefined}
               rel={item.data.url ? "noopener noreferrer" : undefined}
-              class="group flex items-start gap-3 py-3"
+              class="list-row group flex items-start gap-3 py-3"
             >
               <span class="type-chip mt-0.5 shrink-0">
                 {item.data.type}
               </span>
               <div class="min-w-0 flex-1">
-                <div class="truncate font-medium text-ink group-hover:underline group-hover:decoration-accent group-hover:underline-offset-2">
+                <div class="list-row-title truncate font-medium text-ink">
                   {item.data.title}
                 </div>
                 <div class="mt-0.5 line-clamp-1 text-xs text-muted">
@@ -174,7 +163,7 @@ const claims = [
 
     <hr class="page-rule" aria-hidden="true" />
 
-    <!-- Thoughts — quiet reading list -->
+    <!-- Thoughts -->
     <section class="space-y-3 py-10">
       <div class="flex items-baseline justify-between gap-4">
         <h2 class="font-display text-lg font-semibold text-ink">Thoughts</h2>
@@ -185,9 +174,9 @@ const claims = [
           <li>
             <a
               href={`/thoughts/${thought.id}`}
-              class="group flex items-baseline justify-between gap-4 py-2"
+              class="list-row group flex items-baseline justify-between gap-4 py-2"
             >
-              <span class="truncate text-sm text-ink group-hover:underline group-hover:decoration-accent group-hover:underline-offset-2">
+              <span class="list-row-title truncate text-sm text-ink">
                 {thought.data.title}
               </span>
               <span class="shrink-0 text-xs tabular-nums text-muted">
@@ -201,7 +190,7 @@ const claims = [
 
     <hr class="page-rule" aria-hidden="true" />
 
-    <!-- Projects — compact list, no bordered card grid -->
+    <!-- Projects -->
     <section class="space-y-4 py-10 pb-4">
       <div class="flex items-baseline justify-between gap-4">
         <h2 class="font-display text-lg font-semibold text-ink">Projects</h2>
@@ -214,10 +203,10 @@ const claims = [
               href={project.data.url}
               target="_blank"
               rel="noopener noreferrer"
-              class="group flex flex-col gap-1 py-3 sm:flex-row sm:items-baseline sm:justify-between sm:gap-4"
+              class="list-row group flex flex-col gap-1 py-3 sm:flex-row sm:items-baseline sm:justify-between sm:gap-4"
             >
               <div class="min-w-0 flex flex-wrap items-baseline gap-x-2 gap-y-1">
-                <span class="font-medium text-ink group-hover:underline group-hover:decoration-accent group-hover:underline-offset-2">
+                <span class="list-row-title font-medium text-ink">
                   {project.data.name}
                 </span>
                 {project.data.language && (

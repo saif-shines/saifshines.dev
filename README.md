@@ -1,6 +1,6 @@
 # saifshines.dev
 
-Personal site for [Saif Ali Shaik](https://saifshines.dev) — notes, thoughts, projects, and developer relations work. Built with [Astro](https://astro.build) and styled after [Astro Nano](https://github.com/markhorn-dev/astro-nano).
+Personal site for [Saif Ali Shaik](https://saifshines.dev) , notes, thoughts, projects, and developer relations work. Built with [Astro](https://astro.build) and styled after [Astro Nano](https://github.com/markhorn-dev/astro-nano).
 
 ## Overview
 
@@ -81,8 +81,8 @@ To activate:
 
 ## Stack
 
-- [Astro 5](https://astro.build) — static site generator with content layer API
-- [Tailwind CSS 3](https://tailwindcss.com) — utility-first styling with dark mode
-- [Inter](https://rsms.me/inter/) + [Lora](https://github.com/cyrealtype/Lora-Cyrillic) — typography via Fontsource
-- [fast-xml-parser](https://github.com/NaturalIntelligence/fast-xml-parser) — Atom feed parsing
-- [Netlify](https://netlify.com) — hosting and deploys
+- [Astro 5](https://astro.build) , static site generator with content layer API
+- [Tailwind CSS 3](https://tailwindcss.com) , utility-first styling with dark mode
+- [Inter](https://rsms.me/inter/) + [Lora](https://github.com/cyrealtype/Lora-Cyrillic) , typography via Fontsource
+- [fast-xml-parser](https://github.com/NaturalIntelligence/fast-xml-parser) , Atom feed parsing
+- [Netlify](https://netlify.com) , hosting and deploys
