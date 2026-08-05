@@ -31,7 +31,7 @@ export async function GET(context: APIContext) {
 
   return rss({
     title: SITE.NAME,
-    description: "Developer Advocate, Technical Evangelist & Platform Experience Specialist.",
+    description: "Founding Developer Advocate. API design, SDK ergonomics, docs, CLIs, and onboarding.",
     site: context.site!,
     items,
   });

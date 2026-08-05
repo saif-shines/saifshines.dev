@@ -1,9 +1,17 @@
+/* Hallmark · genre: editorial · macrostructure: Letter · theme: newsprint-warm
+ * design-system: design.md · designed-as-app · nav: N9 · footer: Ft6 · enrichment: none
+ * tone: intimate-editorial · anchor hue: warm rust ~35°
+ * polish: Emil design-eng , press feedback, hover:fine, refined reduced-motion
+ */
+@import "../../tokens.css";
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
 @layer base {
   html {
+    overflow-x: clip;
     overflow-y: scroll;
     color-scheme: light;
   }
@@ -13,43 +21,235 @@
   }
 
   body {
-    @apply relative min-h-screen bg-white text-stone-950 antialiased dark:bg-neutral-900 dark:text-white;
+    @apply relative min-h-screen antialiased;
+    background-color: var(--color-paper);
+    color: var(--color-ink);
+    font-family: var(--font-body);
+    font-size: var(--text-md);
+    line-height: 1.65;
   }
 
-  /* Animate-in stagger */
-  .animate {
-    @apply opacity-0 translate-y-3;
-    animation: enter 0.6s both;
+  h1,
+  h2,
+  h3,
+  h4,
+  .font-display {
+    font-family: var(--font-display);
+    font-style: normal;
+    color: var(--color-ink);
   }
 
-  .animate.show {
-    animation: enter 0.6s both;
+  ::selection {
+    background: var(--color-accent-soft);
+    color: var(--color-ink);
   }
 
-  @keyframes enter {
-    from {
-      opacity: 0;
-      transform: translateY(12px);
+  /* Instant focus , never animate the ring in */
+  :focus-visible {
+    outline: 2px solid var(--color-focus);
+    outline-offset: 3px;
+  }
+
+  /*
+   * Reduced motion: drop spatial motion, keep short opacity/color if needed.
+   * Avoid blanket zeroing every transition (Emil: reduced ≠ none).
+   */
+  @media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      scroll-behavior: auto !important;
     }
-    to {
-      opacity: 1;
-      transform: translateY(0);
+
+    .pressable:active,
+    .list-row:active,
+    .btn-press:active {
+      transform: none !important;
     }
   }
 }
 
 @layer components {
-  /* Back to top */
-  #back-to-top {
-    @apply fixed bottom-8 right-8 z-50 opacity-0 transition-opacity pointer-events-none;
+  .page-rule {
+    border: 0;
+    border-top: var(--rule-hair) solid var(--color-rule);
+    margin: 0;
   }
+
+  .page-rule--double {
+    border: 0;
+    border-top: var(--rule-hair) solid var(--color-rule);
+    border-bottom: var(--rule-hair) solid var(--color-rule);
+    height: 4px;
+    background: transparent;
+  }
+
+  .type-chip {
+    display: inline-block;
+    font-family: var(--font-body);
+    font-size: 0.625rem;
+    font-weight: 600;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    padding: 0.15rem 0.4rem;
+    border-radius: var(--radius-sm);
+    background: var(--color-chip);
+    color: var(--color-chip-ink);
+    width: 5rem;
+    text-align: center;
+  }
+
+  .status-chip {
+    display: inline-block;
+    font-size: 0.625rem;
+    font-weight: 600;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    padding: 0.15rem 0.45rem;
+    border-radius: var(--radius-sm);
+    background: var(--color-accent-soft);
+    color: var(--color-accent);
+  }
+
+  /* Pressable chrome , scale 0.97, ~160ms ease-out (Emil) */
+  .pressable {
+    transition:
+      color var(--dur-short) var(--ease-out),
+      background-color var(--dur-short) var(--ease-out),
+      text-decoration-color var(--dur-short) var(--ease-out),
+      transform 160ms var(--ease-out),
+      opacity 160ms var(--ease-out);
+  }
+
+  .pressable:active {
+    transform: scale(0.97);
+  }
+
+  /* List / row links , light press, no layout thrash */
+  .list-row {
+    transition:
+      color var(--dur-short) var(--ease-out),
+      opacity 160ms var(--ease-out),
+      transform 160ms var(--ease-out);
+  }
+
+  .list-row:active {
+    opacity: 0.85;
+    transform: scale(0.995);
+  }
+
+  /*
+   * Hover affordances only on real pointers.
+   * Touch devices false-trigger :hover (Emil checklist).
+   */
+  @media (hover: hover) and (pointer: fine) {
+    .hover-ink:hover {
+      color: var(--color-ink);
+    }
+
+    .hover-underline:hover {
+      text-decoration-line: underline;
+      text-decoration-color: var(--color-rule);
+    }
+
+    .hover-underline-accent:hover {
+      text-decoration-line: underline;
+      text-decoration-color: var(--color-accent);
+    }
+
+    .hover-decoration-accent:hover {
+      text-decoration-color: var(--color-accent);
+    }
+
+    .list-row:hover .list-row-title {
+      text-decoration-line: underline;
+      text-decoration-color: var(--color-accent);
+      text-underline-offset: 2px;
+    }
+  }
+
+  /* Primary CTA , one loud affordance in the fold */
+  .cta-primary {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35rem;
+    font-weight: 600;
+    color: var(--color-ink);
+    text-decoration: underline;
+    text-decoration-thickness: 2px;
+    text-underline-offset: 3px;
+    text-decoration-color: var(--color-accent);
+    transition:
+      color var(--dur-short) var(--ease-out),
+      text-decoration-color var(--dur-short) var(--ease-out),
+      transform 160ms var(--ease-out);
+  }
+
+  .cta-primary:active {
+    transform: scale(0.97);
+  }
+
+  @media (hover: hover) and (pointer: fine) {
+    .cta-primary:hover {
+      text-decoration-color: var(--color-ink);
+    }
+  }
+
+  /* Quiet inline links (body / footer) */
+  .link-quiet {
+    color: inherit;
+    text-decoration: underline;
+    text-underline-offset: 2px;
+    text-decoration-color: var(--color-rule);
+    transition:
+      text-decoration-color var(--dur-short) var(--ease-out),
+      transform 160ms var(--ease-out);
+  }
+
+  .link-quiet:active {
+    transform: scale(0.97);
+  }
+
+  @media (hover: hover) and (pointer: fine) {
+    .link-quiet:hover {
+      text-decoration-color: var(--color-accent);
+    }
+  }
+
+  #back-to-top {
+    @apply fixed bottom-8 right-8 z-50 opacity-0 pointer-events-none;
+    transition: opacity var(--dur-mid) var(--ease-out);
+  }
+
   html.scrolled #back-to-top {
     @apply opacity-100 pointer-events-auto;
+  }
+
+  .back-arrow {
+    transition: transform 160ms var(--ease-out);
+  }
+
+  @media (hover: hover) and (pointer: fine) {
+    .group:hover .back-arrow {
+      transform: translateX(-0.25rem);
+    }
   }
 }
 
 @layer utilities {
   article a {
-    @apply underline underline-offset-[3px] decoration-black/30 dark:decoration-white/30 hover:decoration-black/50 dark:hover:decoration-white/50 transition-colors;
+    color: inherit;
+    text-decoration: underline;
+    text-underline-offset: 3px;
+    text-decoration-color: color-mix(in oklch, var(--color-ink) 30%, transparent);
+    transition: text-decoration-color var(--dur-short) var(--ease-out);
+  }
+
+  @media (hover: hover) and (pointer: fine) {
+    article a:hover {
+      text-decoration-color: var(--color-accent);
+    }
   }
 }

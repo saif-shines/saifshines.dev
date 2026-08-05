@@ -2,8 +2,17 @@
 import Base from "@layouts/Base.astro";
 import Container from "@components/Container.astro";
 import Link from "@components/Link.astro";
+import FreeCodeCampIcon from "@components/FreeCodeCampIcon.astro";
 import { getCollection } from "astro:content";
-import { HOME } from "@consts";
+import {
+  HOME,
+  ROLE,
+  ROLE_FOCUS,
+  DOCS_URL,
+  ROLE_WRITING,
+  ROLE_WRITING_ORG,
+  ROLE_WRITING_URL,
+} from "@consts";
 import { formatDate } from "@lib/utils";
 
 const thoughts = (await getCollection("thoughts"))
@@ -18,111 +27,132 @@ const work = (await getCollection("work"))
   .sort((a, b) => new Date(b.data.date).valueOf() - new Date(a.data.date).valueOf())
   .slice(0, 4);
 
-const typeColors: Record<string, string> = {
-  talk: "bg-blue-100 text-blue-700 dark:bg-blue-900/30 dark:text-blue-300",
-  article: "bg-amber-100 text-amber-700 dark:bg-amber-900/30 dark:text-amber-300",
-  workshop: "bg-green-100 text-green-700 dark:bg-green-900/30 dark:text-green-300",
-  community: "bg-purple-100 text-purple-700 dark:bg-purple-900/30 dark:text-purple-300",
-  video: "bg-rose-100 text-rose-700 dark:bg-rose-900/30 dark:text-rose-300",
-};
+const claims = [
+  {
+    lead: "I ship the docs product",
+    body: "architecture, content, and onboarding on docs.scalekit.com, one of the main things I own at Scalekit",
+  },
+  {
+    lead: "I run DX systems",
+    body: "context engineering so support and product signal keep docs and tooling current",
+  },
+  {
+    lead: "I teach agents and engineers",
+    body: "public agent skills plus an internal skillkit so Scalekit is easy to integrate the right way",
+  },
+  {
+    lead: "I grow the ecosystem",
+    body: "listings and guides so developers meet Scalekit in other platforms' docs and tools",
+  },
+];
 ---
 
 <Base title={HOME.TITLE} description={HOME.DESCRIPTION}>
   <Container>
-
-    <!-- ═══ Hero ═══ -->
-    <section class="animate space-y-5 pt-16 pb-12">
-      <div class="space-y-2">
-        <h1 class="text-2xl sm:text-3xl font-semibold text-black dark:text-white tracking-tight">
-          Saif Ali Shaik
-        </h1>
-        <p class="text-stone-500 dark:text-stone-400">
-          Founding Developer Advocate &middot; Bengaluru
-        </p>
-      </div>
-      <p class="max-w-lg leading-relaxed text-stone-600 dark:text-stone-400">
-        I care about the end-to-end developer experience, from API design and
-        SDK ergonomics to docs architecture and onboarding flows. I ship CLIs,
-        write friction logs, propose product changes, and build the tooling that
-        makes adoption feel effortless. Currently at
-        <a href="https://scalekit.com" target="_blank" rel="noopener noreferrer" class="text-black dark:text-white underline underline-offset-2 decoration-stone-300 dark:decoration-stone-600 hover:decoration-stone-500 dark:hover:decoration-stone-400 transition-colors">Scalekit</a>,
-        previously at Freshworks. Both as the founding DevRel hire.
+    <!-- Letter open -->
+    <section class="max-w-measure space-y-6 pb-10 pt-12">
+      <p class="text-sm text-muted">
+        {ROLE} · Bengaluru · {new Date().getFullYear()}
       </p>
-      <nav class="flex flex-wrap items-center gap-x-5 gap-y-2 text-sm" aria-label="Social links">
-        <a href="https://github.com/Saif-Shines" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-1.5 text-stone-500 hover:text-black dark:text-stone-400 dark:hover:text-white transition-colors">
-          <svg class="w-4 h-4" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/></svg>
-          GitHub
+      <h1 class="font-display text-[length:var(--text-display)] font-semibold leading-[1.15] tracking-tight text-ink">
+        Hello, I'm Saif Ali Shaik.
+      </h1>
+      <p class="text-sm text-ink-2">
+        {ROLE_FOCUS}
+      </p>
+      <p class="leading-relaxed text-ink-2">
+        Founding Developer Advocate at
+        <a href="https://scalekit.com" target="_blank" rel="noopener noreferrer" class="link-quiet text-ink">Scalekit</a>
+        (previously Freshworks). I care about end-to-end developer experience: docs and
+        onboarding, CLIs, agent skills, and ecosystem distribution. I ship the systems
+        that make adoption feel effortless.
+      </p>
+
+      <!-- One primary CTA in the fold (Emil: one loud affordance) -->
+      <p>
+        <a href={DOCS_URL} target="_blank" rel="noopener noreferrer" class="cta-primary">
+          docs.scalekit.com
+          <span aria-hidden="true" class="font-normal text-muted">→</span>
         </a>
-        <a href="https://linkedin.com/in/saif-shines" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-1.5 text-stone-500 hover:text-black dark:text-stone-400 dark:hover:text-white transition-colors">
-          <svg class="w-4 h-4" viewBox="0 0 24 24" fill="currentColor"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
-          LinkedIn
-        </a>
-        <a href="https://world.hey.com/saif.shines" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-1.5 text-stone-500 hover:text-black dark:text-stone-400 dark:hover:text-white transition-colors">
-          <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
-          HEY World
-        </a>
-        <a href="https://sublime.app/saif_shines" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-1.5 text-stone-500 hover:text-black dark:text-stone-400 dark:hover:text-white transition-colors">
-          <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/><line x1="8" y1="7" x2="16" y2="7"/><line x1="8" y1="11" x2="14" y2="11"/></svg>
-          Sublime
-        </a>
-        <a href="/resume" class="inline-flex items-center gap-1.5 text-stone-500 hover:text-black dark:text-stone-400 dark:hover:text-white transition-colors">
-          <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>
-          Resume
-        </a>
+      </p>
+
+      <!-- freeCodeCamp once: chip only (not also in bio + nav) -->
+      <a
+        href={ROLE_WRITING_URL}
+        target="_blank"
+        rel="noopener noreferrer"
+        class="pressable inline-flex items-center gap-2 text-sm text-muted hover-ink"
+      >
+        <FreeCodeCampIcon class="size-4 shrink-0 text-ink" />
+        <span>
+          {ROLE_WRITING} · {ROLE_WRITING_ORG}.org
+          <span class="text-muted"> · free time · newly joined</span>
+        </span>
+      </a>
+
+      <!-- Primary socials only (Emil: short high-frequency chrome) -->
+      <nav class="flex flex-wrap items-center gap-x-4 gap-y-2 text-sm" aria-label="Social links">
+        <a href="https://github.com/Saif-Shines" target="_blank" rel="noopener noreferrer" class="pressable text-muted hover-ink">GitHub</a>
+        <span class="text-rule" aria-hidden="true">·</span>
+        <a href="https://linkedin.com/in/saif-shines" target="_blank" rel="noopener noreferrer" class="pressable text-muted hover-ink">LinkedIn</a>
+        <span class="text-rule" aria-hidden="true">·</span>
+        <a href="https://world.hey.com/saif.shines" target="_blank" rel="noopener noreferrer" class="pressable text-muted hover-ink">HEY World</a>
+        <span class="text-rule" aria-hidden="true">·</span>
+        <a href="/resume" class="pressable text-muted hover-ink">Resume</a>
       </nav>
     </section>
 
-    <!-- ═══ Highlights ═══ -->
-    <section class="animate pb-12">
-      <div class="grid grid-cols-2 gap-4">
-        <div class="space-y-0.5">
-          <div class="text-2xl font-semibold text-black dark:text-white">I own docs</div>
-          <div class="text-xs text-stone-500 dark:text-stone-400 leading-snug">end-to-end at Scalekit: architecture, content, analytics & onboarding flows</div>
+    <!-- Claims: lead + three -->
+    <section class="pb-12" aria-label="Focus areas">
+      <div class="grid gap-8 sm:grid-cols-12">
+        <div class="sm:col-span-5 space-y-1">
+          <p class="font-display text-2xl font-semibold tracking-tight text-ink">
+            {claims[0].lead}
+          </p>
+          <p class="text-sm leading-snug text-muted">
+            {claims[0].body}
+          </p>
         </div>
-        <div class="space-y-0.5">
-          <div class="text-2xl font-semibold text-black dark:text-white">I teach agents</div>
-          <div class="text-xs text-stone-500 dark:text-stone-400 leading-snug">35+ skills that let AI coding tools integrate enterprise auth</div>
-        </div>
-        <div class="space-y-0.5">
-          <div class="text-2xl font-semibold text-black dark:text-white">I grow ecosystems</div>
-          <div class="text-xs text-stone-500 dark:text-stone-400 leading-snug">by getting Scalekit listed in other platforms' official docs & integrations</div>
-        </div>
-        <div class="space-y-0.5">
-          <div class="text-2xl font-semibold text-black dark:text-white">I remove friction</div>
-          <div class="text-xs text-stone-500 dark:text-stone-400 leading-snug">with CLIs and frameworks that take developers from zero to production</div>
-        </div>
+        <ul class="sm:col-span-7 space-y-5 border-t border-rule pt-5 sm:border-l sm:border-t-0 sm:pl-8 sm:pt-0">
+          {claims.slice(1).map((c) => (
+            <li class="space-y-0.5">
+              <p class="font-display text-lg font-semibold text-ink">{c.lead}</p>
+              <p class="text-sm leading-snug text-muted">{c.body}</p>
+            </li>
+          ))}
+        </ul>
       </div>
     </section>
 
-    <hr class="animate border-stone-200 dark:border-stone-800" />
+    <hr class="page-rule" aria-hidden="true" />
 
-    <!-- ═══ Work — tagged list ═══ -->
-    <section class="animate space-y-4 py-10">
-      <div class="flex items-center justify-between">
-        <h2 class="font-semibold text-black dark:text-white">Work</h2>
-        <Link href="/work">See all</Link>
+    <!-- Work -->
+    <section class="space-y-4 py-10">
+      <div class="flex items-baseline justify-between gap-4">
+        <h2 class="font-display text-lg font-semibold text-ink">Work</h2>
+        <Link href="/work" class="text-sm">See all</Link>
       </div>
-      <ul class="not-prose divide-y divide-stone-100 dark:divide-stone-800">
+      <ul class="not-prose divide-y divide-rule">
         {work.map((item) => (
           <li>
             <a
               href={item.data.url ?? "/work"}
               target={item.data.url ? "_blank" : undefined}
               rel={item.data.url ? "noopener noreferrer" : undefined}
-              class="group flex items-start gap-3 py-3 transition-colors"
+              class="list-row group flex items-start gap-3 py-3"
             >
-              <span class={`mt-0.5 shrink-0 rounded px-1.5 py-0.5 text-[10px] font-medium uppercase tracking-wider w-20 text-center ${typeColors[item.data.type] ?? "bg-stone-100 text-stone-600 dark:bg-stone-800 dark:text-stone-300"}`}>
+              <span class="type-chip mt-0.5 shrink-0">
                 {item.data.type}
               </span>
               <div class="min-w-0 flex-1">
-                <div class="font-medium text-black dark:text-white group-hover:underline underline-offset-2 truncate">
+                <div class="list-row-title truncate font-medium text-ink">
                   {item.data.title}
                 </div>
-                <div class="text-xs text-stone-500 dark:text-stone-400 mt-0.5 line-clamp-1">
+                <div class="mt-0.5 line-clamp-1 text-xs text-muted">
                   {item.data.description}
                 </div>
               </div>
-              <span class="shrink-0 text-xs text-stone-400 dark:text-stone-500 tabular-nums mt-0.5">
+              <span class="mt-0.5 shrink-0 text-xs tabular-nums text-muted">
                 {formatDate(item.data.date)}
               </span>
             </a>
@@ -131,22 +161,25 @@ const typeColors: Record<string, string> = {
       </ul>
     </section>
 
-    <hr class="animate border-stone-200 dark:border-stone-800" />
+    <hr class="page-rule" aria-hidden="true" />
 
-    <!-- ═══ Thoughts — compact list ═══ -->
-    <section class="animate space-y-4 py-10">
-      <div class="flex items-center justify-between">
-        <h2 class="font-semibold text-black dark:text-white">Thoughts</h2>
-        <Link href="/thoughts">See all</Link>
+    <!-- Thoughts -->
+    <section class="space-y-3 py-10">
+      <div class="flex items-baseline justify-between gap-4">
+        <h2 class="font-display text-lg font-semibold text-ink">Thoughts</h2>
+        <Link href="/thoughts" class="text-sm">See all</Link>
       </div>
-      <ul class="not-prose space-y-1">
+      <ul class="not-prose">
         {thoughts.map((thought) => (
           <li>
-            <a href={`/thoughts/${thought.id}`} class="group flex items-baseline justify-between gap-4 py-2">
-              <span class="text-sm text-black dark:text-white group-hover:underline underline-offset-2 truncate">
+            <a
+              href={`/thoughts/${thought.id}`}
+              class="list-row group flex items-baseline justify-between gap-4 py-2"
+            >
+              <span class="list-row-title truncate text-sm text-ink">
                 {thought.data.title}
               </span>
-              <span class="shrink-0 text-xs text-stone-400 dark:text-stone-500 tabular-nums">
+              <span class="shrink-0 text-xs tabular-nums text-muted">
                 {formatDate(thought.data.date)}
               </span>
             </a>
@@ -155,44 +188,43 @@ const typeColors: Record<string, string> = {
       </ul>
     </section>
 
-    <hr class="animate border-stone-200 dark:border-stone-800" />
+    <hr class="page-rule" aria-hidden="true" />
 
-    <!-- ═══ Projects — 2-column grid ═══ -->
-    <section class="animate space-y-4 py-10">
-      <div class="flex items-center justify-between">
-        <h2 class="font-semibold text-black dark:text-white">Projects</h2>
-        <Link href="/projects">See all</Link>
+    <!-- Projects -->
+    <section class="space-y-4 py-10 pb-4">
+      <div class="flex items-baseline justify-between gap-4">
+        <h2 class="font-display text-lg font-semibold text-ink">Projects</h2>
+        <Link href="/projects" class="text-sm">See all</Link>
       </div>
-      <div class="not-prose grid gap-3 sm:grid-cols-2">
+      <ul class="not-prose divide-y divide-rule">
         {projects.map((project) => (
-          <a
-            href={project.data.url}
-            target="_blank"
-            rel="noopener noreferrer"
-            class="group rounded-lg border border-stone-200 dark:border-stone-800 p-4 transition-colors hover:bg-stone-50 dark:hover:bg-stone-800/50"
-          >
-            <div class="flex items-center gap-2">
-              <span class="font-medium text-black dark:text-white group-hover:underline underline-offset-2 truncate">
-                {project.data.name}
-              </span>
-              {project.data.language && (
-                <span class="text-[10px] font-medium text-stone-400 dark:text-stone-500 uppercase tracking-wider shrink-0">
-                  {project.data.language}
+          <li>
+            <a
+              href={project.data.url}
+              target="_blank"
+              rel="noopener noreferrer"
+              class="list-row group flex flex-col gap-1 py-3 sm:flex-row sm:items-baseline sm:justify-between sm:gap-4"
+            >
+              <div class="min-w-0 flex flex-wrap items-baseline gap-x-2 gap-y-1">
+                <span class="list-row-title font-medium text-ink">
+                  {project.data.name}
                 </span>
-              )}
-              {project.data.status && (
-                <span class="text-[10px] font-medium bg-emerald-100 text-emerald-700 dark:bg-emerald-900/30 dark:text-emerald-300 uppercase tracking-wider shrink-0 px-1.5 py-0.5 rounded">
-                  {project.data.status}
-                </span>
-              )}
-            </div>
-            <p class="mt-1 text-xs text-stone-500 dark:text-stone-400 line-clamp-2">
-              {project.data.description}
-            </p>
-          </a>
+                {project.data.language && (
+                  <span class="text-[10px] font-medium uppercase tracking-wider text-muted">
+                    {project.data.language}
+                  </span>
+                )}
+                {project.data.status && (
+                  <span class="status-chip">{project.data.status}</span>
+                )}
+              </div>
+              <p class="line-clamp-2 text-xs text-muted sm:max-w-xs sm:text-right">
+                {project.data.description}
+              </p>
+            </a>
+          </li>
         ))}
-      </div>
+      </ul>
     </section>
-
   </Container>
 </Base>

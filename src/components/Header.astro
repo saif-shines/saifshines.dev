@@ -1,23 +1,33 @@
 ---
 import Container from "@components/Container.astro";
 import Link from "@components/Link.astro";
-import { SITE, NAV_ITEMS } from "@consts";
+import { SITE, NAV_ITEMS, ROLE, ROLE_FOCUS } from "@consts";
 ---
 
-<header>
+<!-- Hallmark · nav: N9 edge-aligned · design-system: design.md -->
+<header class="pt-8 pb-2">
   <Container>
-    <div class="animate flex flex-wrap items-center justify-between gap-y-2 py-6">
-      <a
-        href="/"
-        class="text-current hover:text-black dark:hover:text-white font-semibold transition-colors duration-300 no-underline"
-      >
-        {SITE.NAME}
-      </a>
-      <nav class="flex items-center gap-4 text-sm">
+    <div class="flex flex-wrap items-end justify-between gap-x-6 gap-y-3">
+      <div class="min-w-0">
+        <a
+          href="/"
+          class="pressable font-display text-xl font-semibold tracking-tight text-ink no-underline hover-ink focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-focus"
+        >
+          {SITE.NAME}
+        </a>
+        <p class="mt-0.5 text-xs font-medium tracking-wide text-ink-2">
+          {ROLE} · Bengaluru
+        </p>
+        <p class="mt-0.5 text-xs text-muted">
+          {ROLE_FOCUS}
+        </p>
+      </div>
+      <nav class="flex flex-wrap items-center gap-x-4 gap-y-1 text-sm" aria-label="Primary">
         {NAV_ITEMS.map((item) => (
           <Link href={item.href}>{item.text}</Link>
         ))}
       </nav>
     </div>
+    <hr class="page-rule--double mt-5" aria-hidden="true" />
   </Container>
 </header>
