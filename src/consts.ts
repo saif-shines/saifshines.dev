@@ -13,11 +13,16 @@ export const ROLE = "Founding Developer Advocate";
 export const ROLE_FOCUS =
   "API design · SDK ergonomics · docs · CLIs · onboarding · context engineering";
 
-/** Free-time writing role (current). */
+/**
+ * Free-time writing role (current).
+ * Recently joined as a freeCodeCamp author — no public author slug yet.
+ * ROLE_WRITING_URL points at the publication until the first article ships
+ * and an author page exists; then swap to that slug.
+ */
 export const ROLE_WRITING = "Author";
 export const ROLE_WRITING_ORG = "freeCodeCamp";
 export const ROLE_WRITING_URL = "https://www.freecodecamp.org/news";
-export const ROLE_WRITING_NOTE = "free-time · current";
+export const ROLE_WRITING_NOTE = "free-time · newly joined";
 export const ROLE_WRITING_LOGO = "/assets/logos/freecodecamp-icon.svg";
 
 export const HOME: Metadata = {
