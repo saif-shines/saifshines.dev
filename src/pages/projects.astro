@@ -16,69 +16,50 @@ const contributions = (await getCollection("contributions")).sort(
 
 <Base title="Projects" description="Open source projects and contributions.">
   <Container>
-    <aside class="animate py-10">
-      <h1 class="font-semibold text-black dark:text-white text-lg">Projects</h1>
-      <p class="text-stone-600 dark:text-stone-400">
+    <aside class="max-w-measure space-y-2 py-10">
+      <h1 class="font-display text-2xl font-semibold tracking-tight text-ink">Projects</h1>
+      <p class="leading-relaxed text-ink-2">
         Things I've built and open source work I contribute to.
       </p>
     </aside>
 
-    <!-- Own projects -->
-    <section class="animate space-y-3 pb-10">
-      <ul class="not-prose flex flex-col gap-3">
+    <section class="space-y-3 pb-10">
+      <ul class="not-prose divide-y divide-rule">
         {projects.map((project) => (
           <li>
             <a
               href={project.data.url}
               target="_blank"
               rel="noopener noreferrer"
-              class="group flex items-center gap-3 rounded-lg border border-black/15 p-4 transition-colors duration-300 ease-in-out hover:bg-black/5 dark:border-white/20 dark:hover:bg-white/5"
+              class="group flex flex-col gap-1 py-3 sm:flex-row sm:items-baseline sm:justify-between sm:gap-4"
             >
-              <div class="flex-1">
-                <div class="flex items-center gap-2">
-                  <span class="font-semibold text-black dark:text-white">{project.data.name}</span>
-                  {project.data.language && (
-                    <span class="text-xs rounded-full bg-black/5 dark:bg-white/10 px-2 py-0.5">
-                      {project.data.language}
-                    </span>
-                  )}
-                  {project.data.status && (
-                    <span class="text-xs rounded-full bg-emerald-100 text-emerald-700 dark:bg-emerald-900/30 dark:text-emerald-300 px-2 py-0.5">
-                      {project.data.status}
-                    </span>
-                  )}
-                </div>
-                <p class="text-sm text-stone-500 dark:text-stone-400 line-clamp-2 mt-1">
-                  {project.data.description}
-                </p>
+              <div class="flex min-w-0 flex-wrap items-baseline gap-x-2 gap-y-1">
+                <span class="font-medium text-ink group-hover:underline group-hover:decoration-accent group-hover:underline-offset-2">
+                  {project.data.name}
+                </span>
+                {project.data.language && (
+                  <span class="text-[10px] font-medium uppercase tracking-wider text-muted">
+                    {project.data.language}
+                  </span>
+                )}
+                {project.data.status && (
+                  <span class="status-chip">{project.data.status}</span>
+                )}
               </div>
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                width="20"
-                height="20"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                stroke-width="2"
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                class="text-stone-400 transition-transform duration-300 ease-in-out group-hover:translate-x-1 dark:text-stone-500 shrink-0"
-              >
-                <line x1="5" y1="12" x2="19" y2="12"></line>
-                <polyline points="12 5 19 12 12 19"></polyline>
-              </svg>
+              <p class="line-clamp-2 text-xs text-muted sm:max-w-xs sm:text-right">
+                {project.data.description}
+              </p>
             </a>
           </li>
         ))}
       </ul>
     </section>
 
-    <hr class="border-stone-200 dark:border-stone-800" />
+    <hr class="page-rule" aria-hidden="true" />
 
-    <!-- Open source contributions -->
-    <section class="animate space-y-4 py-10">
-      <h2 class="font-semibold text-black dark:text-white">Open source contributions</h2>
-      <ul class="not-prose divide-y divide-stone-100 dark:divide-stone-800">
+    <section class="space-y-4 py-10">
+      <h2 class="font-display text-lg font-semibold text-ink">Open source contributions</h2>
+      <ul class="not-prose divide-y divide-rule">
         {contributions.map((c) => (
           <li>
             <a
@@ -88,15 +69,15 @@ const contributions = (await getCollection("contributions")).sort(
               class="group flex items-start gap-3 py-3"
             >
               <div class="min-w-0 flex-1">
-                <div class="font-medium text-black dark:text-white group-hover:underline underline-offset-2">
+                <div class="font-medium text-ink group-hover:underline group-hover:decoration-accent group-hover:underline-offset-2">
                   {c.data.repo}
                 </div>
-                <div class="text-xs text-stone-500 dark:text-stone-400 mt-0.5">
+                <div class="mt-0.5 text-xs text-muted">
                   {c.data.description}
                 </div>
               </div>
               {c.data.prs && (
-                <span class="shrink-0 text-xs text-stone-400 dark:text-stone-500 tabular-nums mt-0.5">
+                <span class="mt-0.5 shrink-0 text-xs tabular-nums text-muted">
                   {c.data.prs} {c.data.prs === 1 ? "PR" : "PRs"}
                 </span>
               )}
@@ -106,11 +87,10 @@ const contributions = (await getCollection("contributions")).sort(
       </ul>
     </section>
 
-    <hr class="border-stone-200 dark:border-stone-800" />
+    <hr class="page-rule" aria-hidden="true" />
 
-    <!-- Ecosystem listings -->
-    <section class="animate space-y-4 py-10">
-      <h2 class="font-semibold text-black dark:text-white">Ecosystem listings</h2>
+    <section class="space-y-4 py-10">
+      <h2 class="font-display text-lg font-semibold text-ink">Ecosystem listings</h2>
       <EcosystemList items={ECOSYSTEM_LISTINGS} />
     </section>
   </Container>

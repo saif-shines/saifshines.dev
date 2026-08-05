@@ -1,9 +1,16 @@
+/* Hallmark · genre: editorial · macrostructure: Letter · theme: newsprint-warm
+ * design-system: design.md · designed-as-app · nav: N9 · footer: Ft6 · enrichment: none
+ * tone: intimate-editorial · anchor hue: warm rust ~35°
+ */
+@import "../../tokens.css";
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
 @layer base {
   html {
+    overflow-x: clip;
     overflow-y: scroll;
     color-scheme: light;
   }
@@ -13,36 +20,93 @@
   }
 
   body {
-    @apply relative min-h-screen bg-white text-stone-950 antialiased dark:bg-neutral-900 dark:text-white;
+    @apply relative min-h-screen antialiased;
+    background-color: var(--color-paper);
+    color: var(--color-ink);
+    font-family: var(--font-body);
+    font-size: var(--text-md);
+    line-height: 1.65;
   }
 
-  /* Animate-in stagger */
-  .animate {
-    @apply opacity-0 translate-y-3;
-    animation: enter 0.6s both;
+  h1,
+  h2,
+  h3,
+  h4,
+  .font-display {
+    font-family: var(--font-display);
+    font-style: normal;
+    color: var(--color-ink);
   }
 
-  .animate.show {
-    animation: enter 0.6s both;
+  ::selection {
+    background: var(--color-accent-soft);
+    color: var(--color-ink);
   }
 
-  @keyframes enter {
-    from {
-      opacity: 0;
-      transform: translateY(12px);
-    }
-    to {
-      opacity: 1;
-      transform: translateY(0);
+  :focus-visible {
+    outline: 2px solid var(--color-focus);
+    outline-offset: 3px;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+      scroll-behavior: auto !important;
     }
   }
 }
 
 @layer components {
-  /* Back to top */
-  #back-to-top {
-    @apply fixed bottom-8 right-8 z-50 opacity-0 transition-opacity pointer-events-none;
+  .page-rule {
+    border: 0;
+    border-top: var(--rule-hair) solid var(--color-rule);
+    margin: 0;
   }
+
+  .page-rule--double {
+    border: 0;
+    border-top: var(--rule-hair) solid var(--color-rule);
+    border-bottom: var(--rule-hair) solid var(--color-rule);
+    height: 4px;
+    background: transparent;
+  }
+
+  .type-chip {
+    display: inline-block;
+    font-family: var(--font-body);
+    font-size: 0.625rem;
+    font-weight: 600;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    padding: 0.15rem 0.4rem;
+    border-radius: var(--radius-sm);
+    background: var(--color-chip);
+    color: var(--color-chip-ink);
+    width: 5rem;
+    text-align: center;
+  }
+
+  .status-chip {
+    display: inline-block;
+    font-size: 0.625rem;
+    font-weight: 600;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    padding: 0.15rem 0.45rem;
+    border-radius: var(--radius-sm);
+    background: var(--color-accent-soft);
+    color: var(--color-accent);
+  }
+
+  #back-to-top {
+    @apply fixed bottom-8 right-8 z-50 opacity-0 pointer-events-none;
+    transition: opacity var(--dur-mid) var(--ease-out);
+  }
+
   html.scrolled #back-to-top {
     @apply opacity-100 pointer-events-auto;
   }
@@ -50,6 +114,14 @@
 
 @layer utilities {
   article a {
-    @apply underline underline-offset-[3px] decoration-black/30 dark:decoration-white/30 hover:decoration-black/50 dark:hover:decoration-white/50 transition-colors;
+    color: inherit;
+    text-decoration: underline;
+    text-underline-offset: 3px;
+    text-decoration-color: color-mix(in oklch, var(--color-ink) 30%, transparent);
+    transition: text-decoration-color var(--dur-short) var(--ease-out);
+  }
+
+  article a:hover {
+    text-decoration-color: var(--color-accent);
   }
 }

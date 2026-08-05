@@ -11,14 +11,19 @@ const thoughts = (await getCollection("thoughts")).sort(
 
 <Base title="Thoughts" description="Reflections on tech, career, and life. Synced from HEY World.">
   <Container>
-    <aside class="animate py-10">
-      <h1 class="font-semibold text-black dark:text-white text-lg">Thoughts</h1>
-      <p class="text-stone-600 dark:text-stone-400">
+    <aside class="max-w-measure space-y-2 py-10">
+      <h1 class="font-display text-2xl font-semibold tracking-tight text-ink">Thoughts</h1>
+      <p class="leading-relaxed text-ink-2">
         Reflections on tech, career, and life. Synced from
-        <a href="https://world.hey.com/saif.shines" class="underline underline-offset-2" target="_blank" rel="noopener noreferrer">HEY World</a>.
+        <a
+          href="https://world.hey.com/saif.shines"
+          class="text-ink underline decoration-rule underline-offset-2 transition-[text-decoration-color] duration-short ease-hall hover:decoration-accent"
+          target="_blank"
+          rel="noopener noreferrer"
+        >HEY World</a>.
       </p>
     </aside>
-    <ul class="animate not-prose flex flex-col gap-3">
+    <ul class="not-prose border-t border-rule">
       {thoughts.map((thought) => (
         <li>
           <ArrowCard
