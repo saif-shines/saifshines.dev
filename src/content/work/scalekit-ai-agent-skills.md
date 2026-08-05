@@ -1,7 +1,7 @@
 ---
-title: "35 Skills for AI Coding Agents at Scalekit"
+title: "Skills for AI coding agents and shared engineering practice"
 type: community
 date: 2025-05-01
 url: https://github.com/Saif-Shines/skills
-description: Published 35 skills that teach AI coding agents (Claude Code, Cursor, Copilot, Windsurf) to integrate Scalekit auth. Covers agent auth, SSO, SCIM, and MCP OAuth 2.1.
+description: "Public Scalekit skills for Claude Code, Cursor, and Copilot covering enterprise auth, SSO, SCIM, and MCP OAuth. Paired with an internal skillkit marketplace (Claude plugin format) so shared engineers run the same DX patterns and docs/product-signal harness workflows."
 ---

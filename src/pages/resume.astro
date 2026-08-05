@@ -1,17 +1,48 @@
 ---
 import Base from "@layouts/Base.astro";
 import Container from "@components/Container.astro";
+import {
+  ROLE,
+  ROLE_FOCUS,
+  ROLE_WRITING,
+  ROLE_WRITING_ORG,
+  ROLE_WRITING_URL,
+  ROLE_WRITING_NOTE,
+  ROLE_WRITING_LOGO,
+} from "@consts";
 ---
 
-<Base title="Resume" description="Saif Ali Shaik, Founding Developer Advocate">
+<Base title="Resume" description={`Saif Ali Shaik, ${ROLE}`}>
   <Container>
     <div class="py-10 space-y-10">
 
       <!-- Header -->
       <header class="space-y-2">
         <h1 class="font-display text-2xl font-semibold tracking-tight text-ink">Saif Ali Shaik</h1>
+        <p class="text-sm font-medium text-ink-2">{ROLE}</p>
+        <p class="text-sm text-muted">{ROLE_FOCUS}</p>
+        <p class="flex flex-wrap items-center gap-2 text-sm text-ink-2">
+          <img
+            src={ROLE_WRITING_LOGO}
+            alt=""
+            width="18"
+            height="18"
+            class="size-[18px] shrink-0 dark:invert"
+          />
+          <span>
+            <span class="font-medium text-ink">{ROLE_WRITING}</span>
+            {" "}for{" "}
+            <a
+              href={ROLE_WRITING_URL}
+              target="_blank"
+              rel="noopener noreferrer"
+              class="font-medium text-ink underline decoration-rule underline-offset-2 hover:decoration-accent"
+            >{ROLE_WRITING_ORG}.org</a>
+            <span class="text-muted"> · {ROLE_WRITING_NOTE}</span>
+          </span>
+        </p>
         <p class="text-ink-2 leading-relaxed max-w-lg">
-          Two time founding developer advocate and developer tools builder with 7+ years of experience
+          Two-time founding developer advocate and developer tools builder with 7+ years of experience
           shipping CLIs, plugins, API workflows, documentation systems, and automation for developers.
         </p>
         <div class="flex flex-wrap gap-x-4 gap-y-1 text-sm text-muted">
@@ -32,13 +63,47 @@ import Container from "@components/Container.astro";
           </div>
           <div class="text-sm text-muted">Scalekit · Bengaluru</div>
           <ul class="list-disc pl-5 text-sm text-ink-2 space-y-1.5 mt-2">
-            <li><strong class="text-ink">Primary owner of <a href="https://docs.scalekit.com" target="_blank" rel="noopener noreferrer" class="underline underline-offset-2 decoration-rule">docs.scalekit.com</a></strong> end-to-end, covering auth, infrastructure, content, and deployment cycles. Built on <strong class="text-ink">Astro Starlight + Netlify</strong>.</li>
-            <li>Stay in sync with product managers to ensure docs reflect the most up-to-date features. <strong class="text-ink">Observe, measure, and act through PostHog analytics.</strong></li>
+            <li><strong class="text-ink">Primary owner of <a href="https://docs.scalekit.com" target="_blank" rel="noopener noreferrer" class="underline underline-offset-2 decoration-rule">docs.scalekit.com</a></strong> end-to-end (Astro Starlight + Netlify), including continuous polish on <strong class="text-ink">quickstarts, UX copy, and onboarding journeys</strong>.</li>
+            <li><strong class="text-ink">Context engineering for a DX flywheel:</strong> Claude routines mine customer support (docs-signal) and product repos (product-signal), then open developer-docs issues and PRs—e.g. <a href="https://github.com/scalekit-inc/developer-docs/pull/755" target="_blank" rel="noopener noreferrer" class="underline underline-offset-2 decoration-rule">support-driven PR #755</a> and <a href="https://github.com/scalekit-inc/developer-docs/pull/902" target="_blank" rel="noopener noreferrer" class="underline underline-offset-2 decoration-rule">product-signal PR #902</a>.</li>
+            <li>Maintain an <strong class="text-ink">internal skillkit marketplace</strong> for shared engineers (Claude plugin format + DX harness), alongside public agent skills for Claude Code, Cursor, and Copilot (<a href="https://github.com/Saif-Shines/skills" target="_blank" rel="noopener noreferrer" class="underline underline-offset-2 decoration-rule">github.com/Saif-Shines/skills</a>).</li>
+            <li>Stay in sync with product managers so docs track shipping features. <strong class="text-ink">Observe, measure, and act through PostHog analytics.</strong></li>
             <li>Act as a <strong class="text-ink">consultant to engineering</strong> on taxonomy, terminology, and API interfaces including request/response structure design.</li>
-            <li>Consultant to marketing, bridging semi-technical activities such as <strong class="text-ink">building pages, devising illustrations</strong>, listing Scalekit on repositories, and authoring content for inbound and bottom-up efforts.</li>
-            <li>Build and maintain developer tools: <strong class="text-ink">CLI tools and AI agent plugins</strong> (Scalekit marketplace plugin for Claude Code, GitHub Copilot, and Cursor).</li>
-            <li>Authored the <strong class="text-ink"><a href="https://github.com/scalekit-inc/cli" target="_blank" rel="noopener noreferrer" class="underline underline-offset-2 decoration-rule">Scalekit CLI</a></strong> and tools for the <strong class="text-ink">Scalekit MCP Server</strong>, focusing on developer journey rather than simply wrapping the OpenAPI spec.</li>
-            <li>Build ecosystem presence with 3rd-party integrations and listings, e.g. <strong class="text-ink">LiteLLM</strong> (request routing + Scalekit as tool calling/auth layer), <strong class="text-ink">xmcp</strong> (first-class MCP Auth for MCP server builders), <strong class="text-ink">FastMCP</strong>, and Astro guides. <a href="/projects" class="underline underline-offset-2 decoration-rule">See full list</a>.</li>
+            <li>Build and maintain developer tools: <strong class="text-ink"><a href="https://github.com/scalekit-inc/cli" target="_blank" rel="noopener noreferrer" class="underline underline-offset-2 decoration-rule">Scalekit CLI</a></strong>, MCP server tooling, and AI agent plugins—focused on the developer journey, not only OpenAPI wrappers.</li>
+            <li>Build ecosystem presence with 3rd-party integrations and listings across <strong class="text-ink">Astro</strong>, <strong class="text-ink">xmcp</strong>, <strong class="text-ink">LiteLLM</strong>, <strong class="text-ink">FastMCP</strong>, <strong class="text-ink">FastRouter</strong>, <strong class="text-ink">Apify</strong>, <strong class="text-ink">Chargebee</strong>, Cursor Directory, and voice agents (LiveKit, Vapi). <a href="/projects" class="underline underline-offset-2 decoration-rule">See full list</a>.</li>
+          </ul>
+        </div>
+
+        <!-- Free-time writing role (current, parallel to full-time work) -->
+        <div class="space-y-2">
+          <div class="flex flex-wrap items-baseline justify-between gap-x-4">
+            <h3 class="flex items-center gap-2 font-semibold text-ink">
+              <img
+                src={ROLE_WRITING_LOGO}
+                alt=""
+                width="20"
+                height="20"
+                class="size-5 shrink-0 dark:invert"
+              />
+              {ROLE_WRITING}
+            </h3>
+            <span class="text-sm text-muted">Present · free time</span>
+          </div>
+          <div class="text-sm text-muted">
+            <a
+              href={ROLE_WRITING_URL}
+              target="_blank"
+              rel="noopener noreferrer"
+              class="underline decoration-rule underline-offset-2 hover:decoration-accent"
+            >{ROLE_WRITING_ORG}.org</a>
+            · volunteer publication writing
+          </div>
+          <ul class="list-disc pl-5 text-sm text-ink-2 space-y-1.5 mt-2">
+            <li>
+              Current <strong class="text-ink">author for freeCodeCamp.org</strong>, writing technical tutorials and developer education content in free time—separate from full-time DevRel work.
+            </li>
+            <li>
+              Contribute long-form pieces for learners on the freeCodeCamp publication, alongside other public writing (e.g. JavaScript in Plain English).
+            </li>
           </ul>
         </div>
 

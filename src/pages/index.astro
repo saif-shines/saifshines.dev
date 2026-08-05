@@ -3,7 +3,15 @@ import Base from "@layouts/Base.astro";
 import Container from "@components/Container.astro";
 import Link from "@components/Link.astro";
 import { getCollection } from "astro:content";
-import { HOME } from "@consts";
+import {
+  HOME,
+  ROLE,
+  ROLE_FOCUS,
+  ROLE_WRITING,
+  ROLE_WRITING_ORG,
+  ROLE_WRITING_URL,
+  ROLE_WRITING_LOGO,
+} from "@consts";
 import { formatDate } from "@lib/utils";
 
 const thoughts = (await getCollection("thoughts"))
@@ -20,12 +28,12 @@ const work = (await getCollection("work"))
 
 const claims = [
   {
-    lead: "I own docs",
-    body: "end-to-end at Scalekit: architecture, content, analytics and onboarding flows",
+    lead: "I put DX on fly mode",
+    body: "context engineering so repos and support signal become docs issues, shared eng skills, and continuous polish on quickstarts, UX copy, and onboarding",
   },
   {
     lead: "I teach agents",
-    body: "35+ skills that let AI coding tools integrate enterprise auth",
+    body: "external skills for AI coding tools plus an internal skills repo shared across engineering",
   },
   {
     lead: "I grow ecosystems",
@@ -33,7 +41,7 @@ const claims = [
   },
   {
     lead: "I remove friction",
-    body: "with CLIs and frameworks that take developers from zero to production",
+    body: "with CLIs, docs architecture, and journeys that take developers from zero to production",
   },
 ];
 ---
@@ -42,17 +50,20 @@ const claims = [
   <Container>
     <!-- Letter open -->
     <section class="max-w-measure space-y-6 pb-10 pt-12">
-      <p class="text-sm text-muted tabular-nums">
-        Bengaluru · {new Date().getFullYear()}
+      <p class="text-sm text-muted">
+        {ROLE} · Bengaluru · {new Date().getFullYear()}
       </p>
       <h1 class="font-display text-[length:var(--text-display)] font-semibold leading-[1.15] tracking-tight text-ink">
         Hello, I'm Saif Ali Shaik.
       </h1>
+      <p class="text-sm text-ink-2">
+        {ROLE_FOCUS}
+      </p>
       <p class="leading-relaxed text-ink-2">
-        I care about the end-to-end developer experience, from API design and
-        SDK ergonomics to docs architecture and onboarding flows. I ship CLIs,
-        write friction logs, propose product changes, and build the tooling that
-        makes adoption feel effortless. Currently at
+        I care about the end-to-end developer experience: the systems, docs, and
+        tooling that make adoption feel effortless. I engineer context so DX
+        runs as a flywheel, ship CLIs, write friction logs, and polish the
+        journeys developers actually take. Currently at
         <a
           href="https://scalekit.com"
           target="_blank"
@@ -60,6 +71,32 @@ const claims = [
           class="text-ink underline decoration-rule underline-offset-2 transition-[text-decoration-color] duration-short ease-hall hover:decoration-accent"
         >Scalekit</a>,
         previously at Freshworks. Both as the founding DevRel hire.
+        In free time I write as an{" "}
+        <a
+          href={ROLE_WRITING_URL}
+          target="_blank"
+          rel="noopener noreferrer"
+          class="text-ink underline decoration-rule underline-offset-2 transition-[text-decoration-color] duration-short ease-hall hover:decoration-accent"
+        >{ROLE_WRITING.toLowerCase()} for {ROLE_WRITING_ORG}</a>.
+      </p>
+      <p class="flex flex-wrap items-center gap-2 text-sm text-muted">
+        <img
+          src={ROLE_WRITING_LOGO}
+          alt=""
+          width="16"
+          height="16"
+          class="size-4 shrink-0 dark:invert"
+        />
+        <span>
+          {ROLE_WRITING} ·{" "}
+          <a
+            href={ROLE_WRITING_URL}
+            target="_blank"
+            rel="noopener noreferrer"
+            class="text-ink-2 underline decoration-rule underline-offset-2 hover:decoration-accent"
+          >{ROLE_WRITING_ORG}.org</a>
+          {" "}· free time · current
+        </span>
       </p>
       <nav class="flex flex-wrap items-center gap-x-4 gap-y-2 text-sm" aria-label="Social links">
         <a href="https://github.com/Saif-Shines" target="_blank" rel="noopener noreferrer" class="text-muted transition-colors duration-short ease-hall hover:text-ink">GitHub</a>
@@ -69,6 +106,8 @@ const claims = [
         <a href="https://world.hey.com/saif.shines" target="_blank" rel="noopener noreferrer" class="text-muted transition-colors duration-short ease-hall hover:text-ink">HEY World</a>
         <span class="text-rule" aria-hidden="true">·</span>
         <a href="https://sublime.app/saif_shines" target="_blank" rel="noopener noreferrer" class="text-muted transition-colors duration-short ease-hall hover:text-ink">Sublime</a>
+        <span class="text-rule" aria-hidden="true">·</span>
+        <a href={ROLE_WRITING_URL} target="_blank" rel="noopener noreferrer" class="text-muted transition-colors duration-short ease-hall hover:text-ink">freeCodeCamp</a>
         <span class="text-rule" aria-hidden="true">·</span>
         <a href="/resume" class="text-muted transition-colors duration-short ease-hall hover:text-ink">Resume</a>
       </nav>

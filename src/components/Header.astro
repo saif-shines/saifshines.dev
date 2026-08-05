@@ -1,7 +1,7 @@
 ---
 import Container from "@components/Container.astro";
 import Link from "@components/Link.astro";
-import { SITE, NAV_ITEMS } from "@consts";
+import { SITE, NAV_ITEMS, ROLE, ROLE_FOCUS } from "@consts";
 ---
 
 <!-- Hallmark · nav: N9 edge-aligned · design-system: design.md -->
@@ -15,8 +15,11 @@ import { SITE, NAV_ITEMS } from "@consts";
         >
           {SITE.NAME}
         </a>
-        <p class="mt-0.5 text-xs text-muted tracking-wide">
-          Founding Developer Advocate · Bengaluru
+        <p class="mt-0.5 text-xs font-medium tracking-wide text-ink-2">
+          {ROLE} · Bengaluru
+        </p>
+        <p class="mt-0.5 text-xs text-muted">
+          {ROLE_FOCUS}
         </p>
       </div>
       <nav class="flex flex-wrap items-center gap-x-4 gap-y-1 text-sm" aria-label="Primary">

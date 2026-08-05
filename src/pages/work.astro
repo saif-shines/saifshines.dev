@@ -11,7 +11,7 @@ const allWork = (await getCollection("work")).sort(
 
 interface ProofItem {
   text: string;
-  url: string;
+  url?: string;
 }
 
 interface ProofCategory {
@@ -21,15 +21,62 @@ interface ProofCategory {
 
 const proofOfWork: ProofCategory[] = [
   {
+    title: "I put DX on fly mode with context engineering",
+    items: [
+      {
+        // SK-718 — support review → shipped docs PR
+        text: "Support signal → docs PR: outbound IPs, user-verification troubleshooting, FastMCP credential locations",
+        url: "https://github.com/scalekit-inc/developer-docs/pull/755",
+      },
+      {
+        text: "Live docs: outbound IP allowlist for AgentKit proxy / tool calls",
+        url: "https://docs.scalekit.com/agentkit/advanced/proxy-api-calls/",
+      },
+      {
+        text: "Live docs: user verification troubleshooting on the identity flow page",
+        url: "https://docs.scalekit.com/agentkit/user-verification/",
+      },
+      {
+        text: "Quickstart polish: Environment URL and Resource ID discoverability in the FastMCP guide",
+        url: "https://docs.scalekit.com/authenticate/mcp/fastmcp-quickstart/",
+      },
+      {
+        // SK-1334 / product-signal roundups — public surface drift → docs
+        text: "Product-signal: watch repos for public-surface drift and land docs PRs (e.g. OpenAPI NO_AUTH enum sync)",
+        url: "https://github.com/scalekit-inc/developer-docs/pull/902",
+      },
+      {
+        // SK-718 follow-ups — public issues as backlog
+        text: "Raise public developer-docs issues from support and SDK gaps so the backlog is trackable",
+        url: "https://github.com/scalekit-inc/developer-docs/issues/752",
+      },
+      {
+        text: "External agent skills that teach coding tools to integrate enterprise auth",
+        url: "https://github.com/Saif-Shines/skills",
+      },
+      {
+        // SK-494 / skillkit — private marketplace; no public repo URL
+        text: "Internal skills marketplace (skillkit) so shared engineers reuse Claude skills and DX harness workflows",
+      },
+    ],
+  },
+  {
     title: "I expand ecosystem reach by finding complementary products and integrating them together",
     items: ECOSYSTEM_LISTINGS.map((l) => ({ text: l.title, url: l.url })),
   },
   {
     title: "I write content & code that brings clarity for developers to find success",
     items: [
+      {
+        text: "Author for freeCodeCamp.org — technical tutorials and developer education, written in free time",
+        url: "https://www.freecodecamp.org/news",
+      },
+      {
+        text: "Published in JavaScript in Plain English: add enterprise SSO to Next.js in minutes with Claude Code and Scalekit",
+        url: "https://medium.com/javascript-in-plain-english/add-enterprise-sso-to-your-next-js-app-in-minutes-using-claude-code-scalekit-f7d2e01c1189",
+      },
       { text: "Get started in building apps on the Freshworks developer platform", url: "https://community.freshworks.dev/t/introductory-guide-to-freshworks-app-development/3589" },
       { text: "Discover the process of building GitHub integrations by following a tutorial", url: "https://drive.google.com/file/d/1N-78EFqTjAOslbap0JNVGO2XOxt6UVJV/view" },
-
       { text: "Organise and maintain code samples to be most helpful and discoverable", url: "https://community.freshworks.dev/t/freshworks-sample-apps/3604" },
       { text: "Designed and implemented certification programs", url: "https://medium.com/freshworks-developer-blog/get-certified-freshworks-developer-certification-program-ebda6a65d485" },
     ],
@@ -103,21 +150,28 @@ const proofOfWork: ProofCategory[] = [
           <ul class="not-prose list-none space-y-1.5">
             {category.items.map((item) => (
               <li>
-                <a
-                  href={item.url}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  class="group inline-flex items-baseline gap-1.5 text-sm text-ink-2 hover:text-ink transition-colors"
-                >
-                  <svg class="h-3 w-3 shrink-0 translate-y-px text-rule transition-colors group-hover:text-muted" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-                    <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/>
-                    <polyline points="15 3 21 3 21 9"/>
-                    <line x1="10" y1="14" x2="21" y2="3"/>
-                  </svg>
-                  <span class="underline underline-offset-2 decoration-rule group-hover:decoration-accent transition-colors line-clamp-1">
-                    {item.text}
+                {item.url ? (
+                  <a
+                    href={item.url}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    class="group inline-flex items-baseline gap-1.5 text-sm text-ink-2 transition-colors hover:text-ink"
+                  >
+                    <svg class="h-3 w-3 shrink-0 translate-y-px text-rule transition-colors group-hover:text-muted" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                      <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/>
+                      <polyline points="15 3 21 3 21 9"/>
+                      <line x1="10" y1="14" x2="21" y2="3"/>
+                    </svg>
+                    <span class="line-clamp-2 underline underline-offset-2 decoration-rule transition-colors group-hover:decoration-accent">
+                      {item.text}
+                    </span>
+                  </a>
+                ) : (
+                  <span class="inline-flex items-baseline gap-1.5 text-sm text-ink-2">
+                    <span class="mt-1.5 size-1.5 shrink-0 rounded-full bg-rule" aria-hidden="true" />
+                    <span class="line-clamp-2">{item.text}</span>
                   </span>
-                </a>
+                )}
               </li>
             ))}
           </ul>
