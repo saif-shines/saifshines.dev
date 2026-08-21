@@ -10,7 +10,7 @@ editorial
 
 ## Macrostructure family
 
-- **Home (marketing/personal):** Letter , first-person, narrow measure, no fold CTAs
+- **Home (marketing/personal):** Letter opening on a 52ch measure; claims sit beside it from `lg`. Page shell is 64rem so lists use the width.
 - **List / index pages** (thoughts, projects, work): Index-first within the same type/colour system
 - **Long-form** (thought detail, resume): Long Document , prose measure, hairline rules
 
@@ -35,6 +35,7 @@ Dark mode retints paper/ink; accent stays warm.
 - **UI / labels:** Inter, weight 500-600, small size
 - Display tracking: -0.02em on large titles
 - Type scale: display name ~clamp(1.75rem, 4vw, 2.5rem); body 1rem / 1.65; measure ~52ch
+- Page shell: `--page-max: 64rem`. Prose stays on `--measure`. Do not stretch article lines to the shell.
 
 ## Spacing
 
