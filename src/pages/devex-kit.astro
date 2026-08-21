@@ -1,0 +1,114 @@
+---
+import Base from "@layouts/Base.astro";
+import Container from "@components/Container.astro";
+import BackToPrev from "@components/BackToPrev.astro";
+---
+
+<Base
+  title="DevEx Kit"
+  description="Companion guide for saif-shines/devex-kit: install, first use, skills, and what stays out of the kit."
+>
+  <Container>
+    <div class="py-5">
+      <BackToPrev href="/projects">Projects</BackToPrev>
+    </div>
+    <article class="max-w-measure pb-16">
+      <header class="space-y-2 py-2">
+        <h1 class="font-display text-2xl font-semibold tracking-tight text-ink">
+          DevEx Kit
+        </h1>
+        <p class="leading-relaxed text-ink-2">
+          This page is the long guide. The repo README stays short: what you need, how to install, how to start.
+          Source: <a href="https://github.com/saif-shines/devex-kit">github.com/saif-shines/devex-kit</a>.
+        </p>
+      </header>
+
+      <div class="prose prose-neutral dark:prose-invert max-w-none py-6">
+        <h2>What it is</h2>
+        <p>
+          A set of agent skills for documentation, SDKs, CLIs, MCP servers, and developer go-to-market.
+          You install a plugin or one skill, then type a slash command. The agent follows that skill.
+        </p>
+        <p>
+          The kit is generic. Scalekit-only docs work lives in
+          <a href="https://github.com/saif-shines/skillkit">skillkit</a>
+          <code>docs-engineering</code>: agent-connector pages, generated sync, and CODEOWNERS escalation.
+        </p>
+
+        <h2>How to start</h2>
+        <p>
+          Type <code>/ask-devex</code> and state the job. The human starts this skill. The model does not.
+        </p>
+        <pre><code>/ask-devex I need to design first-success DX and then write the getting-started docs</code></pre>
+        <p>The router names the next skill and gives a command you can paste.</p>
+        <p>Three skills are user-started: <code>ask-devex</code>, <code>docs-contribution-router</code>, <code>create-skill</code>. The rest may start from a description match.</p>
+
+        <h2>Install options</h2>
+        <h3>Claude Code</h3>
+        <pre><code>/plugin marketplace add saif-shines/devex-kit
+/plugin install tooling@devex-kit
+/plugin install documentation@devex-kit
+/plugin install dev-gtm@devex-kit</code></pre>
+        <p><code>tooling</code> includes the router. Install that one first if you are unsure.</p>
+
+        <h3>Any agent</h3>
+        <pre><code>npx skills add saif-shines/devex-kit --yes
+npx skills add saif-shines/devex-kit --skill ask-devex --yes
+npx skills add saif-shines/devex-kit --list</code></pre>
+        <p>Do not install a name from <code>in-progress/</code>.</p>
+
+        <h3>Local clone</h3>
+        <pre><code>git clone https://github.com/saif-shines/devex-kit
+/skills load ./plugins/tooling/skills/ask-devex/SKILL.md</code></pre>
+        <p>Every shipped skill path is <code>plugins/&lt;plugin&gt;/skills/&lt;name&gt;/SKILL.md</code>.</p>
+
+        <h3>Tiles</h3>
+        <p>
+          Each skill still has a <code>tile.json</code>. Tessl is not a first-class install path.
+          Do not treat tessl as the default.
+        </p>
+
+        <h2>The three plugins</h2>
+        <ul>
+          <li><strong>documentation</strong>: where a page goes, writing style, cookbooks, sidebar labels</li>
+          <li><strong>tooling</strong>: router, SDKs, CLIs, MCP servers, skills, plugins, code style</li>
+          <li><strong>dev-gtm</strong>: launch stories and first-success DX</li>
+        </ul>
+        <p>
+          The live human table is in the repo:
+          <a href="https://github.com/saif-shines/devex-kit/blob/main/docs/skills.md">docs/skills.md</a>.
+        </p>
+
+        <h2>Example commands</h2>
+        <pre><code>/docs-contribution-router Where does this customer issue go?
+/docs-writing-style review mode. [paste draft]
+/authoring-cookbooks Readers say this cookbook is hard to follow
+/journey-sidebar-labels Reorder this sidebar as an implementation journey
+/sdk-craft Design the public API for our TypeScript SDK
+/devrel-tooling Build a CLI that scaffolds new projects. Node.js, commander
+/mcp-server-craft Design tool schemas for our search API
+/create-skill Turn this release checklist into a skill
+/devrel-story-craft review mode. Here is a draft launch story
+/devrel-dx-craft plan first-success. Choose Sample Application vs Recipe vs Pattern</code></pre>
+
+        <h2>Adapt a docs site</h2>
+        <p>Optional files in the docs repo:</p>
+        <ul>
+          <li><code>.devex-kit/placement-map.json</code> for the contribution router</li>
+          <li><code>.devex-kit/style-prompt-block.md</code> for writing style</li>
+        </ul>
+        <p>The skill uses those files when they exist. Do not put Scalekit connector or escalation maps in this kit.</p>
+
+        <h2>Change the kit</h2>
+        <p>Read <a href="https://github.com/saif-shines/devex-kit/blob/main/CLAUDE.md">CLAUDE.md</a> first. It is the same file as <code>AGENTS.md</code>.</p>
+        <p>Drafts go in <code>in-progress/</code>. A skill is not shipped until the promotion checklist is done.</p>
+        <pre><code>npm test
+npm run check
+npm run changeset
+npm run version
+dora review plugins/&lt;plugin&gt;/skills/&lt;name&gt; --quick</code></pre>
+        <p>If <code>dora</code> is missing, use <code>npx @hacksmith/doraval</code>.</p>
+      </div>
+    </article>
+  </Container>
+</Base>
