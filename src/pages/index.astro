@@ -49,80 +49,72 @@ const claims = [
 
 <Base title={HOME.TITLE} description={HOME.DESCRIPTION}>
   <Container>
-    <!-- Letter open -->
-    <section class="max-w-measure space-y-6 pb-10 pt-12">
-      <p class="text-sm text-muted">
-        {ROLE} · Bengaluru · {new Date().getFullYear()}
-      </p>
-      <h1 class="font-display text-[length:var(--text-display)] font-semibold leading-[1.15] tracking-tight text-ink">
-        Hello, I'm Saif Ali Shaik.
-      </h1>
-      <p class="text-sm text-ink-2">
-        {ROLE_FOCUS}
-      </p>
-      <p class="leading-relaxed text-ink-2">
-        Founding Developer Advocate at
-        <a href="https://scalekit.com" target="_blank" rel="noopener noreferrer" class="link-quiet text-ink">Scalekit</a>
-        (previously Freshworks). I care about end-to-end developer experience: docs and
-        onboarding, CLIs, agent skills, and ecosystem distribution. I ship the systems
-        that make adoption feel effortless.
-      </p>
+    <div class="grid items-start gap-10 pb-12 pt-12 lg:grid-cols-12 lg:gap-16">
+      <!-- Letter open stays on the reading measure -->
+      <section class="max-w-measure space-y-6 lg:col-span-6">
+        <p class="text-sm text-muted">
+          {ROLE} · Bengaluru · {new Date().getFullYear()}
+        </p>
+        <h1 class="font-display text-[length:var(--text-display)] font-semibold leading-[1.15] tracking-tight text-ink">
+          Hello, I'm Saif Ali Shaik.
+        </h1>
+        <p class="text-sm text-ink-2">
+          {ROLE_FOCUS}
+        </p>
+        <p class="leading-relaxed text-ink-2">
+          Founding Developer Advocate at
+          <a href="https://scalekit.com" target="_blank" rel="noopener noreferrer" class="link-quiet text-ink">Scalekit</a>
+          (previously Freshworks). I care about end-to-end developer experience: docs and
+          onboarding, CLIs, agent skills, and ecosystem distribution. I ship the systems
+          that make adoption feel effortless.
+        </p>
 
-      <!-- One primary CTA in the fold (Emil: one loud affordance) -->
-      <p>
-        <a href={DOCS_URL} target="_blank" rel="noopener noreferrer" class="cta-primary">
-          docs.scalekit.com
-          <span aria-hidden="true" class="font-normal text-muted">→</span>
+        <!-- One primary CTA in the fold (Emil: one loud affordance) -->
+        <p>
+          <a href={DOCS_URL} target="_blank" rel="noopener noreferrer" class="cta-primary">
+            docs.scalekit.com
+            <span aria-hidden="true" class="font-normal text-muted">→</span>
+          </a>
+        </p>
+
+        <!-- freeCodeCamp once: chip only (not also in bio + nav) -->
+        <a
+          href={ROLE_WRITING_URL}
+          target="_blank"
+          rel="noopener noreferrer"
+          class="pressable inline-flex items-center gap-2 text-sm text-muted hover-ink"
+        >
+          <FreeCodeCampIcon class="size-4 shrink-0 text-ink" />
+          <span>
+            {ROLE_WRITING} · {ROLE_WRITING_ORG}.org
+            <span class="text-muted"> · free time · newly joined</span>
+          </span>
         </a>
-      </p>
 
-      <!-- freeCodeCamp once: chip only (not also in bio + nav) -->
-      <a
-        href={ROLE_WRITING_URL}
-        target="_blank"
-        rel="noopener noreferrer"
-        class="pressable inline-flex items-center gap-2 text-sm text-muted hover-ink"
-      >
-        <FreeCodeCampIcon class="size-4 shrink-0 text-ink" />
-        <span>
-          {ROLE_WRITING} · {ROLE_WRITING_ORG}.org
-          <span class="text-muted"> · free time · newly joined</span>
-        </span>
-      </a>
+        <!-- Primary socials only (Emil: short high-frequency chrome) -->
+        <nav class="flex flex-wrap items-center gap-x-4 gap-y-2 text-sm" aria-label="Social links">
+          <a href="https://github.com/Saif-Shines" target="_blank" rel="noopener noreferrer" class="pressable text-muted hover-ink">GitHub</a>
+          <span class="text-rule" aria-hidden="true">·</span>
+          <a href="https://linkedin.com/in/saif-shines" target="_blank" rel="noopener noreferrer" class="pressable text-muted hover-ink">LinkedIn</a>
+          <span class="text-rule" aria-hidden="true">·</span>
+          <a href="https://world.hey.com/saif.shines" target="_blank" rel="noopener noreferrer" class="pressable text-muted hover-ink">HEY World</a>
+          <span class="text-rule" aria-hidden="true">·</span>
+          <a href="/resume" class="pressable text-muted hover-ink">Resume</a>
+        </nav>
+      </section>
 
-      <!-- Primary socials only (Emil: short high-frequency chrome) -->
-      <nav class="flex flex-wrap items-center gap-x-4 gap-y-2 text-sm" aria-label="Social links">
-        <a href="https://github.com/Saif-Shines" target="_blank" rel="noopener noreferrer" class="pressable text-muted hover-ink">GitHub</a>
-        <span class="text-rule" aria-hidden="true">·</span>
-        <a href="https://linkedin.com/in/saif-shines" target="_blank" rel="noopener noreferrer" class="pressable text-muted hover-ink">LinkedIn</a>
-        <span class="text-rule" aria-hidden="true">·</span>
-        <a href="https://world.hey.com/saif.shines" target="_blank" rel="noopener noreferrer" class="pressable text-muted hover-ink">HEY World</a>
-        <span class="text-rule" aria-hidden="true">·</span>
-        <a href="/resume" class="pressable text-muted hover-ink">Resume</a>
-      </nav>
-    </section>
-
-    <!-- Claims: lead + three -->
-    <section class="pb-12" aria-label="Focus areas">
-      <div class="grid gap-8 sm:grid-cols-12">
-        <div class="sm:col-span-5 space-y-1">
-          <p class="font-display text-2xl font-semibold tracking-tight text-ink">
-            {claims[0].lead}
-          </p>
-          <p class="text-sm leading-snug text-muted">
-            {claims[0].body}
-          </p>
-        </div>
-        <ul class="sm:col-span-7 space-y-5 border-t border-rule pt-5 sm:border-l sm:border-t-0 sm:pl-8 sm:pt-0">
-          {claims.slice(1).map((c) => (
-            <li class="space-y-0.5">
-              <p class="font-display text-lg font-semibold text-ink">{c.lead}</p>
+      <!-- Claims sit beside the letter on wide screens -->
+      <section class="lg:col-span-6 lg:border-l lg:border-rule lg:pl-12" aria-label="Focus areas">
+        <ul class="space-y-6 border-t border-rule pt-6 lg:border-t-0 lg:pt-0">
+          {claims.map((c) => (
+            <li class="space-y-1">
+              <p class="font-display text-lg font-semibold tracking-tight text-ink">{c.lead}</p>
               <p class="text-sm leading-snug text-muted">{c.body}</p>
             </li>
           ))}
         </ul>
-      </div>
-    </section>
+      </section>
+    </div>
 
     <hr class="page-rule" aria-hidden="true" />
 
