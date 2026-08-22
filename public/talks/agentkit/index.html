@@ -764,6 +764,14 @@
             color: var(--ink-2);
         }
 
+        .speaker a {
+            color: inherit;
+            text-decoration: underline;
+            text-underline-offset: 4px;
+        }
+
+        .speaker a:hover { color: var(--green-deep); }
+
         .brand {
             position: absolute;
             left: 120px;
@@ -787,6 +795,15 @@
             font-weight: 500;
             color: var(--ink);
         }
+
+        .who a {
+            color: inherit;
+            text-decoration: underline;
+            text-underline-offset: 3px;
+        }
+
+        .who a:hover { color: var(--green); }
+        .forest .who a:hover { color: #86efac; }
 
         .forest .speaker { color: #f5f5f7; }
         .forest .speaker small { color: #9ca3af; }
@@ -2077,6 +2094,294 @@
             }
             .build-hint { display: none; }
         }
+
+        /* Phone reading mode. Projector stays 16:9. */
+        html[data-phone],
+        html[data-phone] body {
+            width: 100%;
+            height: auto;
+            overflow: auto;
+            background: var(--slide-bg);
+        }
+
+        html[data-phone] .deck-viewport {
+            position: relative;
+            inset: auto;
+            overflow: visible;
+            min-height: 100dvh;
+            background: var(--slide-bg);
+        }
+
+        html[data-phone] .deck-stage {
+            position: relative;
+            width: 100%;
+            height: auto;
+            min-height: 100dvh;
+            overflow: visible;
+            transform: none !important;
+        }
+
+        html[data-phone] .slide {
+            position: relative;
+            inset: auto;
+            display: none;
+            width: 100%;
+            height: auto;
+            min-height: 100dvh;
+            overflow: visible;
+        }
+
+        html[data-phone] .slide.active,
+        html[data-phone] .slide.visible {
+            display: flex;
+            flex-direction: column;
+        }
+
+        html[data-phone] .pad,
+        html[data-phone] .pad.center {
+            position: relative;
+            left: auto;
+            right: auto;
+            top: auto;
+            bottom: auto;
+            padding: 24px 20px 24px;
+            flex: 1;
+        }
+
+        html[data-phone] .pad.fill {
+            min-height: auto;
+            flex: 1;
+        }
+
+        html[data-phone] .punch { white-space: normal !important; }
+
+        html[data-phone] .center {
+            justify-content: flex-start;
+            padding-top: 48px;
+        }
+
+        html[data-phone] .brand {
+            position: relative;
+            left: auto;
+            top: auto;
+            height: 22px;
+            width: auto;
+            margin: 20px 20px 0;
+            align-self: flex-start;
+        }
+
+        html[data-phone] .who,
+        html[data-phone] .page {
+            position: static;
+            display: block;
+            margin: 0 20px 16px;
+            font-size: 13px;
+        }
+
+        html[data-phone] .page {
+            text-align: right;
+            margin-top: auto;
+        }
+
+        html[data-phone] .kicker { font-size: 12px; }
+        html[data-phone] .pill { font-size: 13px; padding: 8px 12px; }
+        html[data-phone] .display { font-size: 34px; }
+        html[data-phone] .display-lg { font-size: 36px; }
+        html[data-phone] h1,
+        html[data-phone] h2 { font-size: 28px !important; }
+        html[data-phone] .sub { font-size: 17px; margin-top: 12px; }
+        html[data-phone] .speaker { font-size: 18px; margin-top: 28px; }
+        html[data-phone] .speaker small { font-size: 13px; }
+        html[data-phone] .caption { font-size: 14px; }
+        html[data-phone] a.cta { font-size: 20px; padding: 14px 22px; margin-top: 24px; }
+
+        html[data-phone] .frame-grid,
+        html[data-phone] .split,
+        html[data-phone] .stack-grid,
+        html[data-phone] .use-grid,
+        html[data-phone] .steps,
+        html[data-phone] .cost-grid,
+        html[data-phone] .scope-row {
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+            margin-top: 20px;
+        }
+
+        html[data-phone] .cost-or {
+            flex-direction: row;
+            min-height: 0;
+        }
+
+        html[data-phone] .cost-or i {
+            width: 40px;
+            height: 1px;
+            flex: 1;
+            min-height: 0;
+        }
+
+        html[data-phone] .frame-card,
+        html[data-phone] .stack-card,
+        html[data-phone] .use-card,
+        html[data-phone] .scope-card,
+        html[data-phone] .cost-card {
+            padding: 18px 16px;
+        }
+
+        html[data-phone] .frame-card strong,
+        html[data-phone] .stack-card strong,
+        html[data-phone] .use-card strong,
+        html[data-phone] .pair strong { font-size: 22px; }
+
+        html[data-phone] .frame-card > p,
+        html[data-phone] .stack-card > p,
+        html[data-phone] .use-card p,
+        html[data-phone] .scope-card > p { font-size: 16px; }
+
+        html[data-phone] .fork {
+            flex-direction: column;
+            gap: 16px;
+        }
+
+        html[data-phone] .fork-src { width: auto; }
+        html[data-phone] .fork-lines { display: none; }
+        html[data-phone] .fork-reqs { grid-template-columns: 1fr; }
+        html[data-phone] .fork-lane { padding: 16px; }
+        html[data-phone] .fork-lane strong { font-size: 24px; }
+        html[data-phone] .fork-lane-head { flex-wrap: wrap; gap: 8px; }
+
+        html[data-phone] .act {
+            flex-direction: column;
+            gap: 16px;
+        }
+
+        html[data-phone] .act-hub { width: 100%; }
+        html[data-phone] .act-device { width: 100%; }
+        html[data-phone] .act-lines { display: none; }
+        html[data-phone] .act-row { padding: 12px 14px; gap: 10px; }
+        html[data-phone] .act-row strong { font-size: 18px; }
+
+        html[data-phone] .hard-item span { font-size: 20px; }
+        html[data-phone] .hard-list { gap: 12px; justify-content: flex-start; }
+
+        html[data-phone] .conn-wrap { max-width: none; margin-top: 20px; }
+
+        html[data-phone] .prim-row,
+        html[data-phone] .ex-flow {
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+
+        html[data-phone] .ex-zd {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+            gap: 8px;
+        }
+
+        html[data-phone] .ex-zd .zendesk,
+        html[data-phone] .ex-zd .api,
+        html[data-phone] .ex-zd .oauth,
+        html[data-phone] .ex-zd .mega,
+        html[data-phone] .ex-zd .mark,
+        html[data-phone] .ex-zd .john {
+            grid-column: auto;
+            grid-row: auto;
+        }
+
+        html[data-phone] .story-board { padding: 16px 14px; }
+        html[data-phone] .story-cols {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        html[data-phone] .story-card { flex: none; }
+        html[data-phone] .story-go { transform: rotate(90deg); height: 18px; }
+
+        html[data-phone] .scope-arrow { transform: rotate(90deg); height: 20px; }
+        html[data-phone] .scope-stat {
+            flex-direction: column;
+            align-items: flex-start;
+            gap: 12px;
+            padding: 16px;
+        }
+
+        html[data-phone] .scope-stat p { font-size: 15px; }
+        html[data-phone] .scope-cut {
+            padding-left: 0;
+            border-left: 0;
+            border-top: 1px solid rgba(255, 255, 255, 0.14);
+            padding-top: 12px;
+            text-align: left;
+        }
+
+        html[data-phone] .scope-cut b { font-size: 32px; }
+
+        html[data-phone] svg.fig {
+            width: 100%;
+            height: auto;
+            max-height: none;
+            margin-top: 12px;
+        }
+
+        html[data-phone] .pad,
+        html[data-phone] .code-wrap,
+        html[data-phone] pre {
+            min-width: 0;
+            max-width: 100%;
+        }
+
+        html[data-phone] .code-wrap {
+            font-size: 13px;
+            padding: 16px;
+            margin-top: 16px;
+            overflow-x: auto;
+        }
+
+        html[data-phone] .eq { font-size: 36px; gap: 8px; }
+
+        html[data-phone] a.qr-link,
+        html[data-phone] a.qr-link img {
+            width: 200px;
+            height: 200px;
+        }
+
+        html[data-phone] .build-hint { font-size: 12px; }
+
+        html[data-phone] .mini-flow {
+            flex-wrap: wrap;
+            padding-top: 16px;
+        }
+
+        html[data-phone] .flow-node {
+            min-width: 0;
+            flex: 1 1 40%;
+            padding: 10px 12px;
+        }
+
+        html[data-phone] .flow-node span { font-size: 16px; }
+
+        html[data-phone] .cost-viz {
+            flex-wrap: wrap;
+            justify-content: flex-start;
+            gap: 8px;
+        }
+
+        html[data-phone] .avatars.row {
+            flex-wrap: wrap;
+            width: auto;
+        }
+
+        html[data-phone] .dot {
+            width: 28px;
+            height: 28px;
+            font-size: 12px;
+        }
+
+        html[data-phone] .svc { width: auto; max-width: 100%; }
+        html[data-phone] .big-n { padding: 12px 14px; }
+        html[data-phone] .big-n strong { font-size: 28px; }
     </style>
 </head>
 <body>
@@ -2094,7 +2399,7 @@
                         <span class="punch" style="white-space:nowrap">for hundreds of users, at a time.</span>
                     </h1>
                     <p class="sub reveal">A walkthrough. Then a live demo.</p>
-                    <p class="speaker reveal">Saif Ali Shaik
+                    <p class="speaker reveal"><a href="https://saifshines.dev" target="_blank" rel="noopener noreferrer">Saif Ali Shaik</a>
                         <small>Founding DX Engineer · Scalekit</small>
                     </p>
                 </div>
@@ -2965,7 +3270,7 @@
                         <span class="punch">Scale the auth and the tools.</span>
                     </h2>
                 </div>
-                <p class="who">Saif Ali Shaik · Founding DX Engineer, Scalekit</p>
+                <p class="who"><a href="https://www.linkedin.com/in/saif-shines/" target="_blank" rel="noopener noreferrer">Saif Ali Shaik</a> · Founding DX Engineer, Scalekit</p>
                 <p class="page"></p>
             </section>
 
@@ -2978,6 +3283,7 @@
                         <img src="luma-qr.png" alt="QR code for luma.com/scalekitinc">
                     </a>
                     <a class="qr-url reveal" href="https://luma.com/scalekitinc" target="_blank" rel="noopener noreferrer">luma.com/scalekitinc</a>
+                    <a class="qr-url reveal" href="https://www.linkedin.com/in/saif-shines/" target="_blank" rel="noopener noreferrer">linkedin.com/in/saif-shines</a>
                 </div>
                 <p class="page"></p>
             </section>
@@ -3064,7 +3370,15 @@
             }
 
             setupStageScale() {
+                const isPhone = () =>
+                    window.innerWidth < 720 || (window.innerWidth < 980 && window.innerHeight < 520);
                 const scale = () => {
+                    const phone = isPhone();
+                    document.documentElement.toggleAttribute('data-phone', phone);
+                    if (phone) {
+                        this.stage.style.transform = 'none';
+                        return;
+                    }
                     const factor = Math.min(window.innerWidth / 1920, window.innerHeight / 1080);
                     const x = (window.innerWidth - 1920 * factor) / 2;
                     const y = (window.innerHeight - 1080 * factor) / 2;
@@ -3117,6 +3431,7 @@
             setupWheelNav() {
                 let locked = false;
                 window.addEventListener('wheel', (e) => {
+                    if (document.documentElement.hasAttribute('data-phone')) return;
                     if (locked) return;
                     if (Math.abs(e.deltaY) < 20) return;
                     locked = true;
@@ -3134,6 +3449,9 @@
                 });
                 const build = this.buildOn(this.slides[this.currentSlide]);
                 if (build) build.reset();
+                if (document.documentElement.hasAttribute('data-phone')) {
+                    window.scrollTo(0, 0);
+                }
             }
         }
 
