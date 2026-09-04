@@ -34,9 +34,41 @@ export const ROLE_WRITING_NOTE = "free-time · newly joined";
 
 export const NAV_ITEMS = [
   { text: "thoughts", href: "/thoughts" },
+  { text: "talks", href: "/talks" },
   { text: "projects", href: "/projects" },
   { text: "work", href: "/work" },
   { text: "resume", href: "/resume" },
+];
+
+export const TALKS_META: Metadata = {
+  TITLE: "Talks",
+  DESCRIPTION: "HTML decks I give live.",
+};
+
+export interface Talk {
+  slug: string;
+  title: string;
+  description: string;
+  date: Date;
+  href: string;
+}
+
+/** Hosted decks in public/talks/. Add a row when you add a folder. */
+export const TALKS: Talk[] = [
+  {
+    slug: "pocket-agents",
+    title: "Pocket agents",
+    description: "Small agents that sit in a work day. Internal draft.",
+    date: new Date("2026-09-04"),
+    href: "/talks/pocket-agents/index.html",
+  },
+  {
+    slug: "agentkit",
+    title: "Scale auth and tools",
+    description: "Auth for agents. A walkthrough. Then a live demo.",
+    date: new Date("2026-08-22"),
+    href: "/talks/agentkit/index.html",
+  },
 ];
 
 export const SOCIALS: Socials = [

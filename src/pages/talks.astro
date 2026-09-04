@@ -1,0 +1,33 @@
+---
+import Base from "@layouts/Base.astro";
+import Container from "@components/Container.astro";
+import ArrowCard from "@components/ArrowCard.astro";
+import { TALKS, TALKS_META } from "@consts";
+
+const talks = [...TALKS].sort(
+  (a, b) => b.date.valueOf() - a.date.valueOf()
+);
+---
+
+<Base title={TALKS_META.TITLE} description={TALKS_META.DESCRIPTION}>
+  <Container>
+    <aside class="max-w-measure space-y-2 py-10">
+      <h1 class="font-display text-2xl font-semibold tracking-tight text-ink">Talks</h1>
+      <p class="leading-relaxed text-ink-2">
+        HTML decks I give live. Open one and use the arrow keys.
+      </p>
+    </aside>
+    <ul class="not-prose border-t border-rule">
+      {talks.map((talk) => (
+        <li>
+          <ArrowCard
+            title={talk.title}
+            description={talk.description}
+            date={talk.date}
+            href={talk.href}
+          />
+        </li>
+      ))}
+    </ul>
+  </Container>
+</Base>
