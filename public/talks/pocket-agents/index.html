@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Pocket agents — Saif Ali Shaik</title>
+    <title>Pocket agents · Saif Ali Shaik</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=Geist:wght@400;500;600&family=Geist+Mono:wght@400;500;600&family=Instrument+Serif:ital@0;1&family=Inter:wght@400;500&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
@@ -196,38 +196,6 @@
         }
 
         .forest .sub { color: #d1d5db; }
-
-        .ask-notes {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 24px;
-            width: 100%;
-            max-width: 1480px;
-            margin: 48px auto 0;
-            text-align: left;
-        }
-
-        .ask-notes article {
-            border: 1px solid rgba(134, 239, 172, 0.22);
-            border-radius: 8px;
-            padding: 22px 26px 20px;
-            background: rgba(0, 0, 0, 0.18);
-        }
-
-        .ask-notes small {
-            font-family: var(--font-mono);
-            font-size: 14px;
-            letter-spacing: 0.08em;
-            text-transform: uppercase;
-            color: #86efac;
-        }
-
-        .ask-notes p {
-            margin-top: 10px;
-            font-size: 22px;
-            line-height: 1.4;
-            color: #d1d5db;
-        }
 
         .center {
             display: flex;
@@ -2316,14 +2284,6 @@
         html[data-phone] h1,
         html[data-phone] h2 { font-size: 28px !important; }
         html[data-phone] .sub { font-size: 17px; margin-top: 12px; }
-        html[data-phone] .ask-notes {
-            display: flex;
-            flex-direction: column;
-            gap: 12px;
-            margin-top: 20px;
-        }
-        html[data-phone] .ask-notes article { padding: 14px 16px; }
-        html[data-phone] .ask-notes p { font-size: 15px; }
         html[data-phone] .speaker { font-size: 18px; margin-top: 28px; }
         html[data-phone] .speaker small { font-size: 13px; }
         html[data-phone] .caption { font-size: 14px; }
@@ -2542,9 +2502,9 @@
                 <div class="pad center mid">
                     <p class="pill reveal">Internal</p>
                     <h1 class="display-lg reveal" style="margin-top:24px">Pocket agents<br>
-                        <span class="punch">If everyone runs their own, the team gets faster.</span>
+                        <span class="punch">One job on one machine. Then a loop.</span>
                     </h1>
-                    <p class="sub reveal">One job. One machine. One user. Then a loop.</p>
+                    <p class="sub reveal">For one person.</p>
                     <p class="speaker reveal"><a href="https://saifshines.dev" target="_blank" rel="noopener noreferrer">Saif Ali Shaik</a>
                         <small>Founding DX Engineer · Scalekit</small>
                     </p>
@@ -2555,7 +2515,7 @@
             <section class="slide plus">
                 <div class="pad center mid">
                     <p class="kicker reveal">The formula</p>
-                    <h2 class="display reveal">Not a new kind of agent.</h2>
+                    <h2 class="display reveal">The usual agent, plus these.</h2>
                     <div class="eq reveal" style="margin-top:48px">
                         <span>agent</span>
                         <span class="eq-op">+</span>
@@ -2565,7 +2525,7 @@
                         <span class="eq-op">+</span>
                         <span>tools</span>
                     </div>
-                    <p class="eq-note reveal">You talk in a Claude session. /ask-dora grills you to pocket shape.</p>
+                    <p class="eq-note reveal">You talk in a Claude session. You run /ask-dora. The CLI asks until the job fits one person and one machine.</p>
                 </div>
                 <p class="page"></p>
             </section>
@@ -2573,8 +2533,8 @@
             <section class="slide">
                 <div class="pad fill">
                     <p class="kicker reveal">Jobs</p>
-                    <h2 class="reveal" style="font-size:48px;margin-top:12px">Same shape. Different jobs.</h2>
-                    <p class="caption reveal" style="margin-top:10px">One job each. A click is not the point. Taste is.</p>
+                    <h2 class="reveal" style="font-size:48px;margin-top:12px">Four jobs. Same folder.</h2>
+                    <p class="caption reveal" style="margin-top:10px">Two are live. Two are next.</p>
                     <div class="frame-grid reveal" style="grid-template-columns:1fr 1fr">
                         <article class="frame-card">
                             <small>Live</small>
@@ -2584,17 +2544,17 @@
                         <article class="frame-card">
                             <small>Live</small>
                             <strong>Connectors → Webflow</strong>
-                            <p>New catalog slug. Not a twin. Draft. Then publish.</p>
+                            <p>New catalog slug. Draft it, then publish. Do not clone a twin.</p>
                         </article>
                         <article class="frame-card">
                             <small>Next</small>
-                            <strong>A review that sounds like you</strong>
-                            <p>GitHub asks. The pocket agent writes with your taste. Not an Approve click.</p>
+                            <strong>GitHub review comments</strong>
+                            <p>GitHub asks. The pocket writes a review comment. It does not click Approve.</p>
                         </article>
                         <article class="frame-card">
                             <small>Next</small>
                             <strong>Discord + auth skills</strong>
-                            <p>One thread to join. Or a PR that adds Scalekit. Not a listicle.</p>
+                            <p>One thread to join. Or a PR that adds Scalekit.</p>
                         </article>
                     </div>
                 </div>
@@ -2604,11 +2564,11 @@
             <section class="slide">
                 <div class="pad fill">
                     <p class="kicker reveal">The whole path</p>
-                    <h2 class="reveal" style="font-size:40px;margin-top:8px">Grill. One pass. Ticks. Then you improve it.</h2>
-                    <p class="caption reveal" style="margin-top:8px">A tick writes to Slack or Webflow. You look there. Then you tell Dora to improve the harness.</p>
+                    <h2 class="reveal" style="font-size:40px;margin-top:8px">Grill. One pass. Runs. Then you improve it.</h2>
+                    <p class="caption reveal" style="margin-top:8px">A run writes to Slack or Webflow. You look there. Then you tell the CLI to improve the harness.</p>
                     <svg class="fig reveal" viewBox="0 0 1680 680" width="1680" height="680" role="img" aria-labelledby="all-title all-desc" style="height:620px;margin-top:8px">
-                        <title id="all-title">Pocket agent create, tick, and improve sequence</title>
-                        <desc id="all-desc">You ask Dora. One-pass comes back to this chat. After save, ticks write to Slack or Webflow. You look at those apps, then tell Dora to improve the harness.</desc>
+                        <title id="all-title">Pocket agent create, run, and improve sequence</title>
+                        <desc id="all-desc">You run /ask-dora. One-pass comes back to this chat. After save, runs write to Slack or Webflow. You look at those apps, then tell the CLI to improve the harness.</desc>
                         <defs>
                             <marker id="arr" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto"><polygon points="0 0, 8 3, 0 6" fill="#4b5563"/></marker>
                             <marker id="arr-g" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto"><polygon points="0 0, 8 3, 0 6" fill="#16a34a"/></marker>
@@ -2621,11 +2581,11 @@
                         <rect x="760" y="316" width="840" height="152" rx="4" fill="rgba(22,163,74,0.04)" stroke="rgba(22,163,74,0.28)"/>
                         <rect x="760" y="316" width="56" height="20" rx="2" fill="#fff" stroke="rgba(22,163,74,0.28)"/>
                         <text x="788" y="330" text-anchor="middle" fill="#0e8a4a" font-family="JetBrains Mono, monospace" font-size="12" letter-spacing="0.1em">LOOP</text>
-                        <text x="832" y="352" fill="#4b5563" font-family="JetBrains Mono, monospace" font-size="14">[1st ticks]</text>
+                        <text x="832" y="352" fill="#4b5563" font-family="JetBrains Mono, monospace" font-size="14">[1st runs]</text>
                         <rect x="80" y="484" width="1520" height="172" rx="4" fill="rgba(14,24,40,0.03)" stroke="#d7e3dc"/>
                         <rect x="80" y="484" width="72" height="20" rx="2" fill="#fff" stroke="#d7e3dc"/>
                         <text x="116" y="498" text-anchor="middle" fill="#0e8a4a" font-family="JetBrains Mono, monospace" font-size="12" letter-spacing="0.1em">OPT</text>
-                        <text x="164" y="520" fill="#4b5563" font-family="JetBrains Mono, monospace" font-size="14">[after a few ticks]</text>
+                        <text x="164" y="520" fill="#4b5563" font-family="JetBrains Mono, monospace" font-size="14">[after a few runs]</text>
                         <line x1="176" y1="116" x2="496" y2="116" stroke="#4b5563" stroke-width="1.5" marker-end="url(#arr)"/>
                         <line x1="496" y1="148" x2="176" y2="148" stroke="#4b5563" stroke-width="1.5" stroke-dasharray="5,4" marker-end="url(#arr)"/>
                         <line x1="512" y1="180" x2="1168" y2="180" stroke="#4b5563" stroke-width="1.5" marker-end="url(#arr)"/>
@@ -2644,12 +2604,12 @@
                         <rect x="1424" y="16" width="176" height="64" rx="6" fill="#fff" stroke="#d7e3dc"/>
                         <text x="168" y="42" text-anchor="middle" fill="#0e8a4a" font-family="JetBrains Mono, monospace" font-size="12" letter-spacing="0.08em">YOU</text>
                         <text x="168" y="62" text-anchor="middle" fill="#0e1828" font-family="Geist, sans-serif" font-size="20" font-weight="500">Claude session</text>
-                        <text x="504" y="42" text-anchor="middle" fill="#0e8a4a" font-family="JetBrains Mono, monospace" font-size="12" letter-spacing="0.08em">DORA</text>
+                        <text x="504" y="42" text-anchor="middle" fill="#0e8a4a" font-family="JetBrains Mono, monospace" font-size="12" letter-spacing="0.08em">DORAVAL</text>
                         <text x="504" y="62" text-anchor="middle" fill="#0e1828" font-family="Geist, sans-serif" font-size="20" font-weight="500">Grill + CLI</text>
                         <text x="840" y="42" text-anchor="middle" fill="#0e8a4a" font-family="JetBrains Mono, monospace" font-size="12" letter-spacing="0.08em">HARNESS</text>
                         <text x="840" y="62" text-anchor="middle" fill="#0e1828" font-family="Geist, sans-serif" font-size="20" font-weight="500">The files</text>
                         <text x="1176" y="42" text-anchor="middle" fill="#0e8a4a" font-family="JetBrains Mono, monospace" font-size="12" letter-spacing="0.08em">HERMES</text>
-                        <text x="1176" y="62" text-anchor="middle" fill="#0e1828" font-family="Geist, sans-serif" font-size="20" font-weight="500">One-pass + tick</text>
+                        <text x="1176" y="62" text-anchor="middle" fill="#0e1828" font-family="Geist, sans-serif" font-size="20" font-weight="500">One-pass + run</text>
                         <text x="1512" y="42" text-anchor="middle" fill="#0e8a4a" font-family="JetBrains Mono, monospace" font-size="12" letter-spacing="0.08em">APPS</text>
                         <text x="1512" y="62" text-anchor="middle" fill="#0e1828" font-family="Geist, sans-serif" font-size="20" font-weight="500">Slack · Webflow</text>
                         <rect x="164" y="108" width="8" height="148" fill="rgba(14,24,40,0.05)" stroke="#d7e3dc" stroke-width="0.8"/>
@@ -2691,14 +2651,15 @@
 
             <section class="slide">
                 <div class="pad fill">
-                    <p class="kicker reveal">Why Hermes</p>
-                    <h2 class="reveal" style="font-size:48px;margin-top:12px">This chat is for talk. Hermes is the clock.</h2>
+                    <p class="kicker reveal">Hermes</p>
+                    <h2 class="reveal" style="font-size:48px;margin-top:12px">What it does.</h2>
                     <div class="hard-list reveal">
-                        <div class="hard-item"><b>01</b><span>A tick has no last chat. Claude cannot sit open all night.</span></div>
-                        <div class="hard-item"><b>02</b><span>One-pass and cron are the same binary. Gateway stays up when the lid closes.</span></div>
-                        <div class="hard-item"><b>03</b><span>One Runtime. Watch is cron, runs, logs, dashboard. Dora does not invent a second clock.</span></div>
+                        <div class="hard-item"><b>01</b><span>New session per run. Not this Claude chat.</span></div>
+                        <div class="hard-item"><b>02</b><span>Same binary for one-pass and cron.</span></div>
+                        <div class="hard-item"><b>03</b><span>Gateway stays up after you close the laptop.</span></div>
+                        <div class="hard-item"><b>04</b><span>Inspect: cron, history, logs, dashboard.</span></div>
                     </div>
-                    <p class="caption reveal">A mid-tier model is enough. Claude, Grok, or Zai. The grill stays in this session.</p>
+                    <p class="caption reveal">You design the job here. Loop model: Claude, Grok, or Zai.</p>
                 </div>
                 <p class="page"></p>
             </section>
@@ -2712,42 +2673,42 @@
                         <div class="step">
                             <button type="button" class="peek-link" data-peek="prompt">prompt.md</button>
                             <strong>The job</strong>
-                            <p>Plain English. What this tick does.</p>
+                            <p>Plain English for what this run does.</p>
                             <ul class="step-tree">
-                                <li><b>prompt.md</b> — the steps each tick follows</li>
-                                <li>done-when on each step</li>
-                                <li>no footer in this file</li>
+                                <li><b>prompt.md</b>: the steps each run follows</li>
+                                <li>when each step is done</li>
+                                <li>do not put the Slack footer here</li>
                             </ul>
                         </div>
                         <div class="step">
                             <button type="button" class="peek-link" data-peek="routine">routine.yml</button>
                             <strong>The clock</strong>
-                            <p>Interval. MCP URL. Hermes ticks it.</p>
+                            <p>How often it runs. Which MCP URL Hermes hits.</p>
                             <ul class="step-tree">
-                                <li><b>interval</b> — 6h / 1h</li>
-                                <li><b>mcp_url</b> — gateway</li>
-                                <li><b>max_tick</b> — 15m cap</li>
+                                <li><b>interval</b>: 6h / 1h</li>
+                                <li><b>mcp_url</b>: gateway</li>
+                                <li><b>max_tick</b>: 15m cap</li>
                             </ul>
                         </div>
                         <div class="step">
                             <button type="button" class="peek-link" data-peek="state">skills / state</button>
                             <strong>How it runs</strong>
-                            <p>Copied skills. Last tick. Secrets stay here.</p>
+                            <p>Copied skills and last-run memory. Secrets stay here.</p>
                             <ul class="step-tree">
-                                <li><b>skills/</b> — copies</li>
-                                <li><b>handled_*.json</b> — memory</li>
-                                <li><b>.env</b> — if MCP is none</li>
+                                <li><b>skills/</b>: copies</li>
+                                <li><b>handled_*.json</b>: memory</li>
+                                <li><b>.env</b>: if there is no MCP</li>
                             </ul>
                         </div>
                     </div>
                     <div class="code-wrap reveal" style="margin-top:28px;font-size:22px;padding:24px 28px">
-                        <span class="cm"># ticks and transcripts on this machine</span><br>
+                        <span class="cm"># runs and transcripts on this machine</span><br>
                         hermes cron list<br>
                         hermes cron runs --limit 20<br>
                         hermes sessions list --source cron --limit 10<br>
                         hermes sessions export --source cron --format md --title ooo-holidays-timeoff
                     </div>
-                    <p class="caption reveal">Exports land in ~/.hermes/session-exports/. The CLI touches the disk. Nothing pings you when auth dies.</p>
+                    <p class="caption reveal">Exports go to ~/.hermes/session-exports/. The CLI writes on disk. Nothing pings you when auth dies.</p>
                 </div>
                 <p class="page"></p>
             </section>
@@ -2755,20 +2716,8 @@
             <section class="slide forest">
                 <div class="pad center mid">
                     <p class="kicker reveal">The ask</p>
-                    <h2 class="display-lg reveal">Run one this week.<br>
-                        <span class="punch" style="color:#86efac">Then picture the whole team.</span>
-                    </h2>
-                    <p class="sub reveal">I will open the terminal next. ask-dora. Hermes. The files. The Slack replies.</p>
-                    <div class="ask-notes reveal">
-                        <article>
-                            <small>Yours. Not shared.</small>
-                            <p>If I make one, it is not for Akshay, Nitya, or Vamsi. A shared agent needs guardrails. Then it is not a pocket.</p>
-                        </article>
-                        <article>
-                            <small>Not finished.</small>
-                            <p>Nothing notifies you when a tick fails or auth dies. Two locks. Slack still looks like you.</p>
-                        </article>
-                    </div>
+                    <h2 class="display-lg reveal">Run one this week.</h2>
+                    <p class="sub reveal">I will open the terminal next. /ask-dora. Hermes. The files. The Slack replies.</p>
                 </div>
                 <p class="page"></p>
             </section>
