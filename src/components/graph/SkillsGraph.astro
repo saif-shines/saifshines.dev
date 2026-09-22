@@ -67,19 +67,65 @@ const { entries } = Astro.props;
   type CNode = d3.HierarchyNode<TreeDatum> & { _children?: CNode[] };
   type HNode = d3.HierarchyPointNode<TreeDatum> & { _children?: HNode[] };
 
-  // Heuristic: which plugin/marketplace a skill's name maps to. Only the
-  // two Scalekit-flavored plugins (authstack, skillkit) and the two with a
-  // real SKILL.md on disk (pm-skills, caveman) are known — see
-  // docs/research/local-tools-skills-inventory.md. Everything else falls
-  // back to "ungrouped" rather than guessing.
+  // Ground truth, not a guess: every installed plugin's actual skill
+  // directory was read (`~/.claude/plugins/cache/*/*/*/skills/*`) and
+  // cross-referenced by name against every entry below. A handful are
+  // matched on an obvious rename (e.g. this repo's "add-api-auth" is the
+  // installed plugin's "adding-api-auth" — same topic, shorter local name).
+  // Anything not listed here was checked and confirmed absent from every
+  // installed plugin — it's a real fact ("local (no plugin)"), not a
+  // fallback for "couldn't figure it out".
+  const PLUGIN_SOURCE: Record<string, string> = {
+    "check-agentkit-prod": "authstack/agentkit",
+    "expose-agentkit-mcp": "authstack/agentkit",
+    "integrate-agentkit": "authstack/agentkit",
+    "setup-agentkit": "authstack/agentkit",
+    "discover-connectors": "authstack/agentkit",
+
+    "add-api-auth": "authstack/saaskit",
+    "add-mcp-oauth": "authstack/saaskit",
+    "implement-access-control": "authstack/saaskit",
+    "implement-saaskit": "authstack/saaskit",
+    "implement-saaskit-nextjs": "authstack/saaskit",
+    "implement-saaskit-python": "authstack/saaskit",
+    "implement-scim": "authstack/saaskit",
+    "implement-sso": "authstack/saaskit",
+    "manage-saaskit-sessions": "authstack/saaskit",
+    "migrate-to-saaskit": "authstack/saaskit",
+    "check-saaskit-prod": "authstack/saaskit",
+    "setup-saaskit": "authstack/saaskit",
+
+    "ask-devex": "devex-kit/tooling",
+    "code-style-patterns": "devex-kit/tooling",
+    "devrel-tooling": "devex-kit/tooling",
+    "mcp-server-craft": "devex-kit/tooling",
+    "plugin-craft": "devex-kit/tooling",
+    "pragmatic-fp": "devex-kit/tooling",
+    "skill-craft": "devex-kit/tooling",
+    "sdk-craft": "devex-kit/tooling",
+
+    "devrel-dx-craft": "devex-kit/dev-gtm",
+    "devrel-story-craft": "devex-kit/dev-gtm",
+
+    "authoring-cookbooks": "devex-kit/documentation",
+    "docs-contribution-router": "devex-kit/documentation",
+    "docs-writing-style": "devex-kit/documentation",
+    "freecodecamp-style": "devex-kit/documentation",
+    "journey-sidebar-labels": "devex-kit/documentation",
+
+    "ask-saif": "skillkit/docs-engineering",
+
+    hey: "37signals/hey",
+
+    caveman: "caveman/caveman",
+    "caveman-compress": "caveman/caveman",
+
+    "skill-authoring-workflow": "pm-skills",
+    "product-sense-interview-answer": "pm-skills",
+  };
+
   function deriveSource(e: SkillEntry): string {
-    const n = e.name.toLowerCase();
-    if (/saaskit|agentkit|scim|sso|access-control/.test(n)) return "authstack (saaskit/agentkit)";
-    if (/^docs-|^devrel-|journey-sidebar|review-scalekit-code|^ask-devex|mcp-server|sdk-craft|sdk-development|deploy-self-hosted|run-dryrun/.test(n))
-      return "skillkit (scalekit/docs)";
-    if (n === "skill-authoring-workflow" || n === "product-sense-interview-answer") return "pm-skills";
-    if (n === "caveman" || n === "caveman-compress") return "caveman";
-    return "ungrouped";
+    return PLUGIN_SOURCE[e.name] ?? "local (no plugin)";
   }
 
   // Add an entry here to offer another way to branch the tree. `order`
@@ -92,7 +138,18 @@ const { entries } = Astro.props;
       key: "source",
       label: "Source",
       get: deriveSource,
-      order: ["authstack (saaskit/agentkit)", "skillkit (scalekit/docs)", "pm-skills", "caveman", "ungrouped"],
+      order: [
+        "authstack/agentkit",
+        "authstack/saaskit",
+        "devex-kit/tooling",
+        "devex-kit/dev-gtm",
+        "devex-kit/documentation",
+        "skillkit/docs-engineering",
+        "37signals/hey",
+        "pm-skills",
+        "caveman/caveman",
+        "local (no plugin)",
+      ],
     },
   ];
 
@@ -599,7 +656,11 @@ const { entries } = Astro.props;
     box-shadow: 0 12px 30px rgba(0, 0, 0, 0.12);
   }
 
-  .graph-search button {
+  /* :global() below — these elements are created by the client script
+     (document.createElement / innerHTML), so they never carry Astro's
+     scoped-style attribute and a plain scoped rule would silently not
+     apply to them. */
+  :global(.graph-search button) {
     display: block;
     width: 100%;
     padding: 0.4rem 0.5rem;
@@ -612,7 +673,7 @@ const { entries } = Astro.props;
     font-size: 0.8rem;
   }
 
-  .graph-search button:hover {
+  :global(.graph-search button:hover) {
     background: var(--color-rule);
   }
 
@@ -628,7 +689,9 @@ const { entries } = Astro.props;
     gap: 0.3rem;
   }
 
-  .segmented button,
+  /* .graph-toolbar-actions buttons are static template markup; .segmented
+     buttons are created by renderGroupByControl() and need :global(). */
+  :global(.segmented button),
   .graph-toolbar-actions button {
     padding: 0.4rem 0.7rem;
     border: 1px solid var(--color-rule);
@@ -639,7 +702,7 @@ const { entries } = Astro.props;
     font-size: 0.78rem;
   }
 
-  .segmented button.is-active {
+  :global(.segmented button.is-active) {
     border-color: var(--color-accent);
     color: var(--color-accent);
     background: color-mix(in oklch, var(--color-accent) 12%, transparent);
@@ -674,7 +737,7 @@ const { entries } = Astro.props;
     font-size: 0.85rem;
   }
 
-  .graph-canvas svg {
+  :global(.graph-canvas svg) {
     display: block;
     width: 100%;
     height: 100%;
@@ -687,7 +750,9 @@ const { entries } = Astro.props;
     overflow: auto;
   }
 
-  .graph-details span {
+  /* .graph-details' content is entirely replaced via innerHTML on every
+     node click (showDetails), so everything below is :global(). */
+  :global(.graph-details span) {
     color: var(--color-accent);
     font-size: 0.65rem;
     font-weight: 700;
@@ -695,19 +760,19 @@ const { entries } = Astro.props;
     text-transform: uppercase;
   }
 
-  .graph-details h2 {
+  :global(.graph-details h2) {
     margin: 0.4rem 0 0.3rem;
     font-size: 1rem;
     color: var(--color-ink);
   }
 
-  .graph-details p {
+  :global(.graph-details p) {
     margin: 0.2rem 0;
     color: var(--color-muted);
     font-size: 0.8rem;
   }
 
-  .graph-legend {
+  :global(.graph-legend) {
     display: flex;
     flex-direction: column;
     gap: 0.35rem;
@@ -717,7 +782,7 @@ const { entries } = Astro.props;
     list-style: none;
   }
 
-  .graph-legend li {
+  :global(.graph-legend li) {
     display: flex;
     align-items: center;
     gap: 0.4rem;
@@ -725,7 +790,7 @@ const { entries } = Astro.props;
     font-size: 0.72rem;
   }
 
-  .graph-legend i {
+  :global(.graph-legend i) {
     display: inline-block;
     width: 0.6rem;
     height: 0.6rem;
@@ -733,13 +798,13 @@ const { entries } = Astro.props;
     border-radius: 50%;
   }
 
-  .graph-relations {
+  :global(.graph-relations) {
     margin: 1rem 0 0;
     padding: 0.75rem 0 0;
     border-top: 1px solid var(--color-rule);
   }
 
-  .graph-relations ul {
+  :global(.graph-relations ul) {
     display: flex;
     flex-direction: column;
     gap: 0.3rem;
@@ -748,14 +813,14 @@ const { entries } = Astro.props;
     list-style: none;
   }
 
-  .graph-relations li {
+  :global(.graph-relations li) {
     display: flex;
     align-items: baseline;
     justify-content: space-between;
     gap: 0.5rem;
   }
 
-  .graph-relations button {
+  :global(.graph-relations button) {
     padding: 0;
     border: 0;
     background: none;
@@ -765,11 +830,11 @@ const { entries } = Astro.props;
     text-align: left;
   }
 
-  .graph-relations button:hover {
+  :global(.graph-relations button:hover) {
     text-decoration: underline;
   }
 
-  .graph-relations em {
+  :global(.graph-relations em) {
     color: var(--color-muted);
     font-size: 0.68rem;
     font-style: normal;

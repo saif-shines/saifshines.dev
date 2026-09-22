@@ -97,6 +97,6 @@ Search box filters by name, matching the reference component's behavior.
 
 ## Open questions
 
-1. ~~Page slug~~ — decided: `/development-tools-trace`.
+1. ~~Page slug~~ — decided: `/dev-setup`.
 2. ~~Full page vs. dialog~~ — decided: full page.
 3. ~~Nav placement~~ — decided: linked in the site nav.
