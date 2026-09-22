@@ -270,3 +270,7 @@ why is righ half of it compeltely mepty?
 ---
 
 but on a desktop it's awkward
+
+---
+
+it's better now, can you commit it and push to main branch
