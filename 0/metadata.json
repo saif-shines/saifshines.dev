@@ -1,0 +1,111 @@
+{
+  "cli_version": "0.10.6",
+  "checkpoint_id": "01M340V3M3QNJTK9THF9KEQRT7",
+  "session_id": "94fcecd0-9319-458f-b056-49ee414c0023",
+  "strategy": "manual-commit",
+  "created_at": "2026-09-22T07:38:48.85148Z",
+  "branch": "main",
+  "checkpoints_count": 3,
+  "save_step_count": 3,
+  "files_touched": [
+    ".grok/hooks/entire.json"
+  ],
+  "agent": "Claude Code",
+  "model": "claude-sonnet-5",
+  "turn_id": "a13be5fc1eff",
+  "compact_transcript_start": 0,
+  "token_usage": {
+    "input_tokens": 36,
+    "cache_creation_tokens": 62655,
+    "cache_read_tokens": 1510031,
+    "output_tokens": 5101,
+    "api_call_count": 18
+  },
+  "skill_events_version": 1,
+  "skill_events": [
+    {
+      "id": "claude-skill-toolu_0175DNQdXsyiK6a6gqK8rN3j",
+      "event_type": "tool_invocation",
+      "skill": {
+        "name": "session-handoff"
+      },
+      "source": {
+        "agent": "claude-code",
+        "signal": "skill_tool_use",
+        "confidence": "explicit"
+      },
+      "turn_id": "a13be5fc1eff",
+      "transcript_anchor": {
+        "unit": "line",
+        "start": 38,
+        "end": 39,
+        "entry_ids": [
+          "6d86dee4-c8d7-4410-9217-7b3cee275349"
+        ],
+        "tool_use_id": "toolu_0175DNQdXsyiK6a6gqK8rN3j"
+      },
+      "native": {
+        "tool_name": "Skill",
+        "tool_use_id": "toolu_0175DNQdXsyiK6a6gqK8rN3j"
+      },
+      "collapse": {
+        "target": "tool_pair",
+        "label": "Skill: session-handoff",
+        "default_collapsed": true
+      }
+    }
+  ],
+  "session_metrics": {
+    "turn_count": 3
+  },
+  "initial_attribution": {
+    "calculated_at": "2026-09-22T07:38:48.81623Z",
+    "agent_lines": 204,
+    "agent_removed": 0,
+    "human_added": 180,
+    "human_modified": 0,
+    "human_removed": 0,
+    "total_committed": 384,
+    "total_lines_changed": 384,
+    "agent_percentage": 53.125,
+    "metric_version": 2
+  },
+  "prompt_attributions": [
+    {
+      "checkpoint_number": 1,
+      "user_lines_added": 0,
+      "user_lines_removed": 0,
+      "agent_lines_added": 0,
+      "agent_lines_removed": 0
+    },
+    {
+      "checkpoint_number": 2,
+      "user_lines_added": 0,
+      "user_lines_removed": 0,
+      "agent_lines_added": 0,
+      "agent_lines_removed": 0
+    },
+    {
+      "checkpoint_number": 3,
+      "user_lines_added": 110,
+      "user_lines_removed": 0,
+      "agent_lines_added": 329,
+      "agent_lines_removed": 79,
+      "user_added_per_file": {
+        ".claude/settings.json": 90,
+        ".claude/settings.local.json": 20
+      }
+    },
+    {
+      "checkpoint_number": 4,
+      "user_lines_added": 110,
+      "user_lines_removed": 0,
+      "agent_lines_added": 329,
+      "agent_lines_removed": 79,
+      "user_added_per_file": {
+        ".claude/settings.json": 90,
+        ".claude/settings.local.json": 20
+      }
+    }
+  ]
+}
