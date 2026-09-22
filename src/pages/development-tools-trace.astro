@@ -1,0 +1,29 @@
+---
+import Base from "@layouts/Base.astro";
+import Container from "@components/Container.astro";
+import SkillsGraph from "@components/graph/SkillsGraph.astro";
+import { SKILLS } from "@data/skills";
+
+// Build-time privacy filter: private entries never reach this page's output.
+const publicSkills = SKILLS.filter((entry) => entry.visibility === "public");
+---
+
+<Base
+  title="Development tools trace"
+  description="Skills and tools used across work and personal projects, as a graph."
+>
+  <Container>
+    <aside class="max-w-measure space-y-2 py-10">
+      <h1 class="font-display text-2xl font-semibold tracking-tight text-ink">
+        Development tools trace
+      </h1>
+      <p class="leading-relaxed text-ink-2">
+        Skills and tools across work and personal projects. Click a node for detail.
+      </p>
+    </aside>
+
+    <section class="pb-16">
+      <SkillsGraph entries={publicSkills} />
+    </section>
+  </Container>
+</Base>

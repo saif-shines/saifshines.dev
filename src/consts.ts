@@ -38,6 +38,7 @@ export const NAV_ITEMS = [
   { text: "projects", href: "/projects" },
   { text: "work", href: "/work" },
   { text: "resume", href: "/resume" },
+  { text: "tools", href: "/development-tools-trace" },
 ];
 
 export const TALKS_META: Metadata = {
