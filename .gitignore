@@ -20,5 +20,12 @@ pnpm-debug.log*
 # macOS-specific files
 .DS_Store
 
-# local agent permission overrides
-.claude/settings.local.json
+# Planning notes and agent config stay on this machine.
+# Site markdown under src/ stays in git.
+# A leading slash keeps these rules at the repo root.
+/design.md
+/docs/
+/.claude/
+/.grok/
+/.hallmark/
+/scripts/list-plugin-skills.sh
