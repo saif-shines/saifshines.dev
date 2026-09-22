@@ -39,6 +39,7 @@ export const NAV_ITEMS = [
   { text: "work", href: "/work" },
   { text: "resume", href: "/resume" },
   { text: "tools", href: "/dev-setup" },
+  { text: "friction logs", href: "/friction-logs" },
 ];
 
 export const TALKS_META: Metadata = {
@@ -69,6 +70,30 @@ export const TALKS: Talk[] = [
     description: "Auth for agents. A walkthrough. Then a live demo.",
     date: new Date("2026-08-22"),
     href: "/talks/agentkit/index.html",
+  },
+];
+
+export const FRICTION_LOGS_META: Metadata = {
+  TITLE: "Friction logs",
+  DESCRIPTION: "Where a tool worked as built, but cost trust or trial-and-error before it cost time.",
+};
+
+export interface FrictionLog {
+  slug: string;
+  title: string;
+  description: string;
+  date: Date;
+  href: string;
+}
+
+/** Hand-curated, one entry per tool. Add a row when a log is ready to publish. */
+export const FRICTION_LOGS: FrictionLog[] = [
+  {
+    slug: "entire-trails",
+    title: "Entire Trails",
+    description: "The Entire feature that ties a branch's context, checks, and approvals together.",
+    date: new Date("2026-09-22"),
+    href: "/friction-logs/entire-trails",
   },
 ];
 

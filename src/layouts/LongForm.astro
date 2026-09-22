@@ -3,14 +3,30 @@ import Base from "./Base.astro";
 import Container from "@components/Container.astro";
 import BackToPrev from "@components/BackToPrev.astro";
 
-interface Props {
+interface Frontmatter {
   title: string;
   description?: string;
   backHref?: string;
   backLabel?: string;
 }
 
-const { title, description, backHref, backLabel } = Astro.props;
+interface Heading {
+  depth: number;
+  slug: string;
+  text: string;
+}
+
+interface Props {
+  frontmatter: Frontmatter;
+  headings?: Heading[];
+}
+
+// MDX pages using `layout:` in frontmatter pass the whole frontmatter
+// object as a single `frontmatter` prop, not flattened individual props
+// the way plain Markdown pages do. `headings` (auto-generated from the
+// content's h1-h6s, each already carrying a slug) is a separate prop.
+const { title, description, backHref, backLabel } = Astro.props.frontmatter;
+const tocHeadings = (Astro.props.headings ?? []).filter((h) => h.depth === 2);
 ---
 
 <Base title={title} description={description}>
@@ -20,15 +36,36 @@ const { title, description, backHref, backLabel } = Astro.props;
         <BackToPrev href={backHref}>{backLabel}</BackToPrev>
       </div>
     )}
-    <article class="max-w-measure pb-16">
-      <header class="space-y-2 py-2">
-        <h1 class="font-display text-2xl font-semibold tracking-tight text-ink">
-          {title}
-        </h1>
-      </header>
-      <div class="prose prose-neutral dark:prose-invert max-w-none py-6">
-        <slot />
-      </div>
-    </article>
+    <div class:list={["gap-10 pb-16", tocHeadings.length > 0 && "lg:grid lg:grid-cols-[minmax(0,1fr)_14rem]"]}>
+      <article class="max-w-measure">
+        <header class="space-y-2 py-2">
+          <h1 class="font-display text-2xl font-semibold tracking-tight text-ink">
+            {title}
+          </h1>
+        </header>
+        <div class="prose prose-neutral dark:prose-invert max-w-none py-6">
+          <slot />
+        </div>
+      </article>
+      {tocHeadings.length > 0 && (
+        <nav class="hidden lg:block" aria-label="On this page">
+          <div class="sticky top-10 space-y-2 border-l border-rule pl-4 text-sm">
+            <p class="font-medium text-ink-2">On this page</p>
+            <ul class="space-y-1.5">
+              {tocHeadings.map((h) => (
+                <li>
+                  <a
+                    href={`#${h.slug}`}
+                    class="block text-muted transition-colors hover:text-ink"
+                  >
+                    {h.text}
+                  </a>
+                </li>
+              ))}
+            </ul>
+          </div>
+        </nav>
+      )}
+    </div>
   </Container>
 </Base>

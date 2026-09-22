@@ -1,0 +1,36 @@
+---
+import Base from "@layouts/Base.astro";
+import Container from "@components/Container.astro";
+import ArrowCard from "@components/ArrowCard.astro";
+import { FRICTION_LOGS, FRICTION_LOGS_META } from "@consts";
+
+const frictionLogs = [...FRICTION_LOGS].sort(
+  (a, b) => b.date.valueOf() - a.date.valueOf()
+);
+---
+
+<Base title={FRICTION_LOGS_META.TITLE} description={FRICTION_LOGS_META.DESCRIPTION}>
+  <Container>
+    <aside class="max-w-measure space-y-2 py-10">
+      <h1 class="font-display text-2xl font-semibold tracking-tight text-ink">
+        Friction logs
+      </h1>
+      <p class="leading-relaxed text-ink-2">
+        Not bug reports. A moment a tool worked as built, but the trial and error to figure out
+        what was going on cost trust before it cost time.
+      </p>
+    </aside>
+    <ul class="not-prose border-t border-rule">
+      {frictionLogs.map((log) => (
+        <li>
+          <ArrowCard
+            title={log.title}
+            description={log.description}
+            date={log.date}
+            href={log.href}
+          />
+        </li>
+      ))}
+    </ul>
+  </Container>
+</Base>
