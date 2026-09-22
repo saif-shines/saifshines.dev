@@ -1,0 +1,247 @@
+---
+layout: ../../layouts/LongForm.astro
+title: "Entire Trails: friction log"
+description: "Friction using Trails, the Entire feature that ties a branch's context, checks, and approvals together."
+backHref: "/"
+backLabel: "Home"
+---
+
+Gist: [gist.github.com/saif-shines/77324c438e0c59399a4b0e871f8f09c4](https://gist.github.com/saif-shines/77324c438e0c59399a4b0e871f8f09c4)
+
+Friction I hit using Trails, the Entire feature that ties a branch's context, checks, and approvals together. Some entries below are older, from the wider product and CLI; the recent ones are Trails specifically.
+
+A friction log is not a bug report. Nothing below is a bug. What caused the frustration was the trial and error it took to figure out what was actually going on. Read each entry with that lens:
+
+- ✅ This is: what I expected, what happened, what I pieced together, what would have helped.
+- ❌ This is not: repro steps for something broken, or a request to fix it.
+
+| | Friction log | Bug report |
+| --- | --- | --- |
+| What it is | A moment the product worked as built, but it landed on me as a developer emotionally (confusion, doubt, a small loss of trust) before it cost me time | Something that does not do what it is supposed to do |
+| What I want from it | Someone to read it and ask "should this be different?" | Someone to fix it |
+| How I write it | What I expected, what happened, what I pieced together, what would have helped | Steps to reproduce, expected vs. actual |
+
+## Where I'm coming into this
+
+- I know Entire as a way to snapshot and work through agent context, which can get powerful.
+- I read the one-page document Haimantika shared.
+- I have worked on 2 projects specifically using Trails.
+- Below are my first impressions. They will not stay first impressions, and I will likely not feel most of this again once I am used to the product. That is exactly why I am capturing it now.
+
+## FL-1: Entire auto-login keeps the personal GitHub account
+
+Entire auto-login sends me back to my personal GitHub account. I cannot reach the work Entire account.
+
+1. I have two GitHub accounts: personal and work.
+2. I created a git repo locally. It is work-related but OSS.
+3. I want to create a trail and see it on the work Entire account.
+4. In the browser I am logged in with my personal account.
+5. I log out. I expect to log in with my work email.
+6. Entire auto-logs me back into the personal account. That does not work for me.
+7. I am now trying cookies / manual fixes to switch to the work Entire account.
+
+Figured out, later:
+
+- Entire maps to whatever GitHub account is already logged in in this browser.
+- The Entire dashboard asked at login. That is how I figured it out.
+- A **switch workspace** option instead of auto-login would have been better.
+- I only realized after the fact that I was not on my work GitHub in that browser. Asking that earlier would help.
+- The GitHub tie is understandable and convenient, but does Entire want to stay this tied to GitHub? That is a real product question.
+
+## FL-2: Repositories search needs a repo name, not an org
+
+I went to entire.io/repositories to find a repo I had just created. My eyes read the page as one long, combined list, not grouped by org. I was looking for it the way I'd look up a file path, `org/repo`, not the way I'd search through a list of users or logs.
+
+1. I belong to different organizations: **scalekit-developers** and **saif-at-scalekit**.
+2. Each org has 25+ repos.
+3. The page lists them together. Nothing on screen separates one org's repos from the other's.
+4. I had just created the repo. I remembered the org name, not the repo name.
+5. Search exists, but it wants a repo name. It could not get me there by org.
+6. I scrolled the combined list to find it.
+
+What I wanted was navigation closer to a file system: pick the org first, like a folder, then the repo inside it, not a combined list with a search box bolted on.
+
+## FL-3: Entire needs a GitHub repo before local work can start
+
+Trails, at least as I understand the feature, need a GitHub repository before I can create one. I want Entire as one of my fundamental tools from the start. I cannot do that yet.
+
+1. I create a git repo locally.
+2. I want Entire on it now. Trails. The dashboard. The product.
+3. Entire needs a GitHub repository first.
+4. The strong assumption is that anyone who creates a git repo locally will host it on GitHub. That is often true.
+5. There is zero-to-one work where I would not push to GitHub yet.
+6. Until I attain that, I still want Entire.
+
+I understand why: a trail's contingencies (review, approval, CI runners, findings) all live on GitHub. That dependency is real once a trail is ready to ship.
+
+It should not block me before that. What blocks me is the move from building to shipping, from the dashboard, needing a GitHub repo already in place. Let me create a trail within a branch first, and have it stay local. The rewiring and link-up to a GitHub repo can happen later, once I am ready to ship.
+
+If metadata about the **local** setup lived on Entire, I could use Entire before GitHub exists.
+
+Separate from this specific gap: the skills and docs have room to guide more directly here, with a link straight to the relevant settings page, in the dashboard or the browser, instead of leaving me to find it myself.
+
+## FL-4: GitHub in the browser and Entire had to be different accounts
+
+I granted GitHub access so I could use trails from saif-shines Entire. I expected login to be smooth. It was not. The browser GitHub session had to be **saif-at-scalekit**. Entire had to be **saif-shines**.
+
+1. I wanted trails on `pipecat-scalekit-example`.
+2. My saif-at-scalekit Entire account did not have trails yet.
+3. I extended GitHub collaborator access. From saif-at-scalekit GitHub to saif-shines GitHub.
+4. Then I would use trails from saif-shines Entire for now.
+5. That GitHub access was already granted. I logged into Entire as saif-shines.
+6. I expected it to be smooth. It was not.
+7. The browser GitHub session had to be **saif-at-scalekit**. Entire had to be **saif-shines**.
+8. I mixed them up. Lots of trial and error.
+
+This is confusing. A developer who tries Entire on a personal account, then onboards a team, can drop off here.
+
+I will not prescribe the ideal product. At the moment it was confusing.
+
+A quick win: notifications that **guide and reason** me out of this mix-up. Which GitHub. Which Entire.
+
+## FL-5: Trails collide with the pull-request mental model
+
+The pull-request mental model is simple: there is a product on a main branch, I make a feature branch, then I pull that feature into main. Fitting Trails into the same shape is not as simple.
+
+Assume checkpoints and Entire are both already on:
+
+1. I create a branch.
+2. Each job on that branch is a trail. So I create a trail.
+3. Creating the trail attaches sessions, the object that carries the "why" behind the context.
+4. From here I do not have control over what goes into the trail. I am meant to let Entire take it from planning to building, and on.
+5. Findings and runners show up next, and I need to configure them. That is a big jump from step 3.
+6. The jump is big enough that actually understanding it means running these commands by hand, more than once. In the age of AI, someone might not do that, and still stay hands-off anyway.
+
+This may be a hard problem to solve. If I had to state the model simply, I would put it as:
+
+- A trail is the job for one branch on your repo.
+- Entire makes sure that job runs the behavior (the checks and balances) you want, not whatever your agent decides on its own.
+
+If someone has to build this mental model by hand, there is a good chance they ask their agent to do it instead. The more they rely on the agent for that, the longer it takes to build the model in their own head. Give their agent a skill that helps them *understand* trails, not only one that helps them *use* trails. The using follows once the understanding is there.
+
+## FL-6: Entire creates too many directories
+
+I want `pipecat-scalekit-example` to stay a small starter. Other developers clone it.
+
+Entire is a CLI. It still wrote one directory per agent tool. Those directories sit in the starter. Cleanup is annoying.
+
+Git tracks these. Commit `ec2e063` added them. The subject is "Add Pipecat Cloud × Scalekit playground". That commit is on `main` and on `prototype`.
+
+1. `.claude`
+2. `.codex`
+3. `.cursor`
+4. `.factory`
+5. `.gemini`
+6. `.github`
+7. `.grok`
+8. `.opencode`
+9. `.pi`
+
+A few points on what is actually in these:
+
+- `.github` here is only the Entire hook. It is not a normal GitHub workflow folder.
+- `.opencode/plugins/entire.ts` and `.pi/extensions/entire/index.ts` each name the `entire enable --agent <name>` command that generated them.
+- The Grok hook file points at the Entire binary on my machine. Git tracks that file. I will not paste the path.
+- `.entire` is also on disk. Git does not track it, and does not ignore it either.
+- `.venv` and `.pytest_cache` are local Python. Entire did not create those.
+- I moved the job notes into `notes/`, which git ignores. Commit `7c2c872`, subject "Move trail notes out of the starter root", on GitHub `prototype`.
+- I left the hook directories in place. That is probably not a deliberate keep on anyone's part. In most cases an agent likely just passed `--yes`, or the equivalent auto-approve, through the setup command, and the directories landed without a second thought.
+- Open question I do not have an answer to: what if I do not want any of these nine committed publicly at all? Nothing here tells me how to keep them all local-only, across every agent, in one step.
+
+If one CLI command could remove these from a starter, cleanup would be less annoying.
+
+## FL-7: Gates uses four words that take days to learn
+
+Two days in, and two projects using Trails, I still had to look up what the Gates rows mean: Findings, Checks, Up to date, and Approvals.
+
+- I keep GitHub and Entire as different products in my head. The row names do not say which product owns each word.
+- Once I sat with it, the rows roughly map to more familiar words: Approvals ≈ required reviewers, Findings ≈ review-tool results (the way CodeRabbit reports them), Checks ≈ CI passed, Up to date ≈ branch is current with its base.
+- When the page said Approvals, I did not think it meant the GitHub approval. That is probably just a matter of time. Reading these words as inline with GitHub's own words is a habit I have not built yet.
+- The only explanation I found is inside a GitHub check named Entire Gates. On commit `8fa9c1b` of `saif-shines/pipecat-scalekit-example` the check summary says:
+  1. Approvals failed. "No reviewers have approved this trail."
+  2. Checks skipped. "No CI checks reported for the head commit."
+  3. Findings skipped. "No push-triggered review runner is configured."
+  4. Up to date passed. Reason text: "Up to date."
+- That check is the only GitHub check on the commit. The repo has zero GitHub Actions workflows. Pull request 1 has zero GitHub reviews. [github.com/saif-shines/pipecat-scalekit-example/pull/1](https://github.com/saif-shines/pipecat-scalekit-example/pull/1)
+- The CLI matches the trail side: `entire trail approvals 1` returns an empty list, `entire trail approve` writes an approval on the trail, `entire trail finding list 1` returns zero findings, and `entire trail --help` has no checks command and no up-to-date command.
+- A finding, per the public skill, is a review comment on the trail: file, line, body, severity. [github.com/entireio/skills/.../address-findings/SKILL.md](https://github.com/entireio/skills/blob/main/skills/address-findings/SKILL.md)
+
+Two to three days, across two projects, is what it took me to get comfortable with these four words. Do developers coming in from outside need to pay that same tuition?
+
+One sentence under each row, on the trail page, would remove this lookup.
+
+## FL-8: Entire opens the pull request before you do
+
+I expected to open the pull request myself, and expected Entire to add comments on it. When I went to open it, Entire had already opened it.
+
+- Pull request 1 on `saif-shines/pipecat-scalekit-example` was a draft. Entire opened it on 21 Sep 2026, titled "Pipecat Cloud × Scalekit calendar prototype". [github.com/saif-shines/pipecat-scalekit-example/pull/1](https://github.com/saif-shines/pipecat-scalekit-example/pull/1)
+- The body says: "This draft pull request was opened by Entire after CI was requested for the linked trail." It also says the trail link in the body is what keeps the trail and the pull request connected.
+- A hidden note in the pull request's body reads `entire-shadow-pr`.
+- The same opening sentence appears on Entire's own repository, e.g. [github.com/entireio/cli/pull/1798](https://github.com/entireio/cli/pull/1798)
+- I asked for a pull request myself (22 Sep). The draft was already there. The title and body were updated, and the draft was marked ready.
+
+I did not understand why Entire created this pull request. I just knew it did. I still do not know why, and I have skipped it for now.
+
+My best guess: something about a runner failing pushes Entire to open a fix on the PR. But that is hard to follow from what I can see.
+
+Broadly, what I am asking myself is whether Entire is "gating" the PR, acting like a review bot such as CodeRabbit, or doing something else entirely.
+
+## FL-9: Sessions never attached, and nothing said why
+
+I was about 80% through the work I wanted on this trail. The Sessions box was still empty. The page said: "Sessions appear after you commit with the Entire CLI." I had commits. I did not know why they were not on the trail.
+
+- The commits on branch `prototype` have no `Entire-Checkpoint` line, the line that links a commit to a session. `entire session list` had no sessions. `entire checkpoint list` had 0 checkpoints. One of those commits is "Keep only the Grok Entire hooks".
+- The cause was the hook setup. The product did not say that.
+- This Grok chat was open on `ecosystem/pipecat-x-sample`. The Entire hook file is in `ecosystem/pipecat-scalekit-example`. Grok loads project hooks only from the folder the chat was opened in.
+- That live folder is its own git repo. Trust on the parent `feedback-syndicate` folder does not cover it. `grok inspect` said Project trusted: no. Untrusted project hooks are skipped with no message.
+- The Git hook in the live repo did run on commit. It only attaches a session that already exists. No session was recorded, so it added nothing. The trail still showed the commit; the Sessions box stayed empty.
+- I found this after the demo worked and the pull request was open. There was no warning at the start.
+
+A hook that does not run should say why. "Not trusted" or "wrong folder" on the trail page would have been enough.
+
+## FL-10: Transferring the GitHub repo dropped the Entire trail
+
+I transferred the private repo from `saif-shines` to `scalekit-developers`. I did not expect the Entire progress to disappear.
+
+- The Git commits moved. Pull request 1 moved. The trail did not.
+- The live repo id is `1379250756`, now `scalekit-developers/pipecat-scalekit-example`. Branch `prototype` is still `d8af995`.
+- `entire trail list` on the org repo found no trails, true for both the `saif-shines` Entire login and the `saif-at-scalekit` login.
+- Asking Entire about the old name returned: "saif-shines/pipecat-scalekit-example is not onboarded to Entire, or is not visible to your login. If it should be onboarded, run 'entire repo mirror create'."
+- Both pages return 404:
+  - https://entire.io/gh/saif-shines/pipecat-scalekit-example/trails/1
+  - https://entire.io/gh/scalekit-developers/pipecat-scalekit-example/trails/1
+- Entire looks up a trail by `gh/owner/repo`. The CLI reads the owner from `origin`. The owner string changed; the trail stayed on the old string.
+- The GitHub check named Entire Gates is still on commit `d8af995`. Its link still points at the old trail, a page that is gone.
+
+This work was not a serious loss. I still would have liked a warning before the progress vanished. The transfer happens on GitHub, not on Entire. I do not know how that warning should appear. The GitHub App could say it, the Gates check could say it. Nothing said it.
+
+## FL-11: Keeping new work on the right trail takes a manual reminder
+
+I keep going back and forth on whether the next task belongs on the trail already open, or a new one. It is a tug of war I hold in my head, not something the tool holds for me.
+
+1. `prototype` was already merged upstream, under different history. It was stale.
+2. My agent created a new branch, `docs/public-docs-rules`, and opened trail 2 for an `AGENTS.md` change.
+3. In the same conversation, I asked for a README rewrite with a different skill, on the same repo.
+4. The agent did not connect that work to trail 2 on its own.
+5. I had to say "this is part of entire trail 2" before it committed there instead of drifting, or opening a third branch.
+6. Nothing on the trail page, and nothing the CLI printed mid-conversation, told me which trail the next task would land on.
+
+If the current trail showed itself before each new task ("this will land on trail 2, say so if you want a new one"), I would not have to hold that scope in my head.
+
+## FL-12: Trail asks for approvals GitHub does not require, and shows it as a red X
+
+The trail for the branch I want to merge shows Approvals as a gate. The pull request itself needs zero approvals to merge, and the mismatch surfaces as a red X on the GitHub check with no way to see why.
+
+1. Trail 2, on branch `docs/public-docs-rules`, is in phase "reviewing". [entire.io/gh/scalekit-developers/pipecat-scalekit-example/trails/2](https://entire.io/gh/scalekit-developers/pipecat-scalekit-example/trails/2)
+2. `entire trail approvals 2` returns no approvals.
+3. Pull request 2 on GitHub has `reviewDecision` empty and `mergeable: MERGEABLE`. Nothing blocks the merge button.
+4. `main` on this repo has no branch protection rule. GitHub returns 404 for it.
+5. So GitHub asks for nothing. The trail still shows an approvals gate as part of getting to done.
+6. That splits me across two sources for the same question: can I merge this? I end up checking GitHub, since GitHub is the one that actually merges.
+7. The mismatch is visible, too: commit `82d61c8` on pull request 2 has one check, "Entire Gates", with `conclusion: "failure"`. The output says "1 blocking gate not passing": Approvals failed, Checks skipped, Findings skipped, Up to date passed.
+8. On the pull request's checks tab, I clicked "Details" to see why it failed. The panel opened to "Entire" in the sidebar, but the main pane said only "Select a check to view from the sidebar." Nothing rendered.
+9. So the one place that could explain the red X, right where I am looking, showed nothing.
+
+Linear does not have this problem. A Linear issue's status only ever means one thing, and I never have to cross-check it against a second tool to know if I can act.
+
+A red X that blocks nothing still reads as a red X. I do not get to decide that it is fine before I have looked. If the trail read the same branch protection GitHub already enforces, and only asked for what GitHub asks for, I would have one place to check, not two, and no red X for a gate that was never required.
