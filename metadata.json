@@ -1,0 +1,40 @@
+{
+  "cli_version": "0.10.6",
+  "checkpoint_id": "01M349GQ14972JZJMK213P08ZH",
+  "strategy": "manual-commit",
+  "branch": "dev-trace",
+  "checkpoints_count": 31,
+  "files_touched": [
+    "docs/superpowers/specs/2026-09-22-skills-knowledge-graph-design.md",
+    "package.json",
+    "pnpm-lock.yaml",
+    "src/components/graph/SkillsGraph.astro",
+    "src/consts.ts",
+    "src/data/skills.ts",
+    "src/pages/development-tools-trace.astro",
+    "tsconfig.json"
+  ],
+  "sessions": [
+    {
+      "metadata": "/0/metadata.json",
+      "transcript": "/0/full.jsonl",
+      "compact_transcript": "/0/transcript.jsonl",
+      "content_hash": "/0/content_hash.txt",
+      "prompt": "/0/prompt.txt"
+    }
+  ],
+  "token_usage": {
+    "input_tokens": 546,
+    "cache_creation_tokens": 747239,
+    "cache_read_tokens": 69211811,
+    "output_tokens": 167392,
+    "api_call_count": 275,
+    "subagent_tokens": {
+      "input_tokens": 10,
+      "cache_creation_tokens": 68202,
+      "cache_read_tokens": 231907,
+      "output_tokens": 4480,
+      "api_call_count": 5
+    }
+  }
+}
