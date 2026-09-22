@@ -1,0 +1,817 @@
+---
+// Layout inspired by LemonAdorable/astro-theme-iris's knowledge-graph component
+// (Apache-2.0): https://github.com/LemonAdorable/astro-theme-iris
+// Reworked here as a collapsible tree (branch = current grouping) with
+// shared-tag cross-links drawn on top of the selected leaf, rather than a
+// free-floating force graph — 90 nodes is too many to scan without structure.
+import type { SkillEntry } from "@data/skills";
+
+interface Props {
+  entries: SkillEntry[];
+}
+
+const { entries } = Astro.props;
+---
+
+<div class="graph-toolbar">
+  <label class="graph-search">
+    <span>Find a node</span>
+    <input type="search" placeholder="Search by name..." data-graph-search autocomplete="off" />
+    <div data-graph-suggestions hidden></div>
+  </label>
+
+  <fieldset class="graph-group-by">
+    <legend>Branch by</legend>
+    <div class="segmented" data-graph-group-by></div>
+  </fieldset>
+
+  <div class="graph-toolbar-actions">
+    <button type="button" data-graph-expand-all>Expand all</button>
+    <button type="button" data-graph-collapse-all>Collapse all</button>
+  </div>
+</div>
+
+<p class="graph-shape-key">
+  <span class="shape-dot shape-circle" aria-hidden="true"></span> circle = skill
+  <span class="shape-dot shape-square" aria-hidden="true"></span> square = tool
+</p>
+
+<div class="skills-graph">
+  <div class="graph-canvas" data-graph-canvas>
+    <p data-graph-status>Loading graph...</p>
+  </div>
+  <aside class="graph-details" data-graph-details>
+    <span>Node</span>
+    <h2>Click a leaf</h2>
+    <p>Branch nodes expand/collapse. Leaf nodes show detail and highlight shared-tag cross-links.</p>
+    <ul class="graph-legend" data-graph-legend></ul>
+  </aside>
+</div>
+
+<script type="application/json" data-graph-entries set:html={JSON.stringify(entries)} />
+
+<script>
+  import * as d3 from "d3";
+  import type { SkillEntry } from "@data/skills";
+
+  interface TreeDatum {
+    name: string;
+    entry?: SkillEntry; // present on leaves only
+    children?: TreeDatum[];
+  }
+
+  // Collapse state lives on the D3 hierarchy node itself (`_children`),
+  // not on the plain data object — this is the standard d3 collapsible-tree
+  // convention. Only group nodes (depth 1) ever carry `_children`; leaves
+  // never have `children` in the source data, so they never collapse.
+  type CNode = d3.HierarchyNode<TreeDatum> & { _children?: CNode[] };
+  type HNode = d3.HierarchyPointNode<TreeDatum> & { _children?: HNode[] };
+
+  // Heuristic: which plugin/marketplace a skill's name maps to. Only the
+  // two Scalekit-flavored plugins (authstack, skillkit) and the two with a
+  // real SKILL.md on disk (pm-skills, caveman) are known — see
+  // docs/research/local-tools-skills-inventory.md. Everything else falls
+  // back to "ungrouped" rather than guessing.
+  function deriveSource(e: SkillEntry): string {
+    const n = e.name.toLowerCase();
+    if (/saaskit|agentkit|scim|sso|access-control/.test(n)) return "authstack (saaskit/agentkit)";
+    if (/^docs-|^devrel-|journey-sidebar|review-scalekit-code|^ask-devex|mcp-server|sdk-craft|sdk-development|deploy-self-hosted|run-dryrun/.test(n))
+      return "skillkit (scalekit/docs)";
+    if (n === "skill-authoring-workflow" || n === "product-sense-interview-answer") return "pm-skills";
+    if (n === "caveman" || n === "caveman-compress") return "caveman";
+    return "ungrouped";
+  }
+
+  // Add an entry here to offer another way to branch the tree. `order`
+  // (optional) pins known group values first; anything not listed falls in
+  // afterward in first-seen order.
+  const GROUPINGS: { key: string; label: string; get: (e: SkillEntry) => string; order?: string[] }[] = [
+    { key: "agent", label: "Agent", get: (e) => e.agent },
+    { key: "type", label: "Type", get: (e) => e.type },
+    {
+      key: "source",
+      label: "Source",
+      get: deriveSource,
+      order: ["authstack (saaskit/agentkit)", "skillkit (scalekit/docs)", "pm-skills", "caveman", "ungrouped"],
+    },
+  ];
+
+  function orderedGroupValues(values: string[], order?: string[]): string[] {
+    if (!order) return values;
+    const known = order.filter((v) => values.includes(v));
+    const rest = values.filter((v) => !order.includes(v));
+    return [...known, ...rest];
+  }
+
+  const PALETTE = [
+    "#8b5cf6",
+    "#0ea5e9",
+    "#10b981",
+    "#f59e0b",
+    "#ef4444",
+    "#ec4899",
+    "#14b8a6",
+    "#6366f1",
+  ];
+
+  const scriptEl = document.querySelector<HTMLScriptElement>("[data-graph-entries]");
+  const entries: SkillEntry[] = scriptEl ? JSON.parse(scriptEl.textContent || "[]") : [];
+
+  let activeGrouping = GROUPINGS[0];
+  let root: CNode;
+  let selectedLeafId: string | null = null;
+  let color: d3.ScaleOrdinal<string, string>;
+
+  // Within a group, a skill whose tags are a superset of another skill's
+  // tags nests under it (e.g. implement-saaskit-nextjs, tags [implement,
+  // saaskit, nextjs], nests under implement-saaskit, tags [implement,
+  // saaskit]). Skills with no such subset relationship stay flat, direct
+  // children of the group — purely derived from tags already in the data,
+  // nothing invented.
+  function buildSubtree(groupEntries: SkillEntry[]): TreeDatum[] {
+    const sorted = [...groupEntries].sort((a, b) => a.tags.length - b.tags.length);
+    const placed: { entry: SkillEntry; node: TreeDatum }[] = [];
+    const roots: TreeDatum[] = [];
+    sorted.forEach((entry) => {
+      const node: TreeDatum = { name: entry.name, entry };
+      const tagSet = new Set(entry.tags);
+      let bestParent: { entry: SkillEntry; node: TreeDatum } | null = null;
+      let bestScore = -1;
+      for (const candidate of placed) {
+        if (candidate.entry.tags.length >= entry.tags.length) continue;
+        if (!candidate.entry.tags.every((t) => tagSet.has(t))) continue;
+        if (candidate.entry.tags.length > bestScore) {
+          bestScore = candidate.entry.tags.length;
+          bestParent = candidate;
+        }
+      }
+      if (bestParent) {
+        bestParent.node.children = bestParent.node.children ?? [];
+        bestParent.node.children.push(node);
+      } else {
+        roots.push(node);
+      }
+      placed.push({ entry, node });
+    });
+    return roots;
+  }
+
+  function buildTree(): TreeDatum {
+    const groups = new Map<string, SkillEntry[]>();
+    entries.forEach((entry) => {
+      const key = activeGrouping.get(entry);
+      if (!groups.has(key)) groups.set(key, []);
+      groups.get(key)!.push(entry);
+    });
+    const orderedKeys = orderedGroupValues(Array.from(groups.keys()), activeGrouping.order);
+    return {
+      name: "All",
+      children: orderedKeys.map((name) => ({ name, children: buildSubtree(groups.get(name)!) })),
+    };
+  }
+
+  // A node (branch or entry-with-children) collapses by folding its
+  // children into `_children`, recursively, so re-expanding a group later
+  // reveals its own children already collapsed too.
+  function collapseRecursive(node: CNode) {
+    if (node.children) {
+      node.children.forEach((c) => collapseRecursive(c as CNode));
+      node._children = node.children as CNode[];
+      node.children = undefined;
+    }
+  }
+
+  function expandRecursive(node: CNode) {
+    if (node._children) {
+      node.children = node._children;
+      node._children = undefined;
+    }
+    node.children?.forEach((c) => expandRecursive(c as CNode));
+  }
+
+  // Finds the path from `node` down to the entry named `id`, searching both
+  // expanded and collapsed children — collapse state never deletes nodes,
+  // just moves them, so this always finds the target regardless of what's
+  // currently visible.
+  function findPath(node: CNode, id: string, path: CNode[] = []): CNode[] | null {
+    const nextPath = [...path, node];
+    if (node.data.entry?.name === id) return nextPath;
+    const kids = (node.children ?? node._children) as CNode[] | undefined;
+    if (!kids) return null;
+    for (const child of kids) {
+      const result = findPath(child, id, nextPath);
+      if (result) return result;
+    }
+    return null;
+  }
+
+  // Fresh hierarchy, every group node starts collapsed so the initial view
+  // is scannable at ~90 leaves.
+  function buildRoot(): CNode {
+    const r = d3.hierarchy(buildTree()) as CNode;
+    r.children?.forEach((group: CNode) => collapseRecursive(group));
+    return r;
+  }
+
+  // Every other entry that shares a tag with this one, and which tag causes
+  // the connection — computed against the full data set, not just whatever
+  // is currently expanded in the tree, so the panel stays accurate even
+  // when the related node's branch is collapsed.
+  function getRelations(entry: SkillEntry): { name: string; tag: string }[] {
+    return entries
+      .filter((e) => e.name !== entry.name)
+      .map((e) => ({ name: e.name, tag: e.tags.find((t) => entry.tags.includes(t)) }))
+      .filter((r): r is { name: string; tag: string } => !!r.tag);
+  }
+
+  function showDetails(details: HTMLElement, entry: SkillEntry) {
+    const legend = details.querySelector("[data-graph-legend]")?.outerHTML ?? "";
+    const relations = getRelations(entry);
+    const relationsHtml = relations.length
+      ? `<div class="graph-relations">
+          <span>Connects to (${relations.length})</span>
+          <ul>
+            ${relations
+              .map((r) => `<li><button type="button" data-jump-to="${r.name}">${r.name}</button> <em>#${r.tag}</em></li>`)
+              .join("")}
+          </ul>
+        </div>`
+      : `<div class="graph-relations"><span>Connects to</span><p>No shared tags with other visible entries.</p></div>`;
+    details.innerHTML = `
+      <span>Node</span>
+      <h2>${entry.name}</h2>
+      <p>${entry.type} · ${entry.domain} · ${entry.agent}</p>
+      <p>${entry.tags.map((t) => `#${t}`).join(" ")}</p>
+      ${relationsHtml}
+      ${legend}
+    `;
+    details.querySelectorAll<HTMLButtonElement>("[data-jump-to]").forEach((button) => {
+      button.addEventListener("click", () => zoomToNode?.(button.dataset.jumpTo!));
+    });
+  }
+
+  let zoomToNode: ((id: string) => void) | null = null;
+  let rebuildAndRender: (() => void) | null = null;
+
+  function render() {
+    const canvas = document.querySelector<HTMLElement>("[data-graph-canvas]");
+    const details = document.querySelector<HTMLElement>("[data-graph-details]");
+    const legendEl = document.querySelector<HTMLElement>("[data-graph-legend]");
+    if (!canvas || !details) return;
+
+    const width = canvas.clientWidth || 900;
+    const height = canvas.clientHeight || 640;
+    canvas.innerHTML = "";
+
+    const groupValues = orderedGroupValues(
+      Array.from(new Set(entries.map((e) => activeGrouping.get(e)))),
+      activeGrouping.order
+    );
+    color = d3.scaleOrdinal<string, string>().domain(groupValues).range(PALETTE);
+
+    if (legendEl) {
+      legendEl.innerHTML = groupValues
+        .map((v) => `<li><i style="background:${color(v)}33;border-color:${color(v)}"></i>${v}</li>`)
+        .join("");
+    }
+
+    const margin = { top: 20, right: 180, bottom: 20, left: 90 };
+    const treeLayout = d3.tree<TreeDatum>().size([height - margin.top - margin.bottom, width - margin.left - margin.right]);
+
+    const svg = d3
+      .select(canvas)
+      .append("svg")
+      .attr("viewBox", `0 0 ${width} ${height}`)
+      .attr("role", "img")
+      .attr("aria-label", "Skills and tools tree");
+
+    const viewport = svg.append("g").attr("transform", `translate(${margin.left},${margin.top})`);
+    const zoomBehavior = d3
+      .zoom<SVGSVGElement, unknown>()
+      .scaleExtent([0.3, 3])
+      .on("zoom", (event) => viewport.attr("transform", event.transform));
+    svg.call(zoomBehavior);
+
+    const linkLayer = viewport.append("g").attr("class", "tree-links");
+    const crossLinkLayer = viewport.append("g").attr("class", "cross-links");
+    const nodeLayer = viewport.append("g").attr("class", "tree-nodes");
+
+    function draw() {
+      const treeRoot = treeLayout(root as unknown as d3.HierarchyNode<TreeDatum>) as HNode;
+      const nodes = treeRoot.descendants() as HNode[];
+      const links = treeRoot.links();
+
+      linkLayer
+        .selectAll("path")
+        .data(links, (d: any) => d.target.data.name + (d.target.data.entry?.name ?? ""))
+        .join("path")
+        .attr("fill", "none")
+        .attr("stroke", "var(--color-rule)")
+        .attr("stroke-width", 1.2)
+        .attr(
+          "d",
+          d3
+            .linkHorizontal<any, HNode>()
+            .x((d) => d.y)
+            .y((d) => d.x)
+        );
+
+      const node = nodeLayer
+        .selectAll<SVGGElement, HNode>("g")
+        .data(nodes, (d: any) => d.data.name + (d.data.entry?.name ?? ""))
+        .join("g")
+        .attr("transform", (d) => `translate(${d.y},${d.x})`)
+        .style("cursor", "pointer");
+
+      node.selectAll("*").remove();
+
+      // Shape encodes type (skill = circle, tool = square) independent of
+      // whatever dimension is currently coloring the nodes — color alone
+      // can't carry both the active grouping AND type at once.
+      const symbolGen = d3.symbol<HNode>().size((d) => (d.data.entry ? 60 : 80));
+      node
+        .append("path")
+        .attr("d", (d) =>
+          symbolGen.type(!d.data.entry ? d3.symbolCircle : d.data.entry.type === "tool" ? d3.symbolSquare : d3.symbolCircle)(d)
+        )
+        .attr("fill", (d) => {
+          const groupKey = d.data.entry ? activeGrouping.get(d.data.entry) : d.data.name;
+          return `${color(groupKey)}${d.data.entry ? "33" : "55"}`;
+        })
+        .attr("stroke", (d) => {
+          const groupKey = d.data.entry ? activeGrouping.get(d.data.entry) : d.data.name;
+          return color(groupKey);
+        })
+        .attr("stroke-width", (d) => (d.data.entry?.name === selectedLeafId ? 3 : 1.5));
+
+      // Any node with hidden children gets a "+" to signal it expands —
+      // an entry can be both a leaf's parent and a leaf itself now.
+      node
+        .filter((d) => !!d._children)
+        .append("text")
+        .attr("x", 0)
+        .attr("y", 3)
+        .attr("text-anchor", "middle")
+        .attr("font-size", 9)
+        .attr("fill", "var(--color-paper)")
+        .text("+");
+
+      node
+        .append("text")
+        .attr("x", (d) => (d.children || d._children ? -12 : 11))
+        .attr("y", 3)
+        .attr("text-anchor", (d) => (d.children || d._children ? "end" : "start"))
+        .attr("fill", "var(--color-ink)")
+        .attr("font-weight", (d) => (d.data.entry ? 400 : 650))
+        .attr("font-size", (d) => (d.data.entry ? 10 : 11))
+        .text((d) => d.data.name);
+
+      node.on("click", (_event, d) => {
+        // Toggle expand/collapse if this node has children either way —
+        // an entry node can carry its own nested children now, so this
+        // isn't exclusive with showing its detail below.
+        const target = d as unknown as CNode;
+        if (target.children) {
+          target._children = target.children as CNode[];
+          target.children = undefined;
+        } else if (target._children) {
+          target.children = target._children;
+          target._children = undefined;
+        }
+
+        if (!d.data.entry) {
+          selectedLeafId = null;
+          crossLinkLayer.selectAll("*").remove();
+          draw();
+          return;
+        }
+        selectedLeafId = d.data.entry.name;
+        showDetails(details, d.data.entry);
+        drawCrossLinks(d, nodes);
+        draw();
+        panToNode(d);
+      });
+
+      // Keeps a selected leaf centered in the viewport — without this, a
+      // plain click on a leaf far from the current pan position leaves its
+      // cross-links appearing to start from off-screen.
+      function panToNode(target: HNode) {
+        svg
+          .transition()
+          .duration(450)
+          .call(
+            zoomBehavior.transform,
+            d3.zoomIdentity
+              .translate(width / 2, height / 2)
+              .scale(1.6)
+              .translate(-(target.y + margin.left), -(target.x + margin.top))
+          );
+      }
+
+      zoomToNode = (id: string) => {
+        const path = findPath(root, id);
+        if (!path) return;
+        // Expand every ancestor on the path to the target (path includes
+        // the target itself last; leave that one's own children as-is).
+        path.slice(0, -1).forEach((n) => {
+          if (n._children) {
+            n.children = n._children;
+            n._children = undefined;
+          }
+        });
+        draw();
+        const freshNodes = (treeLayout(root as unknown as d3.HierarchyNode<TreeDatum>) as HNode).descendants() as HNode[];
+        const target = freshNodes.find((n) => n.data.entry?.name === id);
+        if (!target) return;
+        selectedLeafId = id;
+        showDetails(details, target.data.entry!);
+        drawCrossLinks(target, freshNodes);
+        draw();
+        panToNode(target);
+      };
+    }
+
+    function drawCrossLinks(source: HNode, allNodes: HNode[]) {
+      crossLinkLayer.selectAll("*").remove();
+      if (!source.data.entry) return;
+      // Skip the source's direct tree parent/children — that relation is
+      // already the solid tree edge, a dashed arc over it would just
+      // duplicate the same line.
+      const directRelatives = new Set<string>();
+      if (source.parent?.data.entry) directRelatives.add(source.parent.data.entry.name);
+      (source.children ?? []).forEach((c) => c.data.entry && directRelatives.add(c.data.entry.name));
+      (source._children ?? []).forEach((c) => c.data.entry && directRelatives.add(c.data.entry.name));
+      const sourceTags = new Set(source.data.entry.tags);
+      const targets = allNodes.filter(
+        (n) =>
+          n.data.entry &&
+          n.data.entry.name !== source.data.entry!.name &&
+          !directRelatives.has(n.data.entry.name) &&
+          n.data.entry.tags.some((t) => sourceTags.has(t))
+      );
+      crossLinkLayer
+        .selectAll("path")
+        .data(targets)
+        .join("path")
+        .attr("fill", "none")
+        .attr("stroke", "var(--color-focus)")
+        .attr("stroke-width", 1.3)
+        .attr("stroke-dasharray", "3 3")
+        .attr("opacity", 0.75)
+        .attr("d", (d) => {
+          const dx = d.y - source.y;
+          const dy = d.x - source.x;
+          const dr = Math.sqrt(dx * dx + dy * dy) * 1.4;
+          return `M${source.y},${source.x} A${dr},${dr} 0 0,1 ${d.y},${d.x}`;
+        });
+    }
+
+    draw();
+  }
+
+  function renderGroupByControl() {
+    const container = document.querySelector<HTMLElement>("[data-graph-group-by]");
+    if (!container) return;
+    container.innerHTML = "";
+    GROUPINGS.forEach((grouping) => {
+      const button = document.createElement("button");
+      button.type = "button";
+      button.textContent = grouping.label;
+      button.classList.toggle("is-active", grouping.key === activeGrouping.key);
+      button.addEventListener("click", () => {
+        activeGrouping = grouping;
+        container.querySelectorAll("button").forEach((b) => b.classList.remove("is-active"));
+        button.classList.add("is-active");
+        rebuildAndRender?.();
+      });
+      container.append(button);
+    });
+  }
+
+  root = buildRoot();
+  rebuildAndRender = () => {
+    root = buildRoot();
+    selectedLeafId = null;
+    render();
+  };
+
+  renderGroupByControl();
+  render();
+
+  document.querySelector("[data-graph-expand-all]")?.addEventListener("click", () => {
+    root.children?.forEach((group: CNode) => expandRecursive(group));
+    render();
+  });
+  document.querySelector("[data-graph-collapse-all]")?.addEventListener("click", () => {
+    root.children?.forEach((group: CNode) => collapseRecursive(group));
+    selectedLeafId = null;
+    render();
+  });
+
+  const search = document.querySelector<HTMLInputElement>("[data-graph-search]");
+  const suggestions = document.querySelector<HTMLElement>("[data-graph-suggestions]");
+  if (search && suggestions) {
+    search.addEventListener("input", () => {
+      const query = search.value.trim().toLowerCase();
+      suggestions.replaceChildren();
+      if (!query) {
+        suggestions.hidden = true;
+        return;
+      }
+      const matches = entries.filter((e) => e.name.toLowerCase().includes(query)).slice(0, 8);
+      matches.forEach((entry) => {
+        const button = document.createElement("button");
+        button.type = "button";
+        button.dataset.suggestion = "";
+        button.textContent = entry.name;
+        button.addEventListener("click", () => {
+          search.value = entry.name;
+          suggestions.hidden = true;
+          zoomToNode?.(entry.name);
+        });
+        suggestions.append(button);
+      });
+      suggestions.hidden = matches.length === 0;
+    });
+
+    search.addEventListener("keydown", (event) => {
+      if (event.key !== "Enter") return;
+      const query = search.value.trim().toLowerCase();
+      const match = entries.find((e) => e.name.toLowerCase().includes(query));
+      if (match) {
+        suggestions.hidden = true;
+        zoomToNode?.(match.name);
+      }
+    });
+  }
+</script>
+
+<style>
+  .graph-toolbar {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: flex-end;
+    gap: 1.5rem;
+    margin-bottom: 0.75rem;
+  }
+
+  .graph-search {
+    position: relative;
+    display: block;
+    width: 22rem;
+    max-width: 100%;
+  }
+
+  .graph-search span,
+  .graph-group-by legend {
+    display: block;
+    margin-bottom: 0.3rem;
+    color: var(--color-muted);
+    font-size: 0.68rem;
+    font-weight: 650;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+  }
+
+  .graph-search input {
+    width: 100%;
+    padding: 0.5rem 0.65rem;
+    border: 1px solid var(--color-rule);
+    border-radius: 0.6rem;
+    color: var(--color-ink);
+    background: transparent;
+    font: inherit;
+    font-size: 0.85rem;
+  }
+
+  .graph-search div {
+    position: absolute;
+    top: 100%;
+    z-index: 10;
+    width: 100%;
+    max-height: 14rem;
+    overflow: auto;
+    margin-top: 0.3rem;
+    padding: 0.3rem;
+    border: 1px solid var(--color-rule);
+    border-radius: 0.6rem;
+    background: var(--color-paper);
+    box-shadow: 0 12px 30px rgba(0, 0, 0, 0.12);
+  }
+
+  .graph-search button {
+    display: block;
+    width: 100%;
+    padding: 0.4rem 0.5rem;
+    border: 0;
+    border-radius: 0.4rem;
+    color: var(--color-ink);
+    background: none;
+    cursor: pointer;
+    text-align: left;
+    font-size: 0.8rem;
+  }
+
+  .graph-search button:hover {
+    background: var(--color-rule);
+  }
+
+  .graph-group-by {
+    margin: 0;
+    padding: 0;
+    border: 0;
+  }
+
+  .segmented,
+  .graph-toolbar-actions {
+    display: flex;
+    gap: 0.3rem;
+  }
+
+  .segmented button,
+  .graph-toolbar-actions button {
+    padding: 0.4rem 0.7rem;
+    border: 1px solid var(--color-rule);
+    border-radius: 0.5rem;
+    color: var(--color-muted);
+    background: transparent;
+    cursor: pointer;
+    font-size: 0.78rem;
+  }
+
+  .segmented button.is-active {
+    border-color: var(--color-accent);
+    color: var(--color-accent);
+    background: color-mix(in oklch, var(--color-accent) 12%, transparent);
+  }
+
+  .graph-toolbar-actions {
+    margin-left: auto;
+  }
+
+  .skills-graph {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(14rem, 18rem);
+    gap: 1rem;
+    height: 44rem;
+  }
+
+  .graph-canvas {
+    position: relative;
+    min-width: 0;
+    border: 1px solid var(--color-rule);
+    border-radius: 0.75rem;
+    overflow: hidden;
+  }
+
+  .graph-canvas p {
+    position: absolute;
+    inset: 0;
+    display: grid;
+    place-items: center;
+    margin: 0;
+    color: var(--color-muted);
+    font-size: 0.85rem;
+  }
+
+  .graph-canvas svg {
+    display: block;
+    width: 100%;
+    height: 100%;
+  }
+
+  .graph-details {
+    padding: 1rem;
+    border: 1px solid var(--color-rule);
+    border-radius: 0.75rem;
+    overflow: auto;
+  }
+
+  .graph-details span {
+    color: var(--color-accent);
+    font-size: 0.65rem;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+
+  .graph-details h2 {
+    margin: 0.4rem 0 0.3rem;
+    font-size: 1rem;
+    color: var(--color-ink);
+  }
+
+  .graph-details p {
+    margin: 0.2rem 0;
+    color: var(--color-muted);
+    font-size: 0.8rem;
+  }
+
+  .graph-legend {
+    display: flex;
+    flex-direction: column;
+    gap: 0.35rem;
+    margin: 1rem 0 0;
+    padding: 0.75rem 0 0;
+    border-top: 1px solid var(--color-rule);
+    list-style: none;
+  }
+
+  .graph-legend li {
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+    color: var(--color-muted);
+    font-size: 0.72rem;
+  }
+
+  .graph-legend i {
+    display: inline-block;
+    width: 0.6rem;
+    height: 0.6rem;
+    border: 1.5px solid;
+    border-radius: 50%;
+  }
+
+  .graph-relations {
+    margin: 1rem 0 0;
+    padding: 0.75rem 0 0;
+    border-top: 1px solid var(--color-rule);
+  }
+
+  .graph-relations ul {
+    display: flex;
+    flex-direction: column;
+    gap: 0.3rem;
+    margin: 0.5rem 0 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .graph-relations li {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 0.5rem;
+  }
+
+  .graph-relations button {
+    padding: 0;
+    border: 0;
+    background: none;
+    color: var(--color-accent);
+    cursor: pointer;
+    font-size: 0.78rem;
+    text-align: left;
+  }
+
+  .graph-relations button:hover {
+    text-decoration: underline;
+  }
+
+  .graph-relations em {
+    color: var(--color-muted);
+    font-size: 0.68rem;
+    font-style: normal;
+    white-space: nowrap;
+  }
+
+  .graph-shape-key {
+    display: flex;
+    align-items: center;
+    gap: 0.3rem;
+    margin: 0 0 0.6rem;
+    color: var(--color-muted);
+    font-size: 0.72rem;
+  }
+
+  .shape-dot {
+    display: inline-block;
+    width: 0.55rem;
+    height: 0.55rem;
+    border: 1.5px solid var(--color-muted);
+  }
+
+  .shape-circle {
+    border-radius: 50%;
+  }
+
+  .shape-square {
+    margin-left: 0.6rem;
+  }
+
+  @media (max-width: 639px) {
+    .skills-graph {
+      grid-template-columns: 1fr;
+      height: auto;
+    }
+
+    .graph-canvas {
+      height: 30rem;
+    }
+
+    .graph-toolbar-actions {
+      margin-left: 0;
+    }
+  }
+</style>
