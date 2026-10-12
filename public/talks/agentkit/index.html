@@ -2698,7 +2698,85 @@
 
             <section class="slide">
                 <div class="pad fill">
-                    <p class="kicker reveal">Customer story · Z47</p>
+                    <p class="kicker reveal">The hard way</p>
+                    <h2 class="reveal" style="font-size:52px;margin-top:12px">You can write the OAuth yourself.</h2>
+                    <div class="hard-list reveal">
+                        <div class="hard-item"><b>01</b><span>Register each app. Slack is not GitHub.</span></div>
+                        <div class="hard-item"><b>02</b><span>HTTPS callback. localhost will not do.</span></div>
+                        <div class="hard-item"><b>03</b><span>Encrypt the store. Key it by user.</span></div>
+                        <div class="hard-item"><b>04</b><span>Refresh every token before it dies.</span></div>
+                        <div class="hard-item"><b>05</b><span>Never let a token reach the model.</span></div>
+                    </div>
+                    <p class="caption reveal">Then do it again for every app, and every user. I wrote the handbook. It is not short. freecodecamp.org/news/ai-agent-per-user-oauth-slack-github</p>
+                </div>
+                <p class="page"></p>
+            </section>
+
+            <section class="slide plus">
+                <div class="pad center mid">
+                    <p class="kicker reveal">04 · The solution</p>
+                    <h2 class="display-lg reveal">One layer for auth and tools.<br>
+                        <span class="punch">It holds when you add users.</span>
+                    </h2>
+                </div>
+                <p class="page"></p>
+            </section>
+
+            <section class="slide">
+                <div class="pad fill">
+                    <p class="kicker reveal">What it does</p>
+                    <h2 class="reveal" style="font-size:52px;margin-top:12px">Delegated OAuth. Per-user actions.</h2>
+                    <div class="act reveal">
+                        <div class="act-hub">
+                            <div class="act-device">
+                                <div class="live"><i></i>ACTIVE</div>
+                                <div class="act-face">
+                                    <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="4" y="8" width="16" height="11" rx="3"></rect><path d="M12 8V4.5M12 3.4a1.1 1.1 0 100 .1"></path><circle cx="9.3" cy="13.5" r="1.3" fill="#fff" stroke="none"></circle><circle cx="14.7" cy="13.5" r="1.3" fill="#fff" stroke="none"></circle></svg>
+                                    <strong>YOUR AGENT</strong>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="act-lines" aria-hidden="true">
+                            <svg viewBox="0 0 160 400" preserveAspectRatio="none">
+                                <path d="M0 200 C80 200 80 50 160 50" fill="none" stroke="#86efac" stroke-width="2"/>
+                                <path d="M0 200 C80 200 80 150 160 150" fill="none" stroke="#86efac" stroke-width="2"/>
+                                <path d="M0 200 C80 200 80 250 160 250" fill="none" stroke="#86efac" stroke-width="2"/>
+                                <path d="M0 200 C80 200 80 350 160 350" fill="none" stroke="#86efac" stroke-width="2"/>
+                            </svg>
+                            <span class="act-who" style="top:12%">Alice</span>
+                            <span class="act-who" style="top:36%">Bob</span>
+                            <span class="act-who" style="top:60%">Charlie</span>
+                        </div>
+                        <div class="act-rows">
+                            <article class="act-row">
+                                <img src="logos/notion.svg" alt="">
+                                <div class="grow"><strong>Notion</strong><p>Read a page</p></div>
+                                <span class="chip">user token</span>
+                            </article>
+                            <article class="act-row">
+                                <svg class="db" viewBox="0 0 24 24" fill="none" stroke="#2F6FEB" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><ellipse cx="12" cy="5" rx="7.5" ry="3"></ellipse><path d="M4.5 5v14c0 1.66 3.36 3 7.5 3s7.5-1.34 7.5-3V5"></path><path d="M4.5 12c0 1.66 3.36 3 7.5 3s7.5-1.34 7.5-3"></path></svg>
+                                <div class="grow"><strong>Database</strong><p>Create a row</p></div>
+                                <span class="chip">user token</span>
+                            </article>
+                            <article class="act-row">
+                                <img src="logos/slack.svg" alt="">
+                                <div class="grow"><strong>Slack</strong><p>Send a message</p></div>
+                                <span class="chip">user token</span>
+                            </article>
+                            <article class="act-row">
+                                <img src="logos/salesforce.svg" alt="">
+                                <div class="grow"><strong>Salesforce</strong><p>Pull a record</p></div>
+                                <span class="chip">user token</span>
+                            </article>
+                        </div>
+                    </div>
+                </div>
+                <p class="page"></p>
+            </section>
+
+            <section class="slide">
+                <div class="pad fill">
+                    <p class="kicker reveal">04 · Customer story</p>
                     <h2 class="reveal" style="font-size:44px;margin-top:8px">WhatsApp + OpenClaw + Scalekit</h2>
                     <p class="sub reveal" style="margin-top:10px;font-size:22px;max-width:none">Every agent runs in its own per-user sandbox. Scalekit owns identity, the credential vault, and every tool call. The sandbox never sees a real token.</p>
                     <div class="story-board reveal">
@@ -2784,84 +2862,6 @@
                                     <div class="story-more">+ 20 more</div>
                                 </div>
                             </div>
-                        </div>
-                    </div>
-                </div>
-                <p class="page"></p>
-            </section>
-
-            <section class="slide">
-                <div class="pad fill">
-                    <p class="kicker reveal">The hard way</p>
-                    <h2 class="reveal" style="font-size:52px;margin-top:12px">You can write the OAuth yourself.</h2>
-                    <div class="hard-list reveal">
-                        <div class="hard-item"><b>01</b><span>Register each app. Slack is not GitHub.</span></div>
-                        <div class="hard-item"><b>02</b><span>HTTPS callback. localhost will not do.</span></div>
-                        <div class="hard-item"><b>03</b><span>Encrypt the store. Key it by user.</span></div>
-                        <div class="hard-item"><b>04</b><span>Refresh every token before it dies.</span></div>
-                        <div class="hard-item"><b>05</b><span>Never let a token reach the model.</span></div>
-                    </div>
-                    <p class="caption reveal">Then do it again for every app, and every user. I wrote the handbook. It is not short. freecodecamp.org/news/ai-agent-per-user-oauth-slack-github</p>
-                </div>
-                <p class="page"></p>
-            </section>
-
-            <section class="slide plus">
-                <div class="pad center mid">
-                    <p class="kicker reveal">04 · The solution</p>
-                    <h2 class="display-lg reveal">One layer for auth and tools.<br>
-                        <span class="punch">It holds when you add users.</span>
-                    </h2>
-                </div>
-                <p class="page"></p>
-            </section>
-
-            <section class="slide">
-                <div class="pad fill">
-                    <p class="kicker reveal">What it does</p>
-                    <h2 class="reveal" style="font-size:52px;margin-top:12px">Delegated OAuth. Per-user actions.</h2>
-                    <div class="act reveal">
-                        <div class="act-hub">
-                            <div class="act-device">
-                                <div class="live"><i></i>ACTIVE</div>
-                                <div class="act-face">
-                                    <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="4" y="8" width="16" height="11" rx="3"></rect><path d="M12 8V4.5M12 3.4a1.1 1.1 0 100 .1"></path><circle cx="9.3" cy="13.5" r="1.3" fill="#fff" stroke="none"></circle><circle cx="14.7" cy="13.5" r="1.3" fill="#fff" stroke="none"></circle></svg>
-                                    <strong>YOUR AGENT</strong>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="act-lines" aria-hidden="true">
-                            <svg viewBox="0 0 160 400" preserveAspectRatio="none">
-                                <path d="M0 200 C80 200 80 50 160 50" fill="none" stroke="#86efac" stroke-width="2"/>
-                                <path d="M0 200 C80 200 80 150 160 150" fill="none" stroke="#86efac" stroke-width="2"/>
-                                <path d="M0 200 C80 200 80 250 160 250" fill="none" stroke="#86efac" stroke-width="2"/>
-                                <path d="M0 200 C80 200 80 350 160 350" fill="none" stroke="#86efac" stroke-width="2"/>
-                            </svg>
-                            <span class="act-who" style="top:12%">Alice</span>
-                            <span class="act-who" style="top:36%">Bob</span>
-                            <span class="act-who" style="top:60%">Charlie</span>
-                        </div>
-                        <div class="act-rows">
-                            <article class="act-row">
-                                <img src="logos/notion.svg" alt="">
-                                <div class="grow"><strong>Notion</strong><p>Read a page</p></div>
-                                <span class="chip">user token</span>
-                            </article>
-                            <article class="act-row">
-                                <svg class="db" viewBox="0 0 24 24" fill="none" stroke="#2F6FEB" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><ellipse cx="12" cy="5" rx="7.5" ry="3"></ellipse><path d="M4.5 5v14c0 1.66 3.36 3 7.5 3s7.5-1.34 7.5-3V5"></path><path d="M4.5 12c0 1.66 3.36 3 7.5 3s7.5-1.34 7.5-3"></path></svg>
-                                <div class="grow"><strong>Database</strong><p>Create a row</p></div>
-                                <span class="chip">user token</span>
-                            </article>
-                            <article class="act-row">
-                                <img src="logos/slack.svg" alt="">
-                                <div class="grow"><strong>Slack</strong><p>Send a message</p></div>
-                                <span class="chip">user token</span>
-                            </article>
-                            <article class="act-row">
-                                <img src="logos/salesforce.svg" alt="">
-                                <div class="grow"><strong>Salesforce</strong><p>Pull a record</p></div>
-                                <span class="chip">user token</span>
-                            </article>
                         </div>
                     </div>
                 </div>
